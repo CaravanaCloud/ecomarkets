@@ -1,0 +1,7 @@
+ports:
+  - port: 9000
+    onOpen: ignore
+    visibility: public
+  - port: 9090
+    onOpen: ignore
+    visibility: public    
