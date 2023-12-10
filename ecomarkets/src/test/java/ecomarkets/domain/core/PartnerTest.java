@@ -31,7 +31,7 @@ public class PartnerTest {
         "\"postCode\":123456}}";
 
     @Test
-    public void create() throws Exception {
+    public void create() {
 
         final ValidatableResponse vrCreate = given().contentType("application/json")
         .body(PARTNER)
@@ -44,7 +44,6 @@ public class PartnerTest {
         Integer id = vrCreate.extract().path("id");
         
         ValidatableResponse vrGet = given().contentType("application/json")
-        .body(PARTNER)
         .when()
         .get("/api/partner/" + id)
         .then()

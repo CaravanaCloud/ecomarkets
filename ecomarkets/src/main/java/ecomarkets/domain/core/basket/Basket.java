@@ -4,8 +4,10 @@ package ecomarkets.domain.core.basket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import ecomarkets.domain.core.Tenant;
+import ecomarkets.domain.core.partner.PartnerId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -15,24 +17,28 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Basket extends PanacheEntity {
  
+    private PartnerId partnerId;
+
     @ManyToOne
     private Tenant tenant;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<BasketItem> items;
-
+    
     private LocalDateTime creationDate;
     
     private LocalDateTime reservedDate;
     
     private LocalDateTime deliveredDate;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<BasketItem> items;
 
     private Basket(){}
         
-    public static Basket of(Tenant tenant){
+    public static Basket of(Tenant tenant, PartnerId partnerId){
         Basket result = new Basket();
         result.creationDate = LocalDateTime.now();
         result.tenant = tenant;
+        result.partnerId = partnerId;
+        result.items = new ArrayList<>();
         return result;
     }
 
@@ -48,12 +54,16 @@ public class Basket extends PanacheEntity {
         return this.creationDate;
     }
     
-    public LocalDateTime getReservedDate(){
-        return this.reservedDate;
+    public Optional<LocalDateTime> getReservedDate(){
+        return Optional.ofNullable(this.reservedDate);
     }
     
-    public LocalDateTime getDeliveredDate(){
-        return this.deliveredDate;
+    public Optional<LocalDateTime> getDeliveredDate(){
+        return Optional.ofNullable(this.deliveredDate);
+    }
+    
+    public PartnerId getPartnerId(){
+        return this.partnerId;
     }
 
     public Tenant getTenant(){

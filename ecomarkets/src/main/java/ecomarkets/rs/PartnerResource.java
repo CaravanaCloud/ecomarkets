@@ -2,7 +2,7 @@ package ecomarkets.rs;
 
 import java.util.List;
 
-import ecomarkets.domain.core.Partner;
+import ecomarkets.domain.core.partner.Partner;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -43,21 +43,4 @@ public class PartnerResource {
         .build();
     }
 
-
-    // @Path("test")
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public Partner getPartner() {
-    //     return         Partner.of("Joao",
-    //       CPF.of(12122112) ,
-    //       Email.of("joao@gmail.com"),
-    //        LocalDate.now(),
-    //         Address.of("Brasil", 
-    //         "Espirito Santo", 
-    //         "Vitória",
-    //         123,
-    //         "Apt 123",
-    //         "Perto da...",
-    //         123456));
-    // }
 }

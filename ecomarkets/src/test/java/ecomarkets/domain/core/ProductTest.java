@@ -28,7 +28,7 @@ public class ProductTest {
         given().contentType("application/json")
         .body("{\"name\": \"Abacate\"}")
         .when()
-        .post("/api/1/product")
+        .post("/api/product")
         .then()
         .assertThat()
         .statusCode(HttpStatus.SC_CREATED)

@@ -20,14 +20,12 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/{tenantCode}/product")
+@Path("/product")
 public class ProductResource {
 
     @Transactional
     public void init(@Observes StartupEvent event) {
         System.out.println("Initializing test database...");
-        var tenant = Tenant.of("Farmer's Market", "ecomkt");
-        tenant.persist();
         Product.of("Apples").persist();
         Product.of("Oranges").persist();
         Product.of("Bananas").persist();
@@ -38,7 +36,7 @@ public class ProductResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Product> getProducts(@PathParam ("tenantCode") String tenantCode) {
+    public List<Product> getProducts() {
         return Product.listAll(Sort.ascending("name"));
     }
     
@@ -55,7 +53,7 @@ public class ProductResource {
     }
 
     @POST
-    @Path("/stock")
+    @Path("/{tenantCode}/stock")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

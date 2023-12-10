@@ -1,4 +1,4 @@
-package ecomarkets.domain.core;
+package ecomarkets.domain.core.partner;
 
 import java.time.LocalDate;
 
@@ -29,18 +29,20 @@ public class Partner extends PanacheEntity{
 
     private Partner() {}
 
-    private Partner(String name, CPF cpf, Email email, LocalDate birthDate, Address address) {
+    private Partner(String name, CPF cpf, Email email, LocalDate birthDate, Address address, Telephone telephone) {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.birthDate = birthDate;
         this.address = address;
+        this.telephone = telephone;
     }
 
     public static Partner of(String name,
     CPF cpf,
     Email email,
     LocalDate birthDate,
+    Telephone telephone,
     Address address
     ){
         return new Partner(
@@ -48,7 +50,8 @@ public class Partner extends PanacheEntity{
             cpf,
             email,
             birthDate,
-            address
+            address,
+            telephone
         );
     }
 
@@ -74,6 +77,10 @@ public class Partner extends PanacheEntity{
 
     public Telephone getTelephone() {
         return this.telephone;
+    }
+
+    public PartnerId partnerId(){
+        return PartnerId.of(id);
     }
 
 }

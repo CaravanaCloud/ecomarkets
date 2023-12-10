@@ -6,6 +6,7 @@ import java.util.List;
 import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.basket.Basket;
 import ecomarkets.domain.core.basket.BasketItem;
+import ecomarkets.domain.core.partner.PartnerId;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -22,23 +23,31 @@ import jakarta.ws.rs.core.Response;
 @Path("/basket")
 public class BasketResource {
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Basket> getBaskets() {
         return Basket.listAll(Sort.descending("reservedDate"));
     }
     
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Basket getBasket(@PathParam("id") Long id) {
+        return Basket.findById(id);
+    }
+    
+    @Path("/{tenantCode}/{partnerId}")
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBasket(@PathParam("tenant") Integer tenantCode,
+    public Response createBasket(@PathParam("tenantCode") Integer tenantCode,
+    @PathParam("partnerId") Long partnerId,
     Collection<BasketItem> items) {
         
         Tenant tenant = Tenant.find("code", tenantCode).firstResult();
 
-        Basket basket = Basket.of(tenant);
+        Basket basket = Basket.of(tenant, PartnerId.of(partnerId));
         basket.persist();
 
         return Response
