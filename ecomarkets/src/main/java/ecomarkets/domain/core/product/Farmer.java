@@ -1,55 +1,48 @@
-package ecomarkets.domain.core.partner;
+package ecomarkets.domain.core.product;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import ecomarkets.domain.register.Address;
-import ecomarkets.domain.register.CPF;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
-public class Partner extends PanacheEntity{
+public class Farmer extends PanacheEntity{
 
     private String name;
 
-    private CPF cpf;
-    
     private Email email;
-
-    private LocalDate birthDate;
 
     private Telephone telephone;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ProductStock> stock;
 
-    private Partner() {}
+    private Farmer() {}
 
-    private Partner(String name, CPF cpf, Email email, LocalDate birthDate, Address address, Telephone telephone) {
+    private Farmer(String name, Email email, Address address, Telephone telephone) {
         this.name = name;
-        this.cpf = cpf;
         this.email = email;
-        this.birthDate = birthDate;
         this.address = address;
         this.telephone = telephone;
     }
 
-    public static Partner of(String name,
-    CPF cpf,
+    public static Farmer of(String name,
     Email email,
-    LocalDate birthDate,
     Telephone telephone,
     Address address
     ){
-        return new Partner(
+        return new Farmer(
             name,
-            cpf,
             email,
-            birthDate,
             address,
             telephone
         );
@@ -59,16 +52,8 @@ public class Partner extends PanacheEntity{
         return this.name;
     }
 
-    public CPF getCpf() {
-        return this.cpf;
-    }
-
     public Email getEmail() {
         return this.email;
-    }
-
-    public LocalDate getBirthDate() {
-        return this.birthDate;
     }
 
     public Address getAddress() {
@@ -79,9 +64,4 @@ public class Partner extends PanacheEntity{
         return this.telephone;
     }
 
-    public PartnerId partnerId(){
-        return PartnerId.of(id);
-    }
-
 }
-

@@ -3,7 +3,6 @@ package ecomarkets.domain.core.product;
 import com.google.errorprone.annotations.Immutable;
 
 import ecomarkets.domain.core.Tenant;
-import ecomarkets.domain.register.Address;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -20,18 +19,13 @@ public class ProductStock extends PanacheEntity{
 
     private Double amount;
 
-    @ManyToOne
-    private Address address;
-    
     ProductStock(){}
 
     public ProductStock(Tenant tenant,
     Product product,
-    Double amount,
-    Address address){
+    Double amount){
         this.tenant = tenant;
         this.product = product;
-        this.address = address;
     }
 
     public Tenant getTenant(){
@@ -46,10 +40,6 @@ public class ProductStock extends PanacheEntity{
         return this.amount;
     }
     
-    public Address getAddress(){
-        return this.address;
-    }
-
     public void defineTenant(Tenant tenant){
         if(this.id != null){
             throw new IllegalArgumentException("Stock already created!");
