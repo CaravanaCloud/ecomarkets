@@ -9,7 +9,7 @@ import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Partner extends PanacheEntity{
@@ -24,7 +24,7 @@ public class Partner extends PanacheEntity{
 
     private Telephone telephone;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private Partner() {}

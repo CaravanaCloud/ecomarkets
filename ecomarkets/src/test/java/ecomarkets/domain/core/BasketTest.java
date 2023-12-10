@@ -1,6 +1,8 @@
 package ecomarkets.domain.core;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 import java.time.LocalDate;
 
@@ -16,8 +18,6 @@ import ecomarkets.domain.register.Telephone;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
 import jakarta.transaction.Transactional;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 @QuarkusTest
 public class BasketTest {

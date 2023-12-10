@@ -1,6 +1,4 @@
-package ecomarkets.domain.core.product;
-
-import java.util.List;
+package ecomarkets.domain.core.farmer;
 
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.Email;
@@ -8,8 +6,7 @@ import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Farmer extends PanacheEntity{
@@ -20,12 +17,9 @@ public class Farmer extends PanacheEntity{
 
     private Telephone telephone;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ProductStock> stock;
-
     private Farmer() {}
 
     private Farmer(String name, Email email, Address address, Telephone telephone) {
