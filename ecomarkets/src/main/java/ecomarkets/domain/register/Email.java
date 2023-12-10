@@ -15,7 +15,8 @@ public class Email implements Serializable{
         this.value = value; 
     }
 
-    public String value(){
+    public String getValue() {
         return this.value;
     }
+
 }

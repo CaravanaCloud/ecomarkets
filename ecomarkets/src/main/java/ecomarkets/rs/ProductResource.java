@@ -18,6 +18,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/{tenantCode}/products")
 public class ProductResource {
@@ -46,10 +47,12 @@ public class ProductResource {
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Product postProduct(@PathParam ("tenantCode") String tenantCode,
-        Product product) {
+    public Response postProduct(Product product) {
         product.persist();
-        return product;
+        return Response
+        .status(Response.Status.CREATED)
+        .entity(product)
+        .build();
     }
 
     @POST

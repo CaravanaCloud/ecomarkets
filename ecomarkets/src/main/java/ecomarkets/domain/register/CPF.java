@@ -15,7 +15,7 @@ public class CPF implements Serializable{
         this.value = value;
     }
 
-    public Integer value(){
+    public Integer getValue() {
         return this.value;
     }
 

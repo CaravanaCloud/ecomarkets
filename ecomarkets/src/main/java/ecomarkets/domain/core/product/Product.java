@@ -19,7 +19,7 @@ public class Product extends PanacheEntity {
         return product;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
     

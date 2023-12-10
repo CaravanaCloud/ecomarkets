@@ -31,15 +31,15 @@ public class BasketItem extends PanacheEntity{
         this.creationDate = creationDate;
     }
 
-    public Product product(){
+    public Product getProduct(){
         return this.product;
     }
     
-    public Double amount(){
+    public Double getAmount(){
         return this.amount;
     }
  
-    public LocalDateTime creationDate(){
+    public LocalDateTime getCreationDate(){
         return this.creationDate;
     }
 

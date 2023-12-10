@@ -31,31 +31,31 @@ public class Basket extends PanacheEntity {
         this.creationDate = LocalDateTime.now();
     }
 
-    public void reserveBasket(){
+    public void getReserveBasket(){
         this.reservedDate = LocalDateTime.now();
     }
     
-    public void deliverBasket(){
+    public void getDeliverBasket(){
         this.deliveredDate = LocalDateTime.now();
     }
 
-    public LocalDateTime creationDate(){
+    public LocalDateTime getCreationDate(){
         return this.creationDate;
     }
     
-    public LocalDateTime reservedDate(){
+    public LocalDateTime getReservedDate(){
         return this.reservedDate;
     }
     
-    public LocalDateTime deliveredDate(){
+    public LocalDateTime getDeliveredDate(){
         return this.deliveredDate;
     }
 
-    public Tenant tenant(){
+    public Tenant getTenant(){
         return this.tenant;
     }
 
-    public Collection<BasketItem> items(){
+    public Collection<BasketItem> getItems(){
         return new ArrayList<>(this.items);
     }
 

@@ -22,13 +22,12 @@ public class Tenant extends PanacheEntity {
         return tenant;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
     
-    public String code() {
+    public String getCode() {
         return code;
     }
-
 
 }

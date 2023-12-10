@@ -40,31 +40,31 @@ public class Address extends PanacheEntity{
         return address;
     }
 
-    public String country(){
+    public String getCountry() {
         return this.country;
     }
-    
-    public String state(){
+
+    public String getState() {
         return this.state;
     }
-    
-    public String city(){
+
+    public String getCity() {
         return this.city;
     }
 
-    public Integer houseNumber(){
+    public Integer getHouseNumber() {
         return this.houseNumber;
     }
 
-    public String addOn(){
+    public String getAddOn() {
         return this.addOn;
     }
 
-    public String reference(){
+    public String getReference() {
         return this.reference;
     }
-  
-    public Integer postCode(){
+
+    public Integer getPostCode() {
         return this.postCode;
     }
 

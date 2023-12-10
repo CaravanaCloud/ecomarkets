@@ -36,19 +36,19 @@ public class ProductStock extends PanacheEntity{
         this.address = address;
     }
 
-    public Tenant tenant(){
+    public Tenant getTenant(){
         return this.tenant;
     }
     
-    public Product product(){
+    public Product getProduct(){
         return this.product;
     }
 
-    public Double amount(){
+    public Double getAmount(){
         return this.amount;
     }
     
-    public Address address(){
+    public Address getAddress(){
         return this.address;
     }
 

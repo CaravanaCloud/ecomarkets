@@ -15,7 +15,9 @@ public class Telephone implements Serializable{
         this.number = number;
     }
 
-    public Integer number(){
+
+    public Integer getNumber() {
         return this.number;
     }
+
 }
