@@ -23,9 +23,7 @@ public class ProductStock extends PanacheEntity{
     @ManyToOne
     private Address address;
     
-    public ProductStock(){
-
-    }
+    ProductStock(){}
 
     public ProductStock(Tenant tenant,
     Product product,

@@ -23,6 +23,9 @@ public class Address extends PanacheEntity{
 
     private Integer postCode;
 
+    private Address(){
+    }
+
     public static Address of(String country, 
     String state,
     String city,

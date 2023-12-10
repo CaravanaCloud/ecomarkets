@@ -42,12 +42,11 @@ public class ProductResource {
         return Product.listAll(Sort.ascending("name"));
     }
     
-    // curl -X POST -H "Content-Type: application/json" -d '{"name":"abacate"}' http://localhost:9090/api/ecomkt/products
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postProduct(Product product) {
+    public Response create(Product product) {
         product.persist();
         return Response
         .status(Response.Status.CREATED)

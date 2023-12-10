@@ -20,7 +20,16 @@ public class BasketItem extends PanacheEntity{
 
     private LocalDateTime creationDate;
     
-    public BasketItem(){
+    private BasketItem(){}
+
+    public static BasketItem of(Product product,
+    Double amount,
+    LocalDateTime creationDate){
+        BasketItem bi = new BasketItem();
+        bi.product = product;
+        bi.amount = amount;
+        bi.creationDate = creationDate;
+        return bi;
     }
 
     public BasketItem(Product product,

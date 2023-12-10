@@ -11,7 +11,7 @@ public class Product extends PanacheEntity {
 
     private String name;
 
-    public Product(){}
+    private Product(){}
 
     public static final Product of(String name){
         var product = new Product();

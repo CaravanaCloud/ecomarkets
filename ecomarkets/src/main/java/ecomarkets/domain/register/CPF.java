@@ -11,8 +11,12 @@ public class CPF implements Serializable{
     @Column(name = "cpf")
     Integer value;
 
-    public CPF(Integer value){
-        this.value = value;
+    private CPF(){}
+
+    public static CPF of(Integer value){
+        CPF cpf = new CPF();
+        cpf.value = value;
+        return cpf;
     }
 
     public Integer getValue() {

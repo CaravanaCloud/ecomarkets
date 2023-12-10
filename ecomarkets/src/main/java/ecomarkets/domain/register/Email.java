@@ -11,8 +11,12 @@ public class Email implements Serializable{
     @Column(name = "email")
     private String value;
 
-    public Email(String value){
-        this.value = value; 
+    private Email(){}
+
+    public static Email of(String value){
+        Email e = new Email();
+        e.value = value;
+        return e;
     }
 
     public String getValue() {

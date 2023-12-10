@@ -1,4 +1,4 @@
-package ecomarkets.domain.core.product;
+package ecomarkets.domain.core;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -8,7 +8,6 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import ecomarkets.domain.core.Tenant;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.transaction.Transactional;
 
@@ -35,6 +34,5 @@ public class ProductTest {
         .statusCode(HttpStatus.SC_CREATED)
         .body("name", is(productName))
         .body("id", is(notNullValue()));
-
     }
 }
