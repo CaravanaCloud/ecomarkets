@@ -14,7 +14,7 @@ public class PartnerTest {
 
     final String PARTNER = 
      "{\"name\":\"Joao\","+
-     "\"cpf\":{\"value\":12122112},"+
+     "\"cpf\":{\"value\":123456789},"+
      "\"email\":{\"value\":\"joao@gmail.com\"},"+
      "\"birthDate\":\"2023-12-09\","+
      "\"address\":"+
@@ -30,7 +30,7 @@ public class PartnerTest {
     @Test
     public void create() throws Exception {
 
-         given().contentType("application/json")
+         final Integer id = given().contentType("application/json")
         .body(PARTNER)
         .when()
         .post("/api/partner")
@@ -38,7 +38,24 @@ public class PartnerTest {
         .assertThat()
         .statusCode(HttpStatus.SC_CREATED)
         .body("id", is(notNullValue()))
-        .body("name", is("Joao"));
-
+        .body("name", is("Joao"))
+        .body("cpf.value", is(123456789))
+        .body("email.value", is("joao@gmail.com"))
+        .body("birthDate", is("2023-12-09"))
+        .body("address.id", is(notNullValue()))
+        .extract().path("id");
+        
+        given().contentType("application/json")
+        .body(PARTNER)
+        .when()
+        .get("/api/partner/" + id)
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("id", is(id))
+        .body("name", is("Joao"))
+        .body("cpf.value", is(123456789))
+        .body("email.value", is("joao@gmail.com"))
+        .body("birthDate", is("2023-12-09"));
     }
 }

@@ -1,18 +1,15 @@
 package ecomarkets.rs;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import ecomarkets.domain.core.Partner;
-import ecomarkets.domain.register.Address;
-import ecomarkets.domain.register.CPF;
-import ecomarkets.domain.register.Email;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,6 +21,13 @@ public class PartnerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Partner> getPartners() {
         return Partner.listAll(Sort.ascending("name"));
+    }
+    
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Partner getPartner(@PathParam ("id") Long id) {
+        return Partner.findById(id);
     }
 
     @POST

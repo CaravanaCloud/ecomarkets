@@ -13,13 +13,13 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Partner extends PanacheEntity{
 
-    public String name;
+    private String name;
 
-    public CPF cpf;
+    private CPF cpf;
     
-    public Email email;
+    private Email email;
 
-    public LocalDate birthDate;
+    private LocalDate birthDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     public Address address;
@@ -47,6 +47,26 @@ public class Partner extends PanacheEntity{
             birthDate,
             address
         );
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public CPF getCpf() {
+        return this.cpf;
+    }
+
+    public Email getEmail() {
+        return this.email;
+    }
+
+    public LocalDate getBirthDate() {
+        return this.birthDate;
+    }
+
+    public Address getAddress() {
+        return this.address;
     }
 
 }
