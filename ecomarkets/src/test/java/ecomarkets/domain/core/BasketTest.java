@@ -36,6 +36,7 @@ public class BasketTest {
             123456));
     
     final static Tenant TENANT = Tenant.of("Tenant1", "1");
+   
     @BeforeAll
     @Transactional
     static void beforeAll(){
