@@ -27,15 +27,20 @@ public class Basket extends PanacheEntity {
     
     private LocalDateTime deliveredDate;
 
-    public Basket(){
-        this.creationDate = LocalDateTime.now();
+    private Basket(){}
+        
+    public static Basket of(Tenant tenant){
+        Basket result = new Basket();
+        result.creationDate = LocalDateTime.now();
+        result.tenant = tenant;
+        return result;
     }
 
-    public void getReserveBasket(){
+    public void reserveBasket(){
         this.reservedDate = LocalDateTime.now();
     }
     
-    public void getDeliverBasket(){
+    public void deliverBasket(){
         this.deliveredDate = LocalDateTime.now();
     }
 
@@ -60,6 +65,11 @@ public class Basket extends PanacheEntity {
     }
 
     public void addItem(BasketItem item){
+
+        if(this.reservedDate != null){
+            throw new IllegalStateException("Basket Already scheduled to delivery.");
+        }
+
         if(this.items == null){
             throw new IllegalArgumentException("product is null");
         }
@@ -70,6 +80,9 @@ public class Basket extends PanacheEntity {
         this.items.add(item);
     }
 
+    public void addItems(Collection<BasketItem> items){
+        items.forEach(this::addItem);
+    }
 
 
 }
