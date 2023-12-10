@@ -8,12 +8,15 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class Telephone implements Serializable{
 
-    @Column(name = "telephone")
+    @Column(name = "phone_area_code")
+    private Integer areaCode;
+
+    @Column(name = "phone_number")
     private Integer number;
 
     private Telephone(){}
 
-    public static Telephone of(Integer number){
+    public static Telephone of(Integer areaCode, Integer number){
         Telephone tel = new Telephone();
         tel.number = number;
         return tel;
@@ -23,4 +26,8 @@ public class Telephone implements Serializable{
         return this.number;
     }
 
+    public Integer getAreaCode() {
+        return this.areaCode;
+    }
+    
 }

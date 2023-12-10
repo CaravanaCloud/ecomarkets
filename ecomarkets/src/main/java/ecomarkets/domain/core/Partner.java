@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.CPF;
 import ecomarkets.domain.register.Email;
+import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,6 +21,8 @@ public class Partner extends PanacheEntity{
     private Email email;
 
     private LocalDate birthDate;
+
+    private Telephone telephone;
 
     @ManyToOne(cascade = CascadeType.ALL)
     public Address address;
@@ -67,6 +70,10 @@ public class Partner extends PanacheEntity{
 
     public Address getAddress() {
         return this.address;
+    }
+
+    public Telephone getTelephone() {
+        return this.telephone;
     }
 
 }

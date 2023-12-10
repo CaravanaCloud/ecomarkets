@@ -19,6 +19,7 @@ public class PartnerTest {
      "\"cpf\":{\"value\":123456789},"+
      "\"email\":{\"value\":\"joao@gmail.com\"},"+
      "\"birthDate\":\"2023-12-09\","+
+     "\"telephone\":{\"number\": 123456789, \"areaCode\": 27},"+
      "\"address\":"+
         "{\"id\":null,"+
         "\"country\":\"Brasil\","+
@@ -58,6 +59,8 @@ public class PartnerTest {
         .body("cpf.value", is(123456789))
         .body("email.value", is("joao@gmail.com"))
         .body("birthDate", is("2023-12-09"))
+        .body("telephone.areaCode", is(27))
+        .body("telephone.number", is(123456789))
         .body("address.id", is(notNullValue()))
         .body("address.country", is("Brasil"))
         .body("address.state", is("Espirito Santo"))
