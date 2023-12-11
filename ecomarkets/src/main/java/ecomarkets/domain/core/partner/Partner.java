@@ -12,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 
 @Entity
+/**
+ * Partner is a generic name for "Customer"
+ */
 public class Partner extends PanacheEntity{
 
     private String name;

@@ -1,4 +1,11 @@
-# TODO: Add quarkus to docker image
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Build project
+    init: mvn -f ecomarkets -fn install
+    command: mvn -f ecomakets -DskipTests quarkus:dev
+
 ports:
   - port: 9000
     onOpen: ignore
