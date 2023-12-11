@@ -2,8 +2,8 @@ package ecomarkets.rs;
 
 import java.util.List;
 
-import ecomarkets.core.entity.Product;
-import ecomarkets.core.entity.Tenant;
+import ecomarkets.domain.core.product.Product;
+import io.quarkus.panache.common.Sort;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -12,23 +12,20 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-@Path("/{tenantCode}/products")
+@Path("/product")
 public class ProductResource {
 
     @Transactional
     public void init(@Observes StartupEvent event) {
         System.out.println("Initializing test database...");
-        var tenant = Tenant.of("Farmer's Market", "ecomkt");
-        tenant.persist();
-        Product.of(tenant, "Apples").persist();
-        Product.of(tenant, "Oranges").persist();
-        Product.of(tenant, "Bananas").persist();
+        Product.of("Apples").persist();
+        Product.of("Oranges").persist();
+        Product.of("Bananas").persist();
     }
 
     @Inject
@@ -36,26 +33,20 @@ public class ProductResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Product> getProducts(@PathParam ("tenantCode") String tenantCode) {
-        List<Product> result = em.createNamedQuery("product.byTenantCode", Product.class)
-            .setParameter("tenantCode", tenantCode)
-            .getResultList();
-        return result;
+    public List<Product> getProducts() {
+        return Product.listAll(Sort.ascending("name"));
     }
     
-    // curl -X POST -H "Content-Type: application/json" -d '{"name":"abacate"}' http://localhost:9090/api/ecomkt/products
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Product postProduct(@PathParam ("tenantCode") String tenantCode,
-        Product product) {
-        var tenant = em.createNamedQuery("tenant.byCode", Tenant.class)
-            .setParameter("code", tenantCode)
-            .getSingleResult();
-        product.setTenant(tenant);
+    public Response create(Product product) {
         product.persist();
-        return product;
+        return Response
+        .status(Response.Status.CREATED)
+        .entity(product)
+        .build();
     }
 
 }
