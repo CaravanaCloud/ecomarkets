@@ -4,7 +4,7 @@ image:
 tasks:
   - name: Build project
     init: mvn -f ecomarkets -fn install
-    command: mvn -f ecomakets -DskipTests quarkus:dev
+    command: mvn -f ecomarkets -DskipTests quarkus:dev
 
 ports:
   - port: 9000
