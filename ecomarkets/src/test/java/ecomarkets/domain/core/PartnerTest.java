@@ -16,8 +16,8 @@ public class PartnerTest {
 
     final String PARTNER = 
      "{\"name\":\"Joao\","+
-     "\"cpf\":{\"value\":123456789},"+
-     "\"email\":{\"value\":\"joao@gmail.com\"},"+
+     "\"cpf\":{\"cpf\":123456789},"+
+     "\"email\":{\"email\":\"joao@gmail.com\"},"+
      "\"birthDate\":\"2023-12-09\","+
      "\"telephone\":{\"number\": 123456789, \"areaCode\": 27},"+
      "\"address\":"+
@@ -55,12 +55,11 @@ public class PartnerTest {
         vr.statusCode(httpStatus)
         .body("id", is(notNullValue()))
         .body("name", is("Joao"))
-        .body("cpf.value", is(123456789))
-        .body("email.value", is("joao@gmail.com"))
+        .body("cpf.cpf", is(123456789))
+        .body("email.email", is("joao@gmail.com"))
         .body("birthDate", is("2023-12-09"))
         .body("telephone.areaCode", is(27))
         .body("telephone.number", is(123456789))
-        .body("address.id", is(notNullValue()))
         .body("address.country", is("Brasil"))
         .body("address.state", is("Espirito Santo"))
         .body("address.houseNumber", is(123))

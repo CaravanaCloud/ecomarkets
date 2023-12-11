@@ -7,9 +7,7 @@ import ecomarkets.domain.register.CPF;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
 
 @Entity
 /**
@@ -22,12 +20,11 @@ public class Partner extends PanacheEntity{
     private CPF cpf;
     
     private Email email;
-
+    
     private LocalDate birthDate;
-
+    
     private Telephone telephone;
 
-    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private Partner() {}

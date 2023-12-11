@@ -4,21 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class FarmerId {
-
-    @Column(name = "farmer_id", nullable = false)
-    private Long id;
-
-    private FarmerId() {
-    }
+public record FarmerId (@Column(name = "farmer_id", nullable = false) Long id){
 
     public static FarmerId of(Long id) {
-        FarmerId result = new FarmerId();
-        result.id = id;
-        return result;
+        return new FarmerId(id);
     }
 
-    public Long getId() {
-        return this.id;
-    }
 }
