@@ -21,6 +21,10 @@ jobs:
     - name: Check AWS auth
       run: aws sts get-caller-identity
 
+    - uses: aws-actions/setup-sam@v2
+      with:
+        use-installer: true
+
     - name: Checkout code
       uses: actions/checkout@v3
 
