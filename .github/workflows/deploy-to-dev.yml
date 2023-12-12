@@ -32,13 +32,12 @@ jobs:
       run: mvn -B -fn --no-transfer-progress install
       working-directory: ecomarkets
 
-
     - name: Deploy to AWS 
       working-directory: ecomarkets
       run: |
        sam deploy \
-          --template-file infrastructure.cfn.yaml \
-          --stack-name  ecomarkets-dev \
-          --capabilities CAPABILITY_IAM \
+          --template-file "infrastructure.cfn.yaml" \
+          --stack-name  "ecomarkets-dev" \
+          --capabilities "CAPABILITY_IAM" "CAPABILITY_AUTO_EXPAND" \
           --resolve-s3
 

@@ -1,0 +1,90 @@
+# sam deploy --stack-name cfn-params --template-file infra_params.cfn.yaml --resolve-s3 --capabilities CAPABILITY_IAM
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS CloudFormation Template: SSM Parameters for Database Credentials'
+Parameters:
+  DBUsername:
+    Description: The username for the database
+    Type: String
+    Default: 'cfnuser'
+
+  DBPassword:
+    Description: The password for the database
+    Type: String
+    NoEcho: true
+    Default: ''
+
+Conditions:
+  PasswordProvided: !Not [!Equals [!Ref DBPassword, '']]
+
+Resources:
+  RandomPasswordGenerator:
+    Type: 'Custom::RandomString'
+    Version: '1.0'
+    Properties:
+      ServiceToken: !GetAtt 'RandomStringLambda.Arn'
+      Length: 16
+
+  RandomStringLambda:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt 'LambdaExecutionRole.Arn'
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          import cfnresponse
+          import random
+          import string
+
+          def handler(event, context):
+              password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(int(event['ResourceProperties']['Length'])))
+              responseData = {}
+              responseData['Password'] = password
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+
+  LambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: lambda-execute
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+
+  DBUsernameParameter:
+    Type: 'AWS::SSM::Parameter'
+    Properties:
+      Name: !Sub '/${AWS::StackName}-DBUsername'
+      Type: 'String'
+      Value: !Ref DBUsername
+
+  DBPasswordParameter:
+    Type: 'AWS::SSM::Parameter'
+    Properties:
+      Name: !Sub '/${AWS::StackName}-DBPassword'
+      Type: 'String'
+      Value: !If [PasswordProvided, !Ref DBPassword, !GetAtt RandomPasswordGenerator.Password]
+
+Outputs:
+  RandomStringLambdaId:
+    Description: The ID of the RandomStringLambda
+    Value: !Ref RandomStringLambda
+
+  LambdaExecutionRoleId:
+    Description: The ID of the LambdaExecutionRole
+    Value: !Ref LambdaExecutionRole
