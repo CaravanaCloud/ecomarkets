@@ -3,11 +3,11 @@ package ecomarkets.rs;
 import java.util.List;
 
 import ecomarkets.domain.core.product.Product;
+import ecomarkets.domain.core.product.ProductBuilder;
+import ecomarkets.domain.core.product.MeasureUnit;
 import io.quarkus.panache.common.Sort;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.event.Observes;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -23,9 +23,12 @@ public class ProductResource {
     @Transactional
     public void init(@Observes StartupEvent event) {
         System.out.println("Initializing test database...");
-        Product.of("Apples").persist();
-        Product.of("Oranges").persist();
-        Product.of("Bananas").persist();
+        new ProductBuilder().
+        name("Tomate").
+        description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
+        recipeIngredients("Banana, aveia, Chocolate em pó 50% canela em pó Ovos, granola Açúcar mascavo, Fermento em pó").
+        measureUnit(MeasureUnit.UNIT).
+        price(10, 50).create().persist();
     }
 
     @GET

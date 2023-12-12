@@ -7,6 +7,7 @@ import ecomarkets.domain.core.farmer.FarmerId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Immutable
@@ -17,17 +18,17 @@ public class ProductStock extends PanacheEntity{
     @ManyToOne
     private Tenant tenant;
 
-    @ManyToOne
+    @OneToOne
     private Product product;
 
-    private Double amount;
+    private Integer amount;
 
     private ProductStock(){}
 
     public static ProductStock of(Tenant tenant,
     FarmerId farmerId,
     Product product,
-    Double amount){
+    Integer amount){
         ProductStock result = new ProductStock();
         result.tenant = tenant;
         result.farmerId = farmerId;
@@ -44,7 +45,7 @@ public class ProductStock extends PanacheEntity{
         return this.product;
     }
 
-    public Double getAmount(){
+    public Integer getAmount(){
         return this.amount;
     }
     

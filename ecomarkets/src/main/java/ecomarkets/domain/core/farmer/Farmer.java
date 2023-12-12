@@ -55,4 +55,8 @@ public class Farmer extends PanacheEntity{
         return this.telephone;
     }
 
+    public FarmerId farmerId(){
+        return FarmerId.of(id);
+    }
+
 }

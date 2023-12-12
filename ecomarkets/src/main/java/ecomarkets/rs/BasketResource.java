@@ -23,6 +23,8 @@ import jakarta.ws.rs.core.Response;
 @Path("/basket")
 public class BasketResource {
 
+   
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Basket> getBaskets() {
@@ -48,7 +50,9 @@ public class BasketResource {
         Tenant tenant = Tenant.find("code", tenantCode).firstResult();
 
         Basket basket = Basket.of(tenant, PartnerId.of(partnerId));
+        basket.addItems(items);
         basket.persist();
+
 
         return Response
         .status(Response.Status.CREATED)
