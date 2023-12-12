@@ -1,5 +1,10 @@
 Description: EcoMarkets Nested Template
 
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel" 
+    Description: Id for the Environment (Stack of Stacks)
 
 Resources:
 
@@ -7,11 +12,15 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: infra_net.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
 
   ParamsStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: infra_params.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
 
   DBStack:
     Type: AWS::CloudFormation::Stack
@@ -20,6 +29,8 @@ Resources:
          - ParamsStack
     Properties:
       TemplateURL: infra_db.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
 
   FnStack:
     Type: AWS::CloudFormation::Stack
@@ -27,4 +38,6 @@ Resources:
          - DBStack
     Properties:
       TemplateURL: infra_fn.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
       

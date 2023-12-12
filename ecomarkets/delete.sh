@@ -1,8 +1,13 @@
 #!/bin/bash
 
 
-export ENV_ID=$(echo -n "$USER" | openssl dgst -md5 | cut -f2 -d" ")
-export STACK_NAME="ecomarkets$ENV_ID"
+
+DEFAULT_ENV_ID=$(echo -n "$USER" | openssl dgst -md5 | cut -f2 -d" " | cut -c1-10)
+CWD_NAME=$(basename $PWD)
+ENV_ID=${ENV_ID:-"${CWD_NAME}${ENV_ID}"}
+STACK_NAME="$ENV_ID"
+
+echo "Deleting [$STACK_NAME]"
 
 sam delete \
   --no-prompts \

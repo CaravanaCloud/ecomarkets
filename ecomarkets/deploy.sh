@@ -4,11 +4,16 @@
 #   mvn -B -fn --no-transfer-progress install
 # fi
 
-export ENV_ID=$(echo -n "$USER" | openssl dgst -md5 | cut -f2 -d" ")
-export STACK_NAME="ecomarkets$ENV_ID"
+DEFAULT_ENV_ID=$(echo -n "$USER" | openssl dgst -md5 | cut -f2 -d" " | cut -c1-10)
+CWD_NAME=$(basename $PWD)
+ENV_ID=${ENV_ID:-"${CWD_NAME}${ENV_ID}"}
+STACK_NAME="$ENV_ID"
+
+echo "Deploying [$STACK_NAME]"
 
 sam deploy \
   --template-file "infrastructure.cfn.yaml" \
   --stack-name  "$STACK_NAME" \
   --capabilities "CAPABILITY_IAM" "CAPABILITY_AUTO_EXPAND" \
-  --resolve-s3
+  --resolve-s3 \
+  --parameter-overrides "EnvId=$ENV_ID"

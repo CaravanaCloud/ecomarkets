@@ -2,7 +2,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'AWS CloudFormation Sample Template: VPC with 3 Public and 3 Private Subnets'
 
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel" 
+
 Resources:
+
+
   CfnVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
@@ -103,52 +110,52 @@ Outputs:
     Description: The ID of the VPC
     Value: !Ref CfnVPC
     Export:
-      Name: !Sub "${AWS::StackName}-VPCId"
+      Name: !Sub "${EnvId}-VPCId"
       
   PublicSubnet1Id:
     Description: The ID of the first public subnet
     Value: !Ref CfnPublicSubnet1
     Export:
-      Name: !Sub '${AWS::StackName}-PublicSubnet1Id'
+      Name: !Sub '${EnvId}-PublicSubnet1Id'
 
   PublicSubnet2Id:
     Description: The ID of the second public subnet
     Value: !Ref CfnPublicSubnet2
     Export:
-      Name: !Sub '${AWS::StackName}-PublicSubnet2Id'
+      Name: !Sub '${EnvId}-PublicSubnet2Id'
 
   PublicSubnet3Id:
     Description: The ID of the third public subnet
     Value: !Ref CfnPublicSubnet3
     Export:
-      Name: !Sub '${AWS::StackName}-PublicSubnet3Id'
+      Name: !Sub '${EnvId}-PublicSubnet3Id'
 
   PrivateSubnet1Id:
     Description: The ID of the first private subnet
     Value: !Ref CfnPrivateSubnet1
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet1Id'
+      Name: !Sub '${EnvId}-PrivateSubnet1Id'
 
   PrivateSubnet2Id:
     Description: The ID of the second private subnet
     Value: !Ref CfnPrivateSubnet2
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet2Id'
+      Name: !Sub '${EnvId}-PrivateSubnet2Id'
 
   PrivateSubnet3Id:
     Description: The ID of the third private subnet
     Value: !Ref CfnPrivateSubnet3
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet3Id'
+      Name: !Sub '${EnvId}-PrivateSubnet3Id'
 
   InternetGatewayId:
     Description: The ID of the Internet Gateway
     Value: !Ref CfnInternetGateway
     Export:
-      Name: !Sub '${AWS::StackName}-InternetGatewayId'
+      Name: !Sub '${EnvId}-InternetGatewayId'
 
   PublicRouteTableId:
     Description: The ID of the public Route Table
     Value: !Ref CfnPublicRouteTable
     Export:
-      Name: !Sub '${AWS::StackName}-PublicRouteTableId'
+      Name: !Sub '${EnvId}-PublicRouteTableId'

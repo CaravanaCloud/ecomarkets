@@ -3,14 +3,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'AWS CloudFormation Template: Aurora  MySQL Database'
 Parameters:
-  ParamsStackName:
-    Description: The name of the params stack
+  EnvId:
     Type: String
-    Default: 'cfn-params'
-  NetworkStackName:
-    Description: The name of the network stack
-    Type: String
-    Default: 'cfn-net'
+    Default: "devel" 
   AllowCIDR:
     Description: The CIDR block for the security group
     Type: String
@@ -39,7 +34,7 @@ Resources:
       GroupDescription: 'Security group for Aurora MySQL Database'
       VpcId: 
         Fn::ImportValue:
-          !Sub '${NetworkStackName}-VPCId'
+          !Sub '${EnvId}-VPCId'
 
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -53,26 +48,26 @@ Resources:
       DBSubnetGroupDescription: 'Subnet group for Aurora Serverless DB cluster'
       SubnetIds: 
         - Fn::ImportValue:
-            !Sub '${NetworkStackName}-PublicSubnet1Id'
+            !Sub '${EnvId}-PublicSubnet1Id'
         - Fn::ImportValue:
-            !Sub '${NetworkStackName}-PublicSubnet2Id'
+            !Sub '${EnvId}-PublicSubnet2Id'
         - Fn::ImportValue:
-            !Sub '${NetworkStackName}-PublicSubnet3Id'
+            !Sub '${EnvId}-PublicSubnet3Id'
   
   CfnDBInstance:
     Type: 'AWS::RDS::DBInstance'
     Properties:
       Engine: 'mysql'
       EngineVersion: '8.0'
-      MasterUsername: !Sub '{{resolve:ssm:${ParamsStackName}-DBUsername}}'
-      MasterUserPassword: !Sub '{{resolve:ssm:${ParamsStackName}-DBPassword}}'
+      MasterUsername: !Sub '{{resolve:ssm:/${EnvId}/DBUsername}}'
+      MasterUserPassword: !Sub '{{resolve:ssm:/${EnvId}/DBPassword}}'
       VPCSecurityGroups: 
         - !GetAtt  CfnDbSecurityGroup.GroupId
       DBSubnetGroupName: !Ref CfnDBSubnetGroup
       PubliclyAccessible: !Ref PubliclyAccessible
       AllocatedStorage: !Ref AllocatedStorage
       DBInstanceClass: !Ref DBClusterInstanceClass
-      DBName: DBName
+      DBName: !Ref DBName
 
 Outputs:
   DBInstanceIdentifier:
@@ -91,4 +86,5 @@ Outputs:
     Description: JDBC URL
     Value: !Sub "jdbc:mysql://${CfnDBInstance.Endpoint.Address}:${CfnDBInstance.Endpoint.Port}/${DBName}"
     Export:
-      Name:  !Sub "${AWS::StackName}-JDBCURL"
+      Name:  !Sub "${EnvId}-JDBCURL"
+

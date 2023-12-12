@@ -7,11 +7,11 @@ Globals:
     EndpointConfiguration: REGIONAL
     BinaryMediaTypes:
       - "*/*"
+
 Parameters:
-  DBStackName:
-    Description: The name of the params stack
+  EnvId:
     Type: String
-    Default: 'cfn-db'
+    Default: "devel" 
 
 Resources:
   CfnApiFn:
@@ -28,12 +28,12 @@ Resources:
           QUARKUS_PROFILE: "prod"
           QUARKUS_DATASOURCE_JDBC_URL:
             Fn::ImportValue:
-              !Sub "${DBStackName}-JDBCURL"
+              !Sub "${EnvId}-JDBCURL"
           # TODO AVOID using master for app
           QUARKUS_DATASOURCE_USERNAME:
-            !Sub '{{resolve:ssm:${ParamsStackName}-DBUsername}}'
+            !Sub '{{resolve:ssm:/${EnvId}/DBUsername}}'
           QUARKUS_DATASOURCE_PASSWORD:
-            !Sub '{{resolve:ssm:${ParamsStackName}-DBPassword}}'
+            !Sub '{{resolve:ssm:/${EnvId}/DBPassword}}'
 
       Events:
         HttpApiEvent:

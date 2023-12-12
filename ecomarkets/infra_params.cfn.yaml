@@ -2,6 +2,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'AWS CloudFormation Template: SSM Parameters for Database Credentials'
 Parameters:
+  EnvId:
+    Type: String
+    Default: "devel" 
+
   DBUsername:
     Description: The username for the database
     Type: String
@@ -69,14 +73,14 @@ Resources:
   DBUsernameParameter:
     Type: 'AWS::SSM::Parameter'
     Properties:
-      Name: !Sub '/${AWS::StackName}-DBUsername'
+      Name: !Sub '/${EnvId}/DBUsername'
       Type: 'String'
       Value: !Ref DBUsername
 
   DBPasswordParameter:
     Type: 'AWS::SSM::Parameter'
     Properties:
-      Name: !Sub '/${AWS::StackName}-DBPassword'
+      Name: !Sub '/${EnvId}/DBPassword'
       Type: 'String'
       Value: !If [PasswordProvided, !Ref DBPassword, !GetAtt RandomPasswordGenerator.Password]
 
