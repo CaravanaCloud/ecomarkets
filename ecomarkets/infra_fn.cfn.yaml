@@ -26,9 +26,15 @@ Resources:
       Environment:
         Variables:
           QUARKUS_PROFILE: "prod"
-          QUARKUS_XXX:
+          QUARKUS_DATASOURCE_JDBC_URL:
             Fn::ImportValue:
               !Sub "${DBStackName}-JDBCURL"
+          # TODO AVOID using master for app
+          QUARKUS_DATASOURCE_USERNAME:
+            !Sub '{{resolve:ssm:${ParamsStackName}-DBUsername}}'
+          QUARKUS_DATASOURCE_PASSWORD:
+            !Sub '{{resolve:ssm:${ParamsStackName}-DBPassword}}'
+
       Events:
         HttpApiEvent:
           Type: HttpApi

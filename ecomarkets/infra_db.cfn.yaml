@@ -40,6 +40,7 @@ Resources:
       VpcId: 
         Fn::ImportValue:
           !Sub '${NetworkStackName}-VPCId'
+
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 3306
@@ -63,8 +64,8 @@ Resources:
     Properties:
       Engine: 'mysql'
       EngineVersion: '8.0'
-      MasterUsername: !Sub '{{resolve:ssm:${ParamsStackName}-DBUsername:1}}'
-      MasterUserPassword: !Sub '{{resolve:ssm:${ParamsStackName}-DBPassword:1}}'
+      MasterUsername: !Sub '{{resolve:ssm:${ParamsStackName}-DBUsername}}'
+      MasterUserPassword: !Sub '{{resolve:ssm:${ParamsStackName}-DBPassword}}'
       VPCSecurityGroups: 
         - !GetAtt  CfnDbSecurityGroup.GroupId
       DBSubnetGroupName: !Ref CfnDBSubnetGroup
