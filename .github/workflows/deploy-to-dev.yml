@@ -25,6 +25,11 @@ jobs:
       with:
         use-installer: true
 
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'corretto' 
+        java-version: '21'
+        
     - name: Checkout code
       uses: actions/checkout@v3
 
