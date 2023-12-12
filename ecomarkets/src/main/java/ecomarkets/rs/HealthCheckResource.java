@@ -19,25 +19,28 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import java.util.Map;
+import javax.sql.DataSource;
 
 @Path("/_hc")
-public class BasketResource {
+public class HealthCheckResource {
     @Inject
     DataSource ds;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Sttring> getHealthCheck() {
-        var hc = Map.of("datasrouce.isValid", isValidDatasource())
+    public Map<String, String> getHealthCheck() {
+        var result = Map.of("datasrouce.isValid", isValidDatasource());
         return result;
     }
 
-    public String isValidDatasource()[
+    public String isValidDatasource(){
         try(var conn = ds.getConnection()){
             return "" + conn.isValid(30);
-        }catch {Exception e}{
+        }catch (Exception e){
             return e.getMessage();
         }
-    ]
+    }
 
 }
