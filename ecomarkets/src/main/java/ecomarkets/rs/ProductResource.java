@@ -28,9 +28,6 @@ public class ProductResource {
         Product.of("Bananas").persist();
     }
 
-    @Inject
-    EntityManager em;
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Product> getProducts() {

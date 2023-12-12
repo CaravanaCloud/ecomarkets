@@ -4,9 +4,7 @@ import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Farmer extends PanacheEntity{
@@ -17,7 +15,6 @@ public class Farmer extends PanacheEntity{
 
     private Telephone telephone;
 
-    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     
     private Farmer() {}

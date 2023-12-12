@@ -1,28 +1,12 @@
 package ecomarkets.domain.register;
 
-import java.io.Serializable;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class CPF implements Serializable{
+public record CPF (Integer cpf){
 
-    @Column(name = "cpf")
-    Integer value;
-
-    private CPF(){}
-
-    public static CPF of(Integer value){
-        CPF cpf = new CPF();
-        cpf.value = value;
-        return cpf;
+    public static CPF of(Integer cpf){
+        return new CPF(cpf);
     }
-
-    public Integer getValue() {
-        return this.value;
-    }
-
     
-
 }
