@@ -89,4 +89,5 @@ Outputs:
   JDBCURL:
     Description: JDBC URL
     Value: !Sub "jdbc:mysql://${CfnDBInstance.Endpoint.Address}:${CfnDBInstance.Endpoint.Port}/${DBName}"
-
+    Export:
+      Name:  !Sub "${AWS::StackName}-JDBCURL"

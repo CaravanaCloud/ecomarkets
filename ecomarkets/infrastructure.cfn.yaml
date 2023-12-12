@@ -13,8 +13,18 @@ Resources:
     Properties:
       TemplateURL: infra_params.cfn.yaml
 
+  DBStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - NetStack
+         - ParamsStack
+    Properties:
+      TemplateURL: infra_db.cfn.yaml
+
   FnStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - DBStack
     Properties:
       TemplateURL: infra_fn.cfn.yaml
       
