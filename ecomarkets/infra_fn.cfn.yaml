@@ -44,4 +44,10 @@ Outputs:
     Description: URL for application
     Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/'
     Export:
-      Name: CfnApiURL
+      Name: !Sub "${EnvId}-ApiURL"
+  
+  CfnApiId:
+    Description: API ID for application
+    Value: !Ref ServerlessHttpApi
+    Export:
+      Name: !Sub "${EnvId}-ApiId"

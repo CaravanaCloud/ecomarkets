@@ -1,0 +1,69 @@
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel"
+
+  DomainName:
+    Type: String
+    Default: "dev.ecofeiras.com"
+    Description: "Custom domain name"
+
+  RegionalCertificateArn:
+    Type: String
+    Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
+    Description: "ARN of the ACM certificate to use for HTTPS"
+  
+  Stage:
+    Type: String
+    Default: "$default"
+    Description: "Stage"
+
+  HostedZoneId:
+    Type: String
+    Default: "Z10286903Q0N4MOTSU2PS"
+    Description: "Hosted Zone ID"
+
+Resources:
+  CfnDomain:
+    Type: "AWS::ApiGatewayV2::DomainName"
+    Properties:
+      DomainName: !Sub "${EnvId}.${DomainName}"
+      DomainNameConfigurations:
+        - EndpointType: "REGIONAL"
+          CertificateArn: !Ref RegionalCertificateArn
+
+  CfnAPIMapping:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: 
+        Fn::ImportValue:
+          !Sub "${EnvId}-ApiId"
+      DomainName: !Sub "${EnvId}.${DomainName}"
+      Stage: !Ref Stage
+  
+  CfnRecordSet:
+    Type: "AWS::Route53::RecordSet"
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub "${EnvId}.${DomainName}"
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CfnDomain.RegionalDomainName
+        HostedZoneId: !GetAtt CfnDomain.RegionalHostedZoneId
+
+Outputs:
+  CfnDomain:
+    Description: application domain
+    Value:
+      !Sub "${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-DomainName"
+
+  CfnEndpointURL:
+    Description: URL for application endpoint
+    Value:
+      !Sub "https://${EnvId}.${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-EndpointURL"

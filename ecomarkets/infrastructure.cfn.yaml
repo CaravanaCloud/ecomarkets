@@ -41,3 +41,12 @@ Resources:
       Parameters:
         EnvId: !Ref EnvId
       
+  DomainStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - FnStack
+    Properties:
+      TemplateURL: infra_domain.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+      
