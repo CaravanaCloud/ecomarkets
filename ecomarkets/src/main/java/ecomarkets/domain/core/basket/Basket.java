@@ -11,14 +11,14 @@ import ecomarkets.domain.core.partner.PartnerId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Basket extends PanacheEntity {
  
     private PartnerId partnerId;
 
-    @OneToOne
+    @ManyToOne
     private Tenant tenant;
     
     private LocalDateTime creationDate;
