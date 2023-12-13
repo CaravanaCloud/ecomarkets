@@ -34,15 +34,20 @@ Resources:
 
   CfnAPIMapping:
     Type: AWS::ApiGatewayV2::ApiMapping
+    DependsOn: 
+      - CfnDomain
+      - CfnRecordSet
     Properties:
       ApiId: 
         Fn::ImportValue:
           !Sub "${EnvId}-ApiId"
-      DomainName: !Sub "${EnvId}.${DomainName}"
+      # DomainName: !GetAtt CfnDomain.RegionalDomainName
+      DomainName: !Sub "${EnvId}.${DomainName}" 
       Stage: !Ref Stage
   
   CfnRecordSet:
     Type: "AWS::Route53::RecordSet"
+    DependsOn: CfnDomain
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: !Sub "${EnvId}.${DomainName}"
