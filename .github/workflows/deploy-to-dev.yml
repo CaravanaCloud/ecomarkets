@@ -40,7 +40,7 @@ jobs:
     - name: Deploy to AWS 
       working-directory: ecomarkets
       env:
-        EnvId: ecotest
+        ENV_ID: ecotest
       run: |
        sam deploy \
           --template-file "infrastructure.cfn.yaml" \
