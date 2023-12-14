@@ -39,10 +39,14 @@ jobs:
 
     - name: Deploy to AWS 
       working-directory: ecomarkets
+      env:
+        ENV_ID: ecotest
       run: |
        sam deploy \
           --template-file "infrastructure.cfn.yaml" \
           --stack-name  "ecomarkets-dev" \
           --capabilities "CAPABILITY_IAM" "CAPABILITY_AUTO_EXPAND" \
-          --resolve-s3
+          --resolve-s3 \
+          --parameter-overrides "EnvId=$ENV_ID" \
+          --disable-rollback
 
