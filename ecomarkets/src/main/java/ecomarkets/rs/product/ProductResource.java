@@ -1,4 +1,4 @@
-package ecomarkets.rs;
+package ecomarkets.rs.product;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/product")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class ProductResource {
 
     @Transactional
@@ -32,15 +34,12 @@ public class ProductResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public List<Product> getProducts() {
         return Product.listAll(Sort.ascending("name"));
     }
     
     @POST
     @Transactional
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response create(Product product) {
         product.persist();
         return Response

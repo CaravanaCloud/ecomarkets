@@ -1,5 +1,7 @@
 package ecomarkets.domain.core.product;
 
+import ecomarkets.domain.core.product.category.Category;
+
 public class ProductBuilder {
 
     private String name;
@@ -11,6 +13,8 @@ public class ProductBuilder {
     private MeasureUnit unit;
 
     private Price price;
+
+    private Category category;
 
     public ProductBuilder name(String name){
         this.name = name;
@@ -36,8 +40,13 @@ public class ProductBuilder {
         this.price = Price.of(unit, cents);
         return this;
     }
+ 
+    public ProductBuilder category(Category category){
+        this.category = category;
+        return this;
+    }
 
     public Product create(){
-        return Product.of(name, description, recipeIngredients, unit, price);
+        return Product.of(name, description, recipeIngredients, unit, price, category);
     }
 }

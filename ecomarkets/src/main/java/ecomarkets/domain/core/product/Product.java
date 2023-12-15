@@ -1,12 +1,11 @@
 package ecomarkets.domain.core.product;
 
-import com.google.errorprone.annotations.Immutable;
-
+import ecomarkets.domain.core.product.category.Category;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-@Immutable
 public class Product extends PanacheEntity {
 
     private String name;
@@ -19,22 +18,27 @@ public class Product extends PanacheEntity {
 
     private Price price;
 
+    @ManyToOne
+    private Category category;
+
     private Product(){}
 
     public static final Product of(String name, 
     String description,
     RecipeIngredients recipeIngredients,
     MeasureUnit measureUnit,
-    Price price){
+    Price price,
+    Category category){
         var product = new Product();
         product.name = name;
         product.description = description;
         product.recipeIngredients = recipeIngredients;
         product.measureUnit = measureUnit;
         product.price = price;
+        product.category = category;
         return product;
     }
-
+    
     public String getName() {
         return this.name;
     }
@@ -57,6 +61,13 @@ public class Product extends PanacheEntity {
 
     public ProductId productId(){
         return ProductId.of(id);
+    }
+    
+    public String getCategory(){
+        if(this.category == null){
+            return "OUTROS";
+        }
+        return this.category.name;
     }
     
 }

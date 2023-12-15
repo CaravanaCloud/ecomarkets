@@ -1,14 +1,11 @@
-package ecomarkets.domain.core;
+package ecomarkets.domain.core.product;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.farmer.Farmer;
-import ecomarkets.domain.core.product.Product;
-import ecomarkets.domain.core.product.ProductBuilder;
-import ecomarkets.domain.core.product.ProductStock;
-import ecomarkets.domain.core.product.MeasureUnit;
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
