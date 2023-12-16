@@ -1,15 +1,13 @@
 package ecomarkets.domain.core.product;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
-import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.farmer.Farmer;
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusIntegrationTest
 public class ProductIT {
@@ -25,9 +23,6 @@ public class ProductIT {
 
         prd.persist();
 
-        Tenant tenant = Tenant.of("teste", "1");
-        tenant.persist();
-
         Farmer farmer = Farmer.of("Maria",
         Email.of("maria@gmail.com"), 
         Telephone.of(27, 123456789), 
@@ -41,7 +36,7 @@ public class ProductIT {
 
         farmer.persist();
 
-        ProductStock stockBefore = ProductStock.of(tenant, farmer.farmerId(), prd, 100);
+        ProductStock stockBefore = ProductStock.of(farmer.farmerId(), prd, 100);
         stockBefore.persist();
 
         ProductStock stock = ProductStock.findById(stockBefore.id);

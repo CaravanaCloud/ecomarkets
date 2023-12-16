@@ -1,26 +1,21 @@
 package ecomarkets.domain.core.basket;
 
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
-import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.partner.PartnerId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 @Entity
 public class Basket extends PanacheEntity {
  
     private PartnerId partnerId;
 
-    @ManyToOne
-    private Tenant tenant;
-    
     private LocalDateTime creationDate;
     
     private LocalDateTime reservedDate;
@@ -32,10 +27,9 @@ public class Basket extends PanacheEntity {
 
     private Basket(){}
         
-    public static Basket of(Tenant tenant, PartnerId partnerId){
+    public static Basket of(PartnerId partnerId){
         Basket result = new Basket();
         result.creationDate = LocalDateTime.now();
-        result.tenant = tenant;
         result.partnerId = partnerId;
         result.items = new ArrayList<>();
         return result;
@@ -63,10 +57,6 @@ public class Basket extends PanacheEntity {
     
     public PartnerId getPartnerId(){
         return this.partnerId;
-    }
-
-    public Tenant getTenant(){
-        return this.tenant;
     }
 
     public Collection<BasketItem> getItems(){

@@ -55,7 +55,7 @@ public class BasketTest {
     public void create() {
 
         final ValidatableResponse vrCreate = given().contentType("application/json")
-        .post("/api/basket/" + TENANT.id + "/" + PARTNER_JOHN.id)
+        .post("/api/basket/" + PARTNER_JOHN.id)
         .then()
         .assertThat();
 
@@ -79,6 +79,7 @@ public class BasketTest {
         .body("items.size()", is(0));
     }
 
+    @Test
     @TestTransaction
     public void createBasketItem(){
         Product prd = new ProductBuilder().
@@ -99,7 +100,7 @@ public class BasketTest {
             ]
         """.formatted(prd.id))
         .when()
-        .post("/api/basket/" + TENANT.id + "/" + PARTNER_JOHN.id)
+        .post("/api/basket/" + PARTNER_JOHN.id)
         .then()
         .assertThat();
 
