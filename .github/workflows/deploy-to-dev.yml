@@ -40,8 +40,11 @@ jobs:
     - name: Deploy to AWS 
       working-directory: ecomarkets
       env:
-        ENV_ID: ecotest
-        STACK_NAME: ecomarkets-dev
+        ENV_ID: "ecotest"
+        STACK_NAME: "ecomarkets-dev"
+        DomainName: "perm.ecofeiras.com"
+        RegionalCertificateArn: "arn:aws:acm:us-east-1:570997277768:certificate/fada378f-7bf1-4d1a-8361-4390f8756d9c"
+        HostedZoneId: "Z05338353SJBK366COB82"
       run: |
        sam deploy \
           --template-file "infrastructure.cfn.yaml" \
@@ -49,5 +52,8 @@ jobs:
           --capabilities "CAPABILITY_IAM" "CAPABILITY_AUTO_EXPAND" \
           --resolve-s3 \
           --parameter-overrides "EnvId=$ENV_ID" \
+            "DomainName=$DomainName" \
+            "RegionalCertificateArn=$RegionalCertificateArn" \
+            "HostedZoneId=$HostedZoneId" \
           --disable-rollback
 

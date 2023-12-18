@@ -5,6 +5,21 @@ Parameters:
     Type: String
     Default: "devel" 
     Description: Id for the Environment (Stack of Stacks)
+  
+  DomainName:
+    Type: String
+    Default: "dev.ecofeiras.com"
+    Description: "Custom domain name"
+
+  RegionalCertificateArn:
+    Type: String
+    Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
+    Description: "ARN of the ACM certificate to use for HTTPS"
+
+  HostedZoneId:
+    Type: String
+    Default: "Z10286903Q0N4MOTSU2PS"
+    Description: "Hosted Zone ID"
 
 Resources:
 
@@ -49,4 +64,7 @@ Resources:
       TemplateURL: infra_domain.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
+        DomainName: !Ref DomainName
+        RegionalCertificateArn: !Ref RegionalCertificateArn
+        HostedZoneId: !Ref HostedZoneId
       
