@@ -1,7 +1,11 @@
 name: Deploy main branch to dev
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      stackName:
+        description: 'AWS SAM Stack Name'
+        required: true
   push:
     branches:
       - main
@@ -40,8 +44,8 @@ jobs:
     - name: Deploy to AWS 
       working-directory: ecomarkets
       env:
-        ENV_ID: "ecotest"
-        STACK_NAME: "ecomarkets-dev"
+        ENV_ID: ${{ github.event.inputs.stackName }}
+        STACK_NAME: ${{ github.event.inputs.stackName }}
         DomainName: "perm.ecofeiras.com"
         RegionalCertificateArn: "arn:aws:acm:us-east-1:570997277768:certificate/fada378f-7bf1-4d1a-8361-4390f8756d9c"
         HostedZoneId: "Z05338353SJBK366COB82"
