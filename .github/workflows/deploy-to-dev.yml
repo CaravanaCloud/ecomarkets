@@ -6,6 +6,7 @@ on:
       stackName:
         description: 'AWS SAM Stack Name'
         required: true
+        default: 'qa'
   push:
     branches:
       - main
