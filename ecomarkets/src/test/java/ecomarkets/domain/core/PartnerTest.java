@@ -14,21 +14,26 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 @QuarkusTest
 public class PartnerTest {
 
-    final String PARTNER = 
-     "{\"name\":\"Joao\","+
-     "\"cpf\":{\"cpf\":123456789},"+
-     "\"email\":{\"email\":\"joao@gmail.com\"},"+
-     "\"birthDate\":\"2023-12-09\","+
-     "\"telephone\":{\"number\": 123456789, \"areaCode\": 27},"+
-     "\"address\":"+
-        "{\"id\":null,"+
-        "\"country\":\"Brasil\","+
-        "\"state\":\"Espirito Santo\","+
-        "\"city\":\"Vitória\","+
-        "\"houseNumber\":123,"+
-        "\"addOn\":\"Apt 100\","+
-        "\"reference\":\"Perto da mercearia do tio zé\","+
-        "\"postCode\":123456}}";
+    final String PARTNER = """
+        {
+            "name": "Joao",
+            "cpf":{"cpf":123456789},
+            "email":{"email":"joao@gmail.com"},
+            "birthDate":"2023-12-09",
+            "telephone":{"areaCode": 27, "number": 123456789},
+            "address":
+                {
+                    "id":null,
+                    "country":"Brasil",
+                    "state":"Espirito Santo",
+                    "city":"Vitória",
+                    "houseNumber":123,
+                    "addOn":"Apt 100",
+                    "reference":"Perto da mercearia do tio zé",
+                    "postCode":123456
+                }
+        }  
+            """;
 
     @Test
     public void create() {
