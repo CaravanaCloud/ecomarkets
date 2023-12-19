@@ -21,6 +21,9 @@ Parameters:
     Default: "Z10286903Q0N4MOTSU2PS"
     Description: "Hosted Zone ID"
 
+Conditions:
+  DomainEnabled: !Not [!Equals [!Ref DomainName, ""]]
+
 Resources:
 
   NetStack:
@@ -60,6 +63,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn:
          - FnStack
+    Condition: DomainEnabled
     Properties:
       TemplateURL: infra_domain.cfn.yaml
       Parameters:
