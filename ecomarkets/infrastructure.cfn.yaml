@@ -82,7 +82,6 @@ Resources:
       Parameters:
         EnvId: !Ref EnvId
 
-
 Outputs:
   DomainURL:
     Description: The URL of the app
