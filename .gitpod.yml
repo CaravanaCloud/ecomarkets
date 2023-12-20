@@ -2,9 +2,17 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Build project
+  - name: API
     init: mvn -f ecomarkets -fn install
     command: mvn -f ecomarkets -DskipTests quarkus:dev
+
+  - name: APP
+    init: |
+      cd ecomarkets-app
+      npm run build
+    command: |
+      cd ecomarkets-app
+      npm run dev
 
 ports:
     # APP
