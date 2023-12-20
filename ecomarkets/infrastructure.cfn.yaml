@@ -72,15 +72,16 @@ Resources:
         RegionalCertificateArn: !Ref RegionalCertificateArn
         HostedZoneId: !Ref HostedZoneId
 
-  CDNStack:
-    Type: AWS::CloudFormation::Stack
-    DependsOn:
-         - DomainStack
-    Condition: DomainEnabled
-    Properties:
-      TemplateURL: infra_cdn.cfn.yaml
-      Parameters:
-        EnvId: !Ref EnvId
+  # waiting for account verification
+  # CDNStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   DependsOn:
+  #        - DomainStack
+  #   Condition: DomainEnabled
+  #   Properties:
+  #     TemplateURL: infra_cdn.cfn.yaml
+  #     Parameters:
+  #       EnvId: !Ref EnvId
 
 Outputs:
   DomainURL:
