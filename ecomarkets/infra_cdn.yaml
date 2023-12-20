@@ -1,0 +1,9 @@
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel"
+
+Resources:
+
+Outputs:
+  

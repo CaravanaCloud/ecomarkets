@@ -15,4 +15,15 @@ ports:
     visibility: public
   - port: 3336
     onOpen: ignore
-    visibility: public    
+    visibility: public
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-test
+    - vscjava.vscode-maven
+    - redhat.java
+    - esbenp.prettier-vscode
+    - svelte.svelte-vscode
