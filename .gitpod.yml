@@ -9,6 +9,7 @@ tasks:
   - name: APP
     init: |
       cd ecomarkets-app
+      npm install
       npm run build
     command: |
       cd ecomarkets-app
