@@ -1,13 +1,8 @@
 package ecomarkets.rs;
 
-<<<<<<< HEAD
-import java.util.Map;
-=======
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
->>>>>>> 42652d0 (adds version to healthcheck)
 
 import javax.sql.DataSource;
 
