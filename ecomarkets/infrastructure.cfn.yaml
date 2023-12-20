@@ -71,7 +71,18 @@ Resources:
         DomainName: !Ref DomainName
         RegionalCertificateArn: !Ref RegionalCertificateArn
         HostedZoneId: !Ref HostedZoneId
-      
+
+  CDNStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - DomainStack
+    Condition: DomainEnabled
+    Properties:
+      TemplateURL: infra_cdn.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+
+
 Outputs:
   DomainURL:
     Description: The URL of the app

@@ -72,3 +72,11 @@ Outputs:
     Export:
       Name:
         !Sub "${EnvId}-EndpointURL"
+  
+  CertificateArn:
+    Description: ARN of the certificate
+    Value:
+      !Sub "${RegionalCertificateArn}"
+    Export:
+      Name:
+        !Sub "${EnvId}-CertificateArn"
