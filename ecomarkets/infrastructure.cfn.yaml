@@ -72,3 +72,8 @@ Resources:
         RegionalCertificateArn: !Ref RegionalCertificateArn
         HostedZoneId: !Ref HostedZoneId
       
+Outputs:
+  DomainURL:
+    Description: The URL of the app
+    Value: !GetAtt DomainStack.Outputs.CfnEndpointURL
+
