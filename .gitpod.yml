@@ -7,12 +7,15 @@ tasks:
     command: mvn -f ecomarkets -DskipTests quarkus:dev
 
 ports:
-  - port: 9000
+    # APP
+  - port: 5173
     onOpen: ignore
     visibility: public
+    # API
   - port: 9090
     onOpen: ignore
     visibility: public
+    # DB
   - port: 3336
     onOpen: ignore
     visibility: public
@@ -27,3 +30,4 @@ vscode:
     - redhat.java
     - esbenp.prettier-vscode
     - svelte.svelte-vscode
+    - ms-vscode.vscode-typescript-next
