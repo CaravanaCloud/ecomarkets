@@ -2,9 +2,9 @@ package ecomarkets.rs.product;
 
 import ecomarkets.domain.core.product.Product;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -13,13 +13,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-
-@Path("/product/image")
+@Path("/product/{id}/image")
 public class ProductImageResource {
 
     @Inject
@@ -40,12 +34,11 @@ public class ProductImageResource {
                 .build();
     }
 
+    @PUT
+    public void saveImage(@PathParam("id") Long productId,
+                          @RestForm("file") FileUpload file){
 
-    @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public void saveImage(@RestForm("fileTest") FileUpload file){
-
-        Product product = Product.findById(1);
+        Product product = Product.findById(productId);
 
         PutObjectResponse putResponse = s3.putObject(buildPutRequest("ecomarkets", "/products/images",  "image/jpeg" ),
                 RequestBody.fromFile(file.uploadedFile()));

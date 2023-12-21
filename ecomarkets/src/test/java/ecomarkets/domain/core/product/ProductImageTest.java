@@ -2,6 +2,7 @@ package ecomarkets.domain.core.product;
 
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.transaction.Transactional;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,21 @@ public class ProductImageTest {
 
     @Rule
     static LocalStackContainer localstack = new LocalStackContainer(localstackImage)
+            .withExposedPorts(4566)
             .withServices(S3);
     static S3Client s3Client;
 
+    static Product product;
+
     @BeforeAll
+    @Transactional
     static void startLocalStack(){
         localstack.start();
 
+        System.out.println("getEndpoint--------------:" + localstack.getEndpoint());
+        System.out.println("getAccessKey--------------:" + localstack.getAccessKey());
+        System.out.println("getRegion--------------:" + localstack.getRegion());
+        System.out.println("getSecretKey--------------:" + localstack.getSecretKey());
         s3Client = S3Client
                 .builder()
                 .endpointOverride(localstack.getEndpoint())
@@ -55,28 +64,25 @@ public class ProductImageTest {
                 .build();
 
         s3Client.createBucket(bucketRequest);
-    }
 
-
-
-    @Test
-    @TestTransaction
-    public void testS3Resource() {
-        Product prd = new ProductBuilder().
+        product = new ProductBuilder().
                 name("Tomate").
                 description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
                 recipeIngredients("Banana, aveia, Chocolate em pó 50% canela em pó Ovos, granola Açúcar mascavo, Fermento em pó").
                 measureUnit(MeasureUnit.UNIT).
                 price(10, 50).create();
 
-        prd.persist();
+        product.persist();
+    }
 
+    @Test
+    public void testS3Resource() {
         File fileToUpload = new File("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
 
         given()
-            .multiPart(fileToUpload)
+            .multiPart("file", fileToUpload)
             .when()
-            .put("/product/%d/image".formatted(prd.id))
+            .put("/api/product/%d/image".formatted(product.id))
             .then()
             .statusCode(200); // Adjust the expected status code as needed
 

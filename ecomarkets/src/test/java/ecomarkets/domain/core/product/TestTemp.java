@@ -16,12 +16,13 @@ public class TestTemp {
     public void here(){
         File fileToUpload = new File("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
 
-        given()
-                .multiPart("fileTest", fileToUpload, "image/jpeg")
+        int a = given()
+                .multiPart("file", fileToUpload)
                 .when()
-                .post("/product/image")
-                .then()
-                .statusCode(200); // Adjust the expected status code as needed
+                .post("/api/product/10/image")
+                .statusCode();
+                //.statusCode(200); // Adjust the expected status code as needed
 
+        System.out.println(a);
     }
 }
