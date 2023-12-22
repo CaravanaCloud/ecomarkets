@@ -33,7 +33,6 @@ public class ProductImageTest {
 
     @Rule
     static LocalStackContainer localstack = new LocalStackContainer(localstackImage)
-            .withExposedPorts(4566)
             .withServices(S3);
     static S3Client s3Client;
 
