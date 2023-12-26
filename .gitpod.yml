@@ -15,6 +15,14 @@ tasks:
       cd ecomarkets-app
       npm run dev
 
+  - name: PROXY
+    command: |
+      docker compose up
+  
+  - name: SHELL
+    command: |
+      gp preview $(gp url 6600)
+
 ports:
     # APP
   - port: 5173
@@ -24,8 +32,16 @@ ports:
   - port: 9090
     onOpen: ignore
     visibility: public
+
+  - port: 5005
+    onOpen: ignore
+    visibility: private
     # DB
   - port: 3336
+    onOpen: ignore
+    visibility: public
+    # PROXY
+  - port: 6600
     onOpen: ignore
     visibility: public
 
