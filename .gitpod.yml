@@ -25,6 +25,9 @@ ports:
   - port: 5173
     onOpen: ignore
     visibility: public
+  - port: 3000
+    onOpen: ignore
+    visibility: public
     # API
   - port: 9090
     onOpen: ignore
