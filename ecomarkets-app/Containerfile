@@ -1,5 +1,5 @@
 # podman build -f Containerfile --no-cache . -t ecomarkets-app:latest
-# podman run -d -p 3000:3000 ecomarkets-app:latest
+# podman run -ti -p 3000:3000 ecomarkets-app:latest
 FROM fedora:latest as build
 RUN dnf -y install nodejs npm
 WORKDIR /usr/src/svelte-app
@@ -10,6 +10,11 @@ RUN find .
 
 FROM fedora:latest as runtime
 RUN dnf -y update && dnf -y install nodejs npm
-COPY --from=build /usr/src/svelte-app/build /opt/svelte-build
-WORKDIR /opt
-CMD ["node", "svelte-build"]
+COPY --from=build /usr/src/svelte-app/build /opt/svelte-app/build
+COPY --from=build /usr/src/svelte-app/package.json /opt/svelte-app/package.json
+COPY --from=build /usr/src/svelte-app/node_modules /opt/svelte-app/node_modules
+
+
+WORKDIR /opt/svelte-app
+RUN find .
+CMD ["node", "build"]
