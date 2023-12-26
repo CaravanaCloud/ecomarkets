@@ -5,7 +5,6 @@ tasks:
   - name: API
     init: mvn -f ecomarkets -fn install
     command: mvn -f ecomarkets -DskipTests quarkus:dev
-
   - name: APP
     init: |
       cd ecomarkets-app
@@ -14,11 +13,9 @@ tasks:
     command: |
       cd ecomarkets-app
       npm run dev
-
   - name: PROXY
     command: |
       docker compose up
-  
   - name: SHELL
     command: |
       gp preview $(gp url 6600)
