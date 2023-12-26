@@ -6,7 +6,7 @@ WORKDIR /usr/src/svelte-app
 COPY . .
 RUN npm install
 RUN npm run build
-RUN find .
+# RUN find .
 
 FROM fedora:latest as runtime
 RUN dnf -y update && dnf -y install nodejs npm
@@ -16,5 +16,5 @@ COPY --from=build /usr/src/svelte-app/node_modules /opt/svelte-app/node_modules
 
 
 WORKDIR /opt/svelte-app
-RUN find .
+# RUN find .
 CMD ["node", "build"]
