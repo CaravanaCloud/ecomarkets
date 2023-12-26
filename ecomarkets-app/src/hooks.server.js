@@ -14,6 +14,7 @@ export const handle = async({event, resolve}) => {
             httpOnly: false,
             path: "/" })
         }
+        currentTheme = "default-theme";
         let result = html.replace(`data-theme=""`, `data-theme="${currentTheme}"`);
         return result;
       }
