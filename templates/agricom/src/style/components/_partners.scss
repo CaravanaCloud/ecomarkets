@@ -1,0 +1,20 @@
+/* --------------------------------
+   partners
+-------------------------------- */
+
+.partners
+{
+	text-align: center;
+
+	&__inner
+	{
+		margin-bottom: -30px;
+		overflow: hidden;
+	}
+
+	img
+	{
+		line-height: 1;
+		margin-bottom: 30px;
+	}
+}

@@ -1,0 +1,278 @@
+@@include('../template/document_start.html')
+	<body class="page page-blog">
+
+		<!-- start top bar -->
+		<div id="top-bar" class="top-bar--style-2">
+			<div class="container">
+				<a id="top-bar__logo" class="site-logo" href="index.html">AGRICOM</a>
+
+				<a id="top-bar__navigation-toggler" href="javascript:void(0);"><span></span></a>
+
+				<nav id="top-bar__navigation" role="navigation">
+					<ul>
+						<li>
+							<a href="javascript:void(0);">Home</a>
+
+							<div class="submenu">
+								<ul>
+									<li><a href="../style_1/index.html" target="_blank">Home Style 1</a></li>
+									<li><a href="index.html">Home Style 2</a></li>
+									<li><a href="../landing/index.html" target="_blank">One Page</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="javascript:void(0);">Pages</a>
+
+							<div class="submenu">
+								<ul>
+									<li><a href="about.html">about</a></li>
+									<li><a href="products.html">products</a></li>
+									<li><a href="product_case.html">product case</a></li>
+									<li><a href="404.html">404 page</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="javascript:void(0);">Gallery</a>
+
+							<div class="submenu">
+								<ul>
+									<li><a href="gallery_1.html">2 Columns</a></li>
+									<li><a href="gallery_2.html">3 Columns</a></li>
+									<li><a href="gallery_3.html">4 Columns</a></li>
+									<li><a href="gallery_4.html">Masonry</a></li>
+									<li><a href="gallery_5.html">Masonry 2</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="current"><a href="blog.html">Blog</a></li>
+						<li><a href="contacts.html">Contacts</a></li>
+						<li class="li-btn"><a class="custom-btn primary" href="#spy-get-in-touch">Get in touch</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- end top bar -->
+
+		<!-- start header -->
+		@@include('../template/intro.html', {
+			"intro_title": "Blog",
+			"intro_subtitle": "company",
+			"intro_image": "../img/bg/bg_5.jpg",
+			"image_position-X": "50%",
+			"image_position-Y": "40%",
+			"speed": "0.5",
+			"pattern_opacity": "0.5"
+		})
+		<!-- end header -->
+
+		<main role="main">
+			<!-- start section -->
+			<section class="section">
+				<div class="container">
+					<div class="blog blog--style-1">
+						<div class="blog__inner">
+							<div class="row  js-isotope" data-isotope-options='{ "itemSelector": ".js-isotope__item", "transitionDuration": "0.8s", "percentPosition": "true", "masonry": { "columnWidth": ".js-isotope__grid-sizer" }}'>
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__grid-sizer" style="min-height: 0;"></div>
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<figure>
+											<img class="img-fluid" src="../img/blog_img/1.jpg" alt="demo" />
+										</figure>
+
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>23</span>
+												<span>JUL<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Agriculture Products</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Appetizing luscious savor hot senses. Effervescent the secure special. Kids spicey chance excellent proven too sleek handcrafted when makes intense.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>03</span>
+												<span>JUN<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Crispy citrus exclusive </a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Appetizing luscious savor hot senses. Effervescent the secure special. Kids spicey chance excellent proven too sleek handcrafted when makes intense.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<figure>
+											<img class="img-fluid" src="../img/blog_img/2.jpg" alt="demo" />
+										</figure>
+
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>28</span>
+												<span>APR<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Made confident bigger chance as.</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												World's double clinically many high can't 100% delivers delicious sparkling special. Jumbo quality really low-cost. Your action any recommended all takes to trust senses great. Win need win many bigger perfect chocolatey rare relaxing.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>15</span>
+												<span>MAY<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Thought industry hit ocean smells.</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Choosy bigger product stimulates natural agree odor original better formula. Credit-card feedback time dazzling invigorate deserve worthwhile deluxe now. Think chosen first sleek quick luscious big.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<figure>
+											<img class="img-fluid" src="../img/blog_img/3.jpg" alt="demo" />
+										</figure>
+
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>12</span>
+												<span>MAR<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Spicey choose plush amazing</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Appetizing luscious savor hot senses. Effervescent the secure special. Kids spicey chance excellent proven too sleek handcrafted when makes intense.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>06</span>
+												<span>APR<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">World's double clinically</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Choosy bigger product stimulates natural agree odor original better formula. Credit-card feedback time dazzling invigorate deserve worthwhile deluxe now. Think chosen first sleek quick luscious big.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>19</span>
+												<span>FEB<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Feedback creamy thought chance</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Keen how so quick. Tempt money-back racy bigger on. Odor grown believe by money fat-free blast calories quite millions. 
+											</p>
+
+											<p>
+												Full proven devour wholesome bold full-bodied buy. Big cause expensive flash challenge appreciate go. Longer price pennies keeps one most permanent.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+
+								<!-- start item -->
+								<div class="col-12 col-md-6 col-lg-4  js-isotope__item">
+									<div class="blog__item  mx-auto">
+										<div class="blog__entry">
+											<div class="blog__post-date">
+												<span>15</span>
+												<span>FEB<br />2016</span>
+											</div>
+
+											<h3 class="blog__entry__title"><a href="blog_post.html">Not roasted accomodations</a></h3>
+
+											<span class="blog__entry__meta">Cows | 4 Comments</span>
+
+											<p>
+												Deserve real all brand way with simulated enjoy fun product. Try action makes peppy sleek shopping. Grand generous convenient. It's fast jiffy catch well splash. Grown postage really made big leading disposable locked-in register new worthwhile golden.
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- end item -->
+							</div>
+						</div>
+
+						<div class="text-center">
+							<a id="blog-more-btn" class="custom-btn big primary" href="javascript:void(0);">show more posts</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end section -->
+		</main>
+
+		<!-- start footer -->
+		@@include('../template/footer_2.html')
+		<!-- end footer -->
+
+@@include('../template/document_end.html')

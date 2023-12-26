@@ -1,0 +1,140 @@
+/* --------------------------------
+   counters
+-------------------------------- */
+
+.counters
+{
+	&__inner { margin-bottom: -30px; }
+}
+
+.counter__item
+{
+	line-height: 1.2;
+	font-size: rem-calc(18px);
+	font-weight: 700;
+	font-family: $secondary-fontFamily;
+	color: $primary-color;
+	margin-bottom: 30px;
+
+	p { margin: 0; }
+
+	&__ico
+	{
+		display: inline-block;
+		vertical-align: top;
+		margin-bottom: 25px;
+
+		&:before
+		{
+			content: "";
+			display: inline-block;
+			vertical-align: middle;
+			background: {
+				position: 50% 50%;
+				repeat: no-repeat;
+				size: 100%;
+			}
+		}
+	}
+
+	&__count
+	{
+		line-height: 1;
+		text-transform: uppercase;
+
+		&:after { content: attr(data-after); }
+	}
+}
+
+.counters--style-1
+{
+	text-align: center;
+
+	.counter__item
+	{
+		&__ico
+		{
+			height: 110px;
+			line-height: 110px;
+
+			&--1:before
+			{
+				width: 60px;
+				height: 110px;
+				background-image: url(../img/ico/ico_12.png);
+			}
+
+			&--2:before
+			{
+				width: 138px;
+				height: 89px;
+				background-image: url(../img/ico/ico_13.png);
+			}
+
+			&--3:before
+			{
+				width: 125px;
+				height: 98px;
+				background-image: url(../img/ico/ico_14.png);
+			}
+
+			&--4:before
+			{
+				width: 148px;
+				height: 71px;
+				background-image: url(../img/ico/ico_15.png);
+			}
+		}
+
+		&__count { font-size: rem-calc(39px); }
+	}
+}
+
+.counters--style-2
+{
+	.counter__item
+	{
+		padding-left: 100px;
+		@include clearfix();
+
+		&__ico
+		{
+			float: left;
+			margin-left: -100px;
+
+			&--1:before
+			{
+				width: 82px;
+				height: 93px;
+				background-image: url(../img/ico/ico_16.png);
+			}
+
+			&--2:before
+			{
+				width: 75px;
+				height: 105px;
+				background-image: url(../img/ico/ico_17.png);
+			}
+
+			&--3:before
+			{
+				width: 93px;
+				height: 82px;
+				background-image: url(../img/ico/ico_18.png);
+			}
+
+			&--4:before
+			{
+				width: 84px;
+				height: 84px;
+				background-image: url(../img/ico/ico_19.png);
+			}
+		}
+
+		&__count
+		{
+			font-size: rem-calc(60px);
+			margin-bottom: 10px;
+		}
+	}
+}

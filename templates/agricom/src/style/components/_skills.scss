@@ -1,0 +1,77 @@
+/* --------------------------------
+   skills
+-------------------------------- */
+
+.skills
+{
+	font-size: 0;
+	line-height: 0;
+	letter-spacing: -1px;
+	text-align: center;
+
+	&__inner
+	{
+		margin-left: -40px;
+		margin-bottom: -30px;
+	}
+}
+
+.skill
+{
+	&__item
+	{
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 40px;
+		margin-bottom: 30px;
+		line-height: 1;
+		letter-spacing: 0;
+		font-size: rem-calc(20px);
+		font-family: $secondary-fontFamily;
+		text-align: center;
+		color: #444;
+	}
+
+	&__chart
+	{
+		position: relative;
+		width: 195px;
+		height: 195px;
+		border: 22px solid $primary-color;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 30px;
+		@include border-radius(50%);
+
+		&:before
+		{
+			content: "";
+			display: inline-block;
+			vertical-align: middle;
+			width: 0;
+			height: 100%;
+			margin-left: -4px;
+		}
+
+		canvas
+		{
+			position: absolute;
+			top: -12px;
+			right: -12px;
+			bottom: -12px;
+			left: -12px;
+		}
+	}
+
+	&__percent
+	{
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		font-size: rem-calc(30px);
+		font-weight: 700;
+
+		&:after { content: attr(data-after); }
+	}
+}

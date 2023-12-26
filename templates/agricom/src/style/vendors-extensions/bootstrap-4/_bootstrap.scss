@@ -1,0 +1,31 @@
+/* --------------------------------
+   custom bootstrap styles
+-------------------------------- */
+
+html
+{
+	font-size: $base-font-size;
+	text-size-adjust: 100%;
+	-ms-overflow-style: scrollbar;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-overflow-scrolling: touch;
+	box-sizing: border-box;
+}
+
+body
+{
+	line-height: 1.538;
+	font:
+	{
+		size: rem-calc(15px);
+		weight: 500;
+		family: $primary-fontFamily;
+	};
+	color: #777;
+}
+
+.container,
+.container-fluid
+{
+	@extend %pos-relative;
+}

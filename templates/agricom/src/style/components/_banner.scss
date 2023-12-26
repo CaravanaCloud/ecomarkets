@@ -1,0 +1,109 @@
+/* --------------------------------
+   banner
+-------------------------------- */
+
+.banner
+{
+	&__inner {}
+
+	&__item
+	{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		align-items: center;
+		height: 100%;
+		padding-top: 60px;
+		padding-bottom: 60px;
+		padding-left: 15px;
+		padding-right: 15px;
+		@extend %bg-cover;
+		color: $white;
+	}
+
+	&__title { color: inherit; }
+
+	&__text,
+	&__subscribe
+	{
+		width: 100%;
+		max-width: 690px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&__text
+	{
+		p { font-weight: 700; }
+
+		.custom-btn
+		{
+			margin-top: 15px;
+
+			&.primary:not(:hover):not(:focus) { color: inherit; }
+		}
+	}
+
+	&__subscribe
+	{
+		p
+		{
+			font-size: rem-calc(16px);
+			font-weight: 400;
+		}
+
+		form
+		{
+			margin-top: 50px;
+
+			.textfield
+			{
+				color: inherit;
+
+				@include placeholder
+				{
+					color: inherit;
+				}
+			}
+
+			button[type=submit]:not(:hover):not(:focus) { color: inherit; }
+		}
+	}
+}
+
+@include min-screen($sm-width)
+{
+	.banner
+	{
+		&__item { min-height: 460px; }
+	}
+}
+
+@include min-screen($md-width)
+{
+	
+}
+
+@include min-screen($lg-width)
+{
+	.banner
+	{
+		&__text
+		{
+			max-width: 450px;
+			margin-right: 0;
+
+			&__inner { max-width: 460px; }
+		}
+
+		&__subscribe { max-width: 500px; }
+	}
+}
+
+@include min-screen($xl-width)
+{
+	.banner
+	{
+		&__text { max-width: 555px; }
+	}
+}

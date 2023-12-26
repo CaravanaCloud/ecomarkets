@@ -1,0 +1,126 @@
+/* --------------------------------
+   intro
+-------------------------------- */
+
+.intro
+{
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	padding-top: 70px; // top bar height
+	overflow: hidden;
+	min-height: 400px;
+	@extend %bg-cover;
+	line-height: 1.2;
+	font-family: $secondary-fontFamily;
+	color: $white;
+	@include transition( padding 0.3s ease-in-out );
+
+	.container { min-width: 100%; }
+
+	&__text
+	{
+		margin-top: 30px;
+		margin-bottom: 30px;
+		@extend %no-select-no-drag;
+	}
+
+	&__title,
+	&__subtitle
+	{
+		text-transform: uppercase;
+		letter-spacing: rem-calc(5px);
+	}
+
+	&__title
+	{
+		margin-top: 15px;
+		margin-bottom: 15px;
+		line-height: 1;
+		font-size: rem-calc(40px);
+		color: inherit;
+	}
+
+	&__subtitle
+	{
+		font-size: rem-calc(16px);
+		font-weight: 300;
+	}
+
+	&__post-date
+	{
+		font-size: rem-calc(14px);
+		font-weight: 500;
+	}
+}
+
+@include min-screen(400px)
+{
+	&__title,
+	&__subtitle
+	{
+		text-transform: uppercase;
+		letter-spacing: rem-calc(10px);
+	}
+
+	.intro
+	{
+		&__title { font-size: rem-calc(45px); }
+	}
+}
+
+@include min-screen($sm-width)
+{
+	.intro
+	{
+		min-height: 450px;
+
+		&__title { font-size: rem-calc(55px); }
+
+		.container { min-width: 0; }
+	}
+}
+
+@include min-screen($md-width)
+{
+	.intro
+	{
+		min-height: 500px;
+
+		.top-bar--style-1 + & { padding-top: 40px; } // top bar height
+		.top-bar--style-2 + & { padding-top: 90px; } // top bar height
+
+		&__title { font-size: rem-calc(60px); }
+	}
+}
+
+@include min-screen($lg-width)
+{
+	.intro
+	{
+		min-height: 600px;
+
+		&__title { font-size: rem-calc(70px); }
+
+		&__title,
+		&__subtitle
+		{
+			letter-spacing: rem-calc(15px);
+		}
+	}
+}
+
+@include min-screen($xl-width)
+{
+	.intro
+	{
+		&__title,
+		&__subtitle
+		{
+			letter-spacing: rem-calc(22px);
+		}
+
+		&__title { font-size: rem-calc(80px); }
+	}
+}

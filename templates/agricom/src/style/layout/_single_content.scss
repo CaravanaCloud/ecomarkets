@@ -1,0 +1,168 @@
+/* --------------------------------
+   single content
+-------------------------------- */
+
+.single-content
+{
+	.column
+	{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.details
+	{
+		font-weight: 700;
+		color: #333;
+
+		li
+		{
+			margin-top: 25px;
+
+			&:first-child { margin-top: 0; }
+		}
+
+		.title
+		{
+			font-size: rem-calc(12px);
+			text-transform: uppercase;
+			color: $primary-color;
+		}
+
+		p { margin: 0; }
+
+		.social-btns
+		{
+			margin-top: 5px;
+
+			a { color: #b1b1b1; }
+		}
+	}
+
+	.dropcaps
+	{
+		overflow: hidden;
+
+		&:first-letter
+		{
+			float: left;
+			margin-right: 20px;
+			line-height: 0.8;
+			font-size: 85px;
+			font-weight: 700;
+			color: $primary-color;
+		}
+	}
+
+	.quote
+	{
+		margin-top: 30px;
+		margin-bottom: 30px;
+		padding-top: 4%;
+		padding-bottom: 4%;
+		line-height: 1.2;
+		font-size: rem-calc(25px);
+		font-weight: 700;
+		color: #565656;
+
+		&:first-child { margin-top: 0; }
+		&:last-child { margin-bottom: 0; }
+	}
+
+	.meta
+	{
+		margin-top: 25px;
+		margin-bottom: 25px;
+		margin-left: -55px;
+
+		&:last-child { margin-bottom: 0; }
+
+		&__item
+		{
+			margin-left: 55px;
+
+			&,
+			>*,
+			li
+			{
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			>span
+			{
+				margin-right: 10px;
+				color: #333;
+			}
+
+			&--share
+			{
+				.social-btns
+				{
+					a { color: #b4b4b4; }
+				}
+			}
+
+			&--tags
+			{
+				ul { line-height: 1 }
+
+				li
+				{
+					margin-left: 5px;
+					margin-right: 5px;
+				}
+
+				a
+				{
+					font-size: rem-calc(12px);
+					text-decoration: none;
+					color: #c8c8c8;
+				}
+			}
+		}
+	}
+
+	.embed-responsive
+	{
+		margin-top: 25px;
+		margin-bottom: 25px;
+
+		&:first-child { margin-top: 0; }
+		&:last-child { margin-bottom: 0; }
+	}
+}
+
+@include min-screen($sm-width)
+{
+	
+}
+
+@include min-screen($md-width)
+{
+	.single-content
+	{
+		.quote
+		{
+			line-height: 1;
+			font-size: rem-calc(35px);
+		}
+	}
+}
+
+@include min-screen($lg-width)
+{
+	.single-content
+	{
+		.quote
+		{
+			line-height: 1;
+			font-size: rem-calc(50px);
+		}
+	}
+}
+
+@include min-screen($xl-width)
+{
+	
+}
