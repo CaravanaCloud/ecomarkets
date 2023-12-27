@@ -27,7 +27,7 @@ Resources:
   CfnDomain:
     Type: "AWS::ApiGatewayV2::DomainName"
     Properties:
-      DomainName: !Sub "${EnvId}.${DomainName}"
+      DomainName: !Sub "${EnvId}-api.${DomainName}"
       DomainNameConfigurations:
         - EndpointType: "REGIONAL"
           CertificateArn: !Ref RegionalCertificateArn
@@ -42,7 +42,7 @@ Resources:
         Fn::ImportValue:
           !Sub "${EnvId}-ApiId"
       # DomainName: !GetAtt CfnDomain.RegionalDomainName
-      DomainName: !Sub "${EnvId}.${DomainName}" 
+      DomainName: !Sub "${EnvId}-api.${DomainName}" 
       Stage: !Ref Stage
   
   CfnRecordSet:
@@ -50,7 +50,7 @@ Resources:
     DependsOn: CfnDomain
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: !Sub "${EnvId}.${DomainName}"
+      Name: !Sub "${EnvId}-api.${DomainName}"
       Type: A
       AliasTarget:
         DNSName: !GetAtt CfnDomain.RegionalDomainName
@@ -66,9 +66,9 @@ Outputs:
         !Sub "${EnvId}-DomainName"
 
   CfnEndpointURL:
-    Description: URL for application endpoint
+    Description: URL for API endpoint
     Value:
-      !Sub "https://${EnvId}.${DomainName}"
+      !Sub "https://${EnvId}-api.${DomainName}"
     Export:
       Name:
         !Sub "${EnvId}-EndpointURL"

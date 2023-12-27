@@ -1,0 +1,144 @@
+Description: 'EKS Cluster Template'
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel"
+  MinSize:
+    Type: Number
+    Default: 1
+  MaxSize:
+    Type: Number
+    Default: 3
+  DesiredSize:
+    Type: Number
+    Default: 1
+  InstanceType:
+    Type: String
+    Default: "t3.micro"
+  KubernetesVersion:
+    Type: String
+    Default: "1.21"
+
+Resources:
+  MyEKSCluster:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: !Sub '${EnvId}-EKS-Cluster'
+      RoleArn: !GetAtt EKSClusterRole.Arn
+      Version: !Ref KubernetesVersion
+      ResourcesVpcConfig:
+        SubnetIds: 
+          - Fn::ImportValue: 
+              Fn::Sub: '${EnvId}-PublicSubnet1Id'
+          - Fn::ImportValue: 
+              Fn::Sub: '${EnvId}-PublicSubnet2Id'
+          - Fn::ImportValue: 
+              Fn::Sub: '${EnvId}-PublicSubnet3Id'
+        SecurityGroupIds:
+          - !GetAtt EKSSecurityGroup.GroupId
+
+  EKSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'EKS Security Group'
+      vpcId: 
+        Fn::ImportValue:
+          !Sub '${EnvId}-VPCId'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 1025
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+
+  NodeGroup:
+    Type: 'AWS::EKS::Nodegroup'
+    Properties:
+      ClusterName: !Ref MyEKSCluster
+      NodegroupName: !Sub '${EnvId}-NodeGroup'
+      NodeRole: !GetAtt NodeInstanceRole.Arn
+      Subnets: 
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet1Id'
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet2Id'
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet3Id'
+      ScalingConfig:
+        MinSize: !Ref MinSize
+        MaxSize: !Ref MaxSize
+        DesiredSize: !Ref DesiredSize
+      InstanceTypes: 
+        - !Ref InstanceType
+
+  NodeInstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  EKSClusterRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'eks.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonEKSClusterPolicy'
+        - 'arn:aws:iam::aws:policy/AmazonEKSServicePolicy'
+
+  FargateProfile:
+    Type: 'AWS::EKS::FargateProfile'
+    Properties:
+      ClusterName: !Ref MyEKSCluster
+      FargateProfileName: !Sub '${EnvId}-FargateProfile'
+      PodExecutionRoleArn: !GetAtt FargatePodExecutionRole.Arn
+      Subnets: 
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet1Id'
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet2Id'
+        - Fn::ImportValue: 
+            Fn::Sub: '${EnvId}-PublicSubnet3Id'
+      Selectors:
+        - Namespace: default
+
+  FargatePodExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'eks-fargate-pods.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy'
+
+Outputs:
+  EKSClusterName:
+    Description: 'The name of the EKS Cluster'
+    Value: !Ref MyEKSCluster
+  NodeGroupName:
+    Description: 'The name of the EKS Node Group'
+    Value: !GetAtt NodeGroup.NodegroupName
+  FargateProfileName:
+    Description: 'The name of the EKS Fargate Profile'
+    Value: !Ref FargateProfile

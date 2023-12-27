@@ -1,5 +1,5 @@
-# podman build -f Containerfile --no-cache . -t ecomarkets-app:latest
-# podman run -ti -p 3000:3000 ecomarkets-app:latest
+# podman build -f Containerfile --no-cache . -t "caravanacloud/ecomarkets-app:latest"
+# podman run -ti -p 3000:3000 "caravanacloud/ecomarkets-app:latest"
 FROM fedora:latest as build
 RUN dnf -y install nodejs npm
 WORKDIR /usr/src/svelte-app
