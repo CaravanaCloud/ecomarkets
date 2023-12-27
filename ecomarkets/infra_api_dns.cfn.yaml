@@ -57,13 +57,22 @@ Resources:
         HostedZoneId: !GetAtt CfnDomain.RegionalHostedZoneId
 
 Outputs:
-  CfnDomain:
+
+  CfnApiDomainName:
     Description: application domain
     Value:
       !Sub "${DomainName}"
     Export:
       Name:
         !Sub "${EnvId}-DomainName"
+  
+  CfnApiEndpoint:
+    Description: Address for API endpoint
+    Value:
+      !Sub "${EnvId}-api.${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-APIEndpoint"
 
   CfnEndpointURL:
     Description: URL for API endpoint

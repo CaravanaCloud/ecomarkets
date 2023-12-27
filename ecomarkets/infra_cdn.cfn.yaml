@@ -11,7 +11,7 @@ Resources:
           Origins:
             - DomainName: 
                 Fn::ImportValue:
-                  !Sub "${EnvId}-DomainName"
+                  !Sub "${EnvId}-APIEndpoint"
               Id: APIOrigin
               CustomOriginConfig:
                 HTTPPort: 80

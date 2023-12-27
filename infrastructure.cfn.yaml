@@ -65,7 +65,7 @@ Resources:
          - FnStack
     Condition: DomainEnabled
     Properties:
-      TemplateURL: ecomarkets/infra_domain.cfn.yaml
+      TemplateURL: ecomarkets/infra_api_dns.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
         DomainName: !Ref DomainName

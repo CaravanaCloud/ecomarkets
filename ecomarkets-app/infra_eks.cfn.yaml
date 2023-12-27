@@ -5,22 +5,25 @@ Parameters:
     Default: "devel"
   MinSize:
     Type: Number
-    Default: 1
+    Default: 0
   MaxSize:
     Type: Number
     Default: 3
   DesiredSize:
     Type: Number
-    Default: 1
-  InstanceType:
+    Default: 0
+  InstanceTypes:
+    Type: List<String>
+    Default: "t4g.large, t4g.xlarge"
+  AmiType:
     Type: String
-    Default: "t3.micro"
+    Default: "AL2_ARM_64"
   KubernetesVersion:
     Type: String
-    Default: "1.21"
+    Default: "1.28"
 
 Resources:
-  MyEKSCluster:
+  CfnEKSCluster:
     Type: 'AWS::EKS::Cluster'
     Properties:
       Name: !Sub '${EnvId}-EKS-Cluster'
@@ -29,11 +32,11 @@ Resources:
       ResourcesVpcConfig:
         SubnetIds: 
           - Fn::ImportValue: 
-              Fn::Sub: '${EnvId}-PublicSubnet1Id'
+              Fn::Sub: '${EnvId}-PrivateSubnet1Id'
           - Fn::ImportValue: 
-              Fn::Sub: '${EnvId}-PublicSubnet2Id'
+              Fn::Sub: '${EnvId}-PrivateSubnet2Id'
           - Fn::ImportValue: 
-              Fn::Sub: '${EnvId}-PublicSubnet3Id'
+              Fn::Sub: '${EnvId}-PrivateSubnet3Id'
         SecurityGroupIds:
           - !GetAtt EKSSecurityGroup.GroupId
 
@@ -41,7 +44,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: 'EKS Security Group'
-      vpcId: 
+      VpcId: 
         Fn::ImportValue:
           !Sub '${EnvId}-VPCId'
       SecurityGroupIngress:
@@ -57,22 +60,22 @@ Resources:
   NodeGroup:
     Type: 'AWS::EKS::Nodegroup'
     Properties:
-      ClusterName: !Ref MyEKSCluster
+      ClusterName: !Ref CfnEKSCluster
       NodegroupName: !Sub '${EnvId}-NodeGroup'
       NodeRole: !GetAtt NodeInstanceRole.Arn
       Subnets: 
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet1Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet1Id'
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet2Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet2Id'
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet3Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet3Id'
       ScalingConfig:
         MinSize: !Ref MinSize
         MaxSize: !Ref MaxSize
         DesiredSize: !Ref DesiredSize
-      InstanceTypes: 
-        - !Ref InstanceType
+      InstanceTypes: !Ref InstanceTypes
+      AmiType: !Ref AmiType
 
   NodeInstanceRole:
     Type: 'AWS::IAM::Role'
@@ -106,16 +109,16 @@ Resources:
   FargateProfile:
     Type: 'AWS::EKS::FargateProfile'
     Properties:
-      ClusterName: !Ref MyEKSCluster
+      ClusterName: !Ref CfnEKSCluster
       FargateProfileName: !Sub '${EnvId}-FargateProfile'
       PodExecutionRoleArn: !GetAtt FargatePodExecutionRole.Arn
       Subnets: 
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet1Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet1Id'
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet2Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet2Id'
         - Fn::ImportValue: 
-            Fn::Sub: '${EnvId}-PublicSubnet3Id'
+            Fn::Sub: '${EnvId}-PrivateSubnet3Id'
       Selectors:
         - Namespace: default
 
@@ -135,7 +138,7 @@ Resources:
 Outputs:
   EKSClusterName:
     Description: 'The name of the EKS Cluster'
-    Value: !Ref MyEKSCluster
+    Value: !Ref CfnEKSCluster
   NodeGroupName:
     Description: 'The name of the EKS Node Group'
     Value: !GetAtt NodeGroup.NodegroupName

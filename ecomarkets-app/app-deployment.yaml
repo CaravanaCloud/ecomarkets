@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomarkets-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecomarkets-app
+  template:
+    metadata:
+      labels:
+        app: ecomarkets-app
+    spec:
+      containers:
+      - name: ecomarkets-app
+        image: caravanaclod/ecomarkets-app:latest
+        ports:
+        - containerPort: 3000
