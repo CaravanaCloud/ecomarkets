@@ -21,6 +21,8 @@ public class Product extends PanacheEntity {
     @ManyToOne
     private Category category;
 
+    private ProductImage productImage;
+
     private Product(){}
 
     public static final Product of(String name, 
@@ -68,6 +70,14 @@ public class Product extends PanacheEntity {
             return "OUTROS";
         }
         return this.category.name;
+    }
+
+    public ProductImage newImage(String bucketName){
+        this.productImage = ProductImage.of(
+                bucketName,
+                id.toString(),
+                this.name);
+        return productImage;
     }
     
 }

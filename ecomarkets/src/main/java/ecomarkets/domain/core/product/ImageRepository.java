@@ -11,9 +11,13 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 public interface ImageRepository {
 
-    public void save(Path file);
+    public void save(Path file,
+                     ProductImage productImage);
+
+    public String getBucketName();
 
 }

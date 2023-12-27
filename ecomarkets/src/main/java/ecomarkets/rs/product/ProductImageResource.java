@@ -2,6 +2,7 @@ package ecomarkets.rs.product;
 
 import ecomarkets.domain.core.product.ImageRepository;
 import ecomarkets.domain.core.product.Product;
+import ecomarkets.domain.core.product.ProductImage;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -22,7 +23,7 @@ public class ProductImageResource {
     public void saveImage(@PathParam("id") Long productId,
                           @RestForm("file") FileUpload file){
         Product product = Product.findById(productId);
-
-        imageRepository.save(file.uploadedFile());
+        ProductImage pm = product.newImage(imageRepository.getBucketName());
+        imageRepository.save(file.uploadedFile(), pm);
     }
 }

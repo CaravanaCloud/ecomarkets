@@ -1,24 +1,31 @@
 package ecomarkets.domain.core.product;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Embeddable
-public record ProductImage (@NotBlank String bucket,
-                            @NotBlank String key,
-                            Collection<String> tags){
+public record ProductImage (String bucket,
+                            @Column(name = "bucket_key") String key,
+                            @ElementCollection
+                            Map<String, String> tags){
     public ProductImage{
-        tags = Collections.unmodifiableCollection(tags);
+        tags = Collections.unmodifiableMap(tags);
     }
 
-    public static ProductImage of(String bucket,
+    protected static ProductImage of(String bucket,
                                   String key,
-                                  Collection<String> tags){
+                                  String product){
+        Map<String, String> map = new HashMap<>();
+        map.put("product", product);
         return new ProductImage(bucket,
                 key,
-                tags);
+                map);
     }
 }
