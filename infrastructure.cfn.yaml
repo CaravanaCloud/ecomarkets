@@ -1,0 +1,90 @@
+Description: EcoMarkets Nested Template
+
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel" 
+    Description: Id for the Environment (Stack of Stacks)
+  
+  DomainName:
+    Type: String
+    Default: "dev.ecofeiras.com"
+    Description: "Custom domain name"
+
+  RegionalCertificateArn:
+    Type: String
+    Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
+    Description: "ARN of the ACM certificate to use for HTTPS"
+
+  HostedZoneId:
+    Type: String
+    Default: "Z10286903Q0N4MOTSU2PS"
+    Description: "Hosted Zone ID"
+
+Conditions:
+  DomainEnabled: !Not [!Equals [!Ref DomainName, ""]]
+
+Resources:
+
+  NetStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ecomarkets/infra_net.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+
+  ParamsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ecomarkets/infra_params.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+
+  DBStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - NetStack
+         - ParamsStack
+    Properties:
+      TemplateURL: ecomarkets/infra_db.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+
+  FnStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - DBStack
+    Properties:
+      TemplateURL: ecomarkets/infra_fn.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+      
+  DomainStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+         - FnStack
+    Condition: DomainEnabled
+    Properties:
+      TemplateURL: ecomarkets/infra_api_dns.cfn.yaml
+      Parameters:
+        EnvId: !Ref EnvId
+        DomainName: !Ref DomainName
+        RegionalCertificateArn: !Ref RegionalCertificateArn
+        HostedZoneId: !Ref HostedZoneId
+
+  # waiting for account verification
+  # CDNStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   DependsOn:
+  #        - DomainStack
+  #   Condition: DomainEnabled
+  #   Properties:
+  #     TemplateURL: ecomarkets/infra_cdn.cfn.yaml
+  #     Parameters:
+  #       EnvId: !Ref EnvId
+
+Outputs:
+  DomainURL:
+    Description: The URL of the app
+    Value: !GetAtt DomainStack.Outputs.CfnEndpointURL
+

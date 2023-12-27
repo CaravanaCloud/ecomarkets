@@ -1,0 +1,91 @@
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel"
+
+  DomainName:
+    Type: String
+    Default: "dev.ecofeiras.com"
+    Description: "Custom domain name"
+
+  RegionalCertificateArn:
+    Type: String
+    Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
+    Description: "ARN of the ACM certificate to use for HTTPS"
+  
+  Stage:
+    Type: String
+    Default: "$default"
+    Description: "Stage"
+
+  HostedZoneId:
+    Type: String
+    Default: "Z10286903Q0N4MOTSU2PS"
+    Description: "Hosted Zone ID"
+
+Resources:
+  CfnDomain:
+    Type: "AWS::ApiGatewayV2::DomainName"
+    Properties:
+      DomainName: !Sub "${EnvId}-api.${DomainName}"
+      DomainNameConfigurations:
+        - EndpointType: "REGIONAL"
+          CertificateArn: !Ref RegionalCertificateArn
+
+  CfnAPIMapping:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    DependsOn: 
+      - CfnDomain
+      - CfnRecordSet
+    Properties:
+      ApiId: 
+        Fn::ImportValue:
+          !Sub "${EnvId}-ApiId"
+      # DomainName: !GetAtt CfnDomain.RegionalDomainName
+      DomainName: !Sub "${EnvId}-api.${DomainName}" 
+      Stage: !Ref Stage
+  
+  CfnRecordSet:
+    Type: "AWS::Route53::RecordSet"
+    DependsOn: CfnDomain
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub "${EnvId}-api.${DomainName}"
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CfnDomain.RegionalDomainName
+        HostedZoneId: !GetAtt CfnDomain.RegionalHostedZoneId
+
+Outputs:
+
+  CfnApiDomainName:
+    Description: application domain
+    Value:
+      !Sub "${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-DomainName"
+  
+  CfnApiEndpoint:
+    Description: Address for API endpoint
+    Value:
+      !Sub "${EnvId}-api.${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-APIEndpoint"
+
+  CfnEndpointURL:
+    Description: URL for API endpoint
+    Value:
+      !Sub "https://${EnvId}-api.${DomainName}"
+    Export:
+      Name:
+        !Sub "${EnvId}-EndpointURL"
+  
+  CertificateArn:
+    Description: ARN of the certificate
+    Value:
+      !Sub "${RegionalCertificateArn}"
+    Export:
+      Name:
+        !Sub "${EnvId}-CertificateArn"

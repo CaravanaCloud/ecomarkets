@@ -1,0 +1,10 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: reverse_proxy
+    network_mode: host
+    volumes:
+      - ${PWD}/default.conf:/etc/nginx/conf.d/default.conf:rw,Z
+    ports:
+      - 6600:6600

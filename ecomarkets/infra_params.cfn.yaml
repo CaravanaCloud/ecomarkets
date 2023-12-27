@@ -1,4 +1,4 @@
-# sam deploy --stack-name cfn-params --template-file infra_params.cfn.yaml --resolve-s3 --capabilities CAPABILITY_IAM
+# sam deploy --stack-name "$ENV_ID-params" --template-file ecomarkets/infra_params.cfn.yaml --resolve-s3 --capabilities CAPABILITY_IAM --parameter-overrides EnvId="$ENV_ID"
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'AWS CloudFormation Template: SSM Parameters for Database Credentials'
 Parameters:

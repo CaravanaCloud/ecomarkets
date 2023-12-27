@@ -2,17 +2,57 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Build project
+  - name: API
     init: mvn -f ecomarkets -fn install
     command: mvn -f ecomarkets -DskipTests quarkus:dev
+  - name: APP
+    init: |
+      cd ecomarkets-app
+      npm install
+      npm run build
+    command: |
+      cd ecomarkets-app
+      npm run dev
+  - name: PROXY
+    command: |
+      docker compose up
+  - name: SHELL
+    command: |
+      gp preview $(gp url 6600)
 
 ports:
-  - port: 9000
+    # APP
+  - port: 5173
     onOpen: ignore
     visibility: public
+  - port: 3000
+    onOpen: ignore
+    visibility: public
+    # API
   - port: 9090
     onOpen: ignore
     visibility: public
+
+  - port: 5005
+    onOpen: ignore
+    visibility: private
+    # DB
   - port: 3336
     onOpen: ignore
-    visibility: public    
+    visibility: public
+    # PROXY
+  - port: 6600
+    onOpen: ignore
+    visibility: public
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-test
+    - vscjava.vscode-maven
+    - redhat.java
+    - esbenp.prettier-vscode
+    - svelte.svelte-vscode
+    - ms-vscode.vscode-typescript-next

@@ -1,4 +1,4 @@
-# sam deploy --stack-name cfn-net --template-file infra_net.cfn.yaml --resolve-s3
+# sam deploy --stack-name "$ENV_ID-net" --template-file ecomarkets/infra_net.cfn.yaml --resolve-s3 --capabilities CAPABILITY_IAM --parameter-overrides EnvId="$ENV_ID"
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'AWS CloudFormation Sample Template: VPC with 3 Public and 3 Private Subnets'
 

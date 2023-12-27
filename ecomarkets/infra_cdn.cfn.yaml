@@ -1,0 +1,37 @@
+Parameters:
+  EnvId:
+    Type: String
+    Default: "devel"
+
+Resources:
+  CfnCloudFrontDistribution:
+      Type: 'AWS::CloudFront::Distribution'
+      Properties:
+        DistributionConfig:
+          Origins:
+            - DomainName: 
+                Fn::ImportValue:
+                  !Sub "${EnvId}-APIEndpoint"
+              Id: APIOrigin
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: https-only
+          Enabled: true
+          DefaultRootObject: index.html
+          DefaultCacheBehavior:
+            TargetOriginId: APIOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - PATCH
+              - POST
+              - DELETE
+          ViewerCertificate:
+            AcmCertificateArn:
+              Fn::ImportValue:
+                !Sub "${EnvId}-CertificateArn"
+            SslSupportMethod: sni-only

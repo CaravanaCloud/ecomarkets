@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Documentation For Oganik - Organic Food HTML5 Template</title>
+	<!-- Stylesheets -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/jquery.highlight.css" />
+
+	<!-- Favicon Icon -->
+	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/scrollbar.css" rel="stylesheet">
+	<!-- Responsive -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+</head>
+
+<body>
+	<!--Page Wrapper-->
+	<div class="page-wrapper">
+
+		<!--Sidebar-->
+		<aside id="sidebar">
+
+			<!--Toggle Button-->
+			<div class="button-container clearfix">
+				<div class="menu-toggle flaticon-menu10"></div>
+			</div>
+
+			<!--Menu Box-->
+			<div class="menu-box">
+				<!--Logo-->
+				<br>
+				<div class="logo text-right"><a href="#"><img src="images/logo.png" alt=""></a></div>
+
+				<!--Sticky Menu-->
+				<nav class="sticky-menu">
+					<ul>
+						<li class="current"><a href="#introduction">Introduction <span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#gulp-installation">Gulp installation<span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#html-structure">HTML Structure <span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#css-structure">CSS and SCSS Files Structure
+								<span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#javascript">Javascript <span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#map-settings">Google Map Settings <span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#tutorial">Tutorial<span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#sources-credits">Sources and Credits <span class="fa fa-arrow-right"></span></a></li>
+						<li><a href="#support">Support <span class="fa fa-arrow-right"></span></a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="copyright">Copyright &copy; <a href="https://ninetheme.com">ninetheme</a> 2020</div>
+		</aside>
+
+		<div id="content-section">
+
+			<!--Introduction Section-->
+			<section class="section introduction" id="introduction">
+				<!-- <div class="sec-title">
+            	<span class="icon fa fa-windows"></span>
+                <h2>Intoduction</h2>
+            </div> -->
+
+				<br>
+				<div class="sec-content">
+					<h2>Oganik</h2>
+					<h3>Organic Food Products Shop</h3>
+
+					<div class="separator"></div>
+
+					<strong>Created :</strong> 15/12/2020<br>
+					<strong>By :</strong> ninetheme<br>
+					<strong>Email :</strong> <a href="https://ninetheme.com ">ninetheme@gmail.com </a> <br>
+
+					<br>
+					<p>Thank you for purchasing <strong>Oganik</strong>
+						- Organic Food Products Shop If you have any questions that are beyond the
+						scope of this help file, please feel free to email, via my user page contact
+						form or put a ticket at Support Center .<br>Thank you so much!</p>
+					<br />
+
+					<h3 class="content-title">Template Features</h3>
+					<br />
+					<ul class="checkbox">
+						<li>Clean & Simple Design</li>
+						<li>Advance Bootstrap 3 Framework </li>
+						<li>Revolution Slider</li>
+						<li>SASS (SCSS)</li>
+						<li>HTML5 & CSS3 </li>
+						<li>BEM Structure (Block, Element, methodology)</li>
+						<li>Modular Structure</li>
+						<li>Chart js</li>
+						<li>Google Map</li>
+						<li>Fully Responsive Design </li>
+						<li>All files are well commented </li>
+						<li>Crossbrowser Compatible with IE10+, Firefox, Safari, Opera, Chrome </li>
+						<li>Extensive Documentation</li>
+					</ul>
+
+				</div>
+
+			</section>
+			<!--HTML Structure-->
+			<section class="section html-structure" id="gulp-installation">
+				<div class="sec-title">
+					<span class="icon fa fa-th-large"></span>
+					<h2>Gulp Start</h2>
+				</div>
+				<br>
+				<div class="sec-content">
+					<h3>Follow the steps below:</h3>
+
+					<ol class="gulp-list">
+						<li>Download the latest template source from ThemeForest.</li>
+						<li>Extract <strong>Oganik</strong> downloaded zip file. Extracted zip file will have 2 folders.</li>
+						<li><strong>Oganik</strong> => main source files</li>
+						<li><strong>Documentation</strong> => guide lines</li>
+						<li>We'll start of the process by installing Gulp onto your computer.
+							Gulp requires you to have Node.js and Node Package Manager (NPM) installed on
+							your system, so if you haven’t gotten
+							them yet, <br>
+							then go to <a href="https://nodejs.org/en/download/">Node.js’s</a>
+							website and download the installer.
+						</li>
+						<li>
+							Once you’re done installing Node.js and NPM, you can install
+							Gulp by typing the following command in the command line:
+						</li>
+						<li>
+							Start with command prompt if you use windows or start
+							with terminal or iterm if you use mac:
+						</li>
+					</ol>
+					<ol class="gulp-list-code">
+						<li> sudo npm install gulp-cli -g</li>
+						<li><strong># Note: Widnows users do not require the `sudo`keyword</strong></li>
+						<li> cd /Oganik-directory</li>
+						<li>npm install gulp [Note: we used gulp 4 version after run this command gulp 4
+							version will be installed into your computer.]</li>
+						<li><strong># Note: don't use sudo keyword mac users and windows users now</strong></li>
+						<li> Now gulp 4 version will be installed after run this command [npm install gulp]</li>
+						<li>
+							You are now good... Start adding into your <strong>Oganik's</strong>
+							main style.scss file your code will be automatically compile in the style.css file.
+						</li>
+						<li>
+							Please see the gulpfile.js file you will get all specific
+						</li>
+					</ol>
+					<ul class="gulp-list-link">
+						<li>Now go to your main file. and You will also see a new folder <strong>node_modules</strong>
+							that was created when you ran the command. npm install gulp
+						</li>
+						<li>how to install sass and use
+							<br>
+							// install sass <br>
+							npm install -g sass <br>
+							// you may need to use SUDO eg. sudo npm install -g sass <br>
+
+							// go to the project root in the terminal using the CD command. <br>
+							// in the root of your project directory run the following commands. <br>
+
+							1. To compile sass use the following command sass sass/style.scss:sass/style.css <br>
+							2. To watch for changes in SASS file and to compile automatically use the following
+							command sass --watch sass/style.scss:sass/style.css  <br> To stop watching files, use CTRL +
+							C on
+							Windows or Command + C on Mac OS <br>
+							<strong>or</strong> go to
+							<a href="https://sass-lang.com/documentation/file.SASS_REFERENCE.html">
+								sass's website
+							</a>
+						</li>
+						<li>if you have any confusion, issue then feel free
+							<a href="https://ninetheme.com">contact us</a>
+						</li>
+					</ul>
+				</div>
+
+			</section>
+
+			<!--HTML Structure-->
+			<section class="section html-structure" id="html-structure">
+				<div class="sec-title">
+					<span class="icon fa fa-th-large"></span>
+					<h2>HTML Structure</h2>
+				</div>
+				<br>
+				<div class="sec-content">
+
+					<h3>The html template uses Latest <strong>Bootstrap v3.3.7</strong> with valid HTML5 tags. This theme is a responisve layout with 4 column Support column. All of the information in content area is nested within a class and comes with predefined
+						classes.</h3>
+
+					<h3 class="content-title">Basic Grid HTML</h3>
+					<p>For a simple two column layout, create a .container and add the appropriate number of .col-md* columns. </p>
+					<p>Given this example, we have .col-md-4 and .col-md-8, making for 12 total columns and a complete row.</p>
+					<br />
+					<pre class="code" data-language="html">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">...</div>
+        <div class="col-md-8">...</div>
+    </div>
+</div>
+                </pre>
+					<br />
+					<h3 class="content-title">Nesting Columns</h3><!-- /.content-title -->
+					<p>To nest your content with the default grid, add a new .container and set of .col-md* columns within an existing .col-md* column. Nested rows should include a set of columns that add up to the number of columns of its parent.</p>
+					<br />
+					<pre class="code" data-language="html">
+<div class="container">
+    <div class="col-md-9">
+        Level 1 column
+        <div class="row">
+            <div class="col-md-8">Level 2</div>
+            <div class="col-md-4">Level 2</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        Level 2 column
+    </div>
+</div>
+</pre><!-- /.code -->
+				</div>
+
+			</section>
+
+			<!--CSS Structure-->
+			<section class="section css-structure" id="css-structure">
+				<div class="sec-title">
+					<span class="icon fa fa-at"></span>
+					<h2>CSS and SCSS Files Structure</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+					<h3>There are three main files are in this theme. The first one <strong>bootstrap.min.css</strong>,
+						second one is <strong>style.scss</strong> which for this template and third one is <strong>
+							responsive.scss</strong> to control responsive layouts. </h3>
+					<p>If you would like to edit a specific section of the site, then go to sass folder and open
+						<strong>style.scss</strong> file, and then scroll down until you find the appropriate style that needs to be edited.</p>
+					<br />
+					<p>NOTE: if you want to edit into <strong>style.scss</strong> file, first you will have to
+						install sass on your computer, then if you edit anything into SCSS file,
+						your code will be loaded automatically compile into
+						<strong> style.css</strong> file. style.css file is into sass folder.</p>
+					<p>These are the css files that are loaded into templates in top of document.</p>
+					<br />
+					<pre class="code" data-language="css">
+ <!-- revolution slider css -->
+    <link rel="stylesheet" type="text/css" href="revolution/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="revolution/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="revolution/css/navigation.css">
+
+ <!-- inject:css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/fontello.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="css/magnificpopup.css">
+    <link rel="stylesheet" type="text/css" href="sass/style.css">
+ <!-- endinject -->
+                </pre><!-- /.code -->
+
+					<br />
+					<h3 class="content-title">Fonts</h3>
+
+					<p>By default, the template loads this font from Google Web Font Services, you can change the font with the one that suits you best.</p>
+					<br />
+					<pre class="code" data-language="css">
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+                    @font-face {
+  font-family: "CoveredByYourGrace";
+  font-weight: normal;
+  font-style: normal;
+  src: url("../fonts/CoveredByYourGrace.ttf");
+  src: url("../fonts/CoveredByYourGrace.ttf") format("embedded-opentype"),
+  url("../fonts/CoveredByYourGrace.ttf") format("woff2"),
+  url("../fonts/CoveredByYourGrace.ttf") format("woff"),
+  url("../fonts/CoveredByYourGrace.ttf") format("truetype"),
+  url("../fonts/CoveredByYourGrace.ttf#CODEBold") format("svg");
+}
+                </pre><!-- /.code -->
+				</div>
+
+			</section>
+
+			<!--Javascript-->
+			<section class="section javascript" id="javascript">
+				<div class="sec-title">
+					<span class="icon fa fa-code"></span>
+					<h2>Jquery and javascript</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+
+					<h3>This theme imports three types of Javascript files.</h3>
+					<ul>
+						<li>jQuery</li>
+						<li>Custom scripts <strong>(main.js)</strong></li>
+						<li>Some plugins</li>
+						<br>
+						<li><strong>jQuery</strong> is a Javascript library that greatly reduces the amount of code that you must write.</li>
+						<li>Most of the animation in this site is carried out from the customs scripts. There are a few functions worth looking over.</li>
+					</ul>
+					<br>
+					<p>In addition to the custom scripts, I have implemented few "tried and true" plugins to create the effects. This plugin is packed, so you won't need to manually edit anything in the file. The only necessary thing to know is how to call the
+						method</p>
+					<br />
+					<br />
+					<p>These are the JS files that are loaded into templates in end of the Body Section.</p>
+					<br />
+					<pre class="code" data-language="html">
+     <!-- theme js -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/magnificpopup.js"></script>
+    <!-- google map api key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_Agsvf36du-7l_mp8iu1a-rXoKcWfs2I"></script> //map api
+     key put your own api key in this src
+<script src="js/gmaps.js"></script>
+<script src="js/main.js"></script>
+   <!-- Slider Revolution core JavaScript files -->
+<script type="text/javascript" src="revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script type="text/javascript" src="revolution/js/jquery.themepunch.tools.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.actions.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.migration.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+<script type="text/javascript" src="revolution/js/extensions/revolution.extension.video.min.js"></script>
+     <!-- Slider Revolution main custom js files -->
+<script type="text/javascript" src="js/rev-slider-script.js"></script>
+                </pre><!-- /.code -->
+
+				</div>
+
+			</section>
+
+			<!--Map Settings-->
+			<section class="section map-settings" id="map-settings">
+				<div class="sec-title">
+					<span class="icon fa fa-map-marker"></span>
+					<h2>Google Map Settings</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+
+					<h3>For editing default contact map you have to edit it's data-attribute. See the screenshot below for more clarification </h3>
+
+					<figure class="image-box"><img src="images/map-settings.png" alt=""></figure>
+				</div>
+
+			</section>
+
+			<!--Contact Form Settings-->
+			<section class="section contact-form" id="contact-form">
+				<div class="sec-title">
+					<span class="icon fa fa-th-list"></span>
+					<h2>Slider Settings</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+					<h3>we use slider revolution for all three homepages,
+						if you want to edit content, transition,
+						and image, then see the example on the below, <br>
+						you can change the all content like these example.</h3>
+					<!--<h3>if You want to edit transition, images, content of theme. you will edit like the example.</h3>-->
+					<p>Open the document and edit with your own content like these example.</p>
+					<figure class="image-box"><img src="images/ss.jpg" alt=""></figure>
+					<p>NOTE: you wil change the other slider content like these example.</p>
+				</div>
+
+			</section>
+
+			<!--Sources and Credits-->
+			<section class="section tutorial" id="tutorial">
+				<div class="sec-title">
+					<span class="icon fa fa-credit-card"></span>
+					<h2>Tutorial</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+					<h3 class="content-title">LOGO AND FAVICON</h3><!-- /.content-title -->
+					<br />
+					<p>Lets start updating the template. Open index.html file and follow the steps.</p>
+					<p>Most of the updates are same for all pages. So will explain once here.</p>
+					<br />
+					<pre class="code" data-language="html">
+    <!-- Favicon Icon -->
+ <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+     &nbsp;
+ <div class="logo">
+      <a href="index.html" title="Oganik"><img src="images/logo.png" alt="logo"></a>
+</div><!-- end logo -->
+                </pre><!-- /.code -->
+
+					<p>Replace "images/favicon.png", "images/logo.png" with your logo and favicon image url source or
+						website name .</p>
+					<br />
+
+					<h3 class="content-title">NAVMENU AND LANGUAGE</h3><!-- /.content-title -->
+					<br />
+					<p>This is the basic HTML structure.</p>
+
+					<pre class="code" data-language="html">
+                        <div class="main-menu">
+                            <nav class="menu__wrapper">
+                                <ul class="dropdown-main">
+                                    <li>
+                                        <a href="#home">home</a>
+                                        <div class="main__dropdown-menu">
+                                            <ul>
+                                                <li><a href="index.html">home 01</a></li>
+                                                <li><a href="index2.html">home 02</a></li>
+                                                <li><a href="index3.html">home 03</a></li>
+                                            </ul>
+                                        </div><!-- end main__dropdown-menu -->
+                                    </li>
+                                    <li>
+                                        <a href="#">services</a>
+                                        <div class="main__dropdown-menu">
+                                            <ul>
+                                                <li><a href="service1.html">services 01</a></li>
+                                                <li><a href="service2.html">services 02</a></li>
+                                                <li><a href="single-service.html">single service</a></li>
+                                            </ul>
+                                        </div><!-- end main__dropdown-menu -->
+                                    </li>
+                                    <li>
+                                        <a href="#">pages</a>
+                                        <div class="main__dropdown-menu">
+                                            <ul>
+                                                <li><a href="about-us1.html">about us 01</a></li>
+                                                <li><a href="about-us2.html">about us 02</a></li>
+                                                <li><a href="our-mission.html">our mission</a></li>
+                                                <li><a href="our-history.html">our history</a></li>
+                                                <li><a href="our-partnership.html">partnership</a></li>
+                                                <li><a href="error-page-404.html">error 404 page</a></li>
+                                            </ul>
+                                        </div><!-- end main__dropdown-menu -->
+                                    </li>
+                                    <li>
+                                        <a href="#">cases</a>
+                                        <div class="main__dropdown-menu">
+                                            <ul>
+                                                <li><a href="cases1.html">cases 01</a></li>
+                                                <li><a href="cases2.html">cases 02</a></li>
+                                                <li><a href="single-cases.html">single case</a></li>
+                                            </ul>
+                                        </div><!-- end main__dropdown-menu -->
+                                    </li>
+                                    <li>
+                                        <a href="#">blog</a>
+                                        <div class="main__dropdown-menu">
+                                            <ul>
+                                                <li><a href="blog-post.html">blog post</a></li>
+                                                <li><a href="single-blog.html">single blog</a></li>
+                                            </ul>
+                                        </div><!-- end main__dropdown-menu -->
+                                    </li>
+                                    <li>
+                                        <a href="contact.html">contact</a>
+                                    </li>
+                                </ul>
+                            </nav><!-- end menu__wrapper -->
+                            <div class="logo-right-button">
+                                <div class="lang-dropdown">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <img src="images/flag.jpg" alt="English">
+                                                english
+                                                <i class="fas fa-caret-down"></i>
+                                            </a>
+                                            <div class="lang-drop-item">
+                                                <a href="#">
+                                                    <img src="images/flag.jpg" alt="English">
+                                                    english // language one
+                                                </a>
+                                                <a href="#">
+                                                    <img src="images/flag2.jpg" alt="Usa">
+                                                    usa // language two
+                                                </a>
+                                                <a href="#">
+                                                    <img src="images/flag3.jpg" alt="France">
+                                                    france // language three
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div><!-- end lang-dropdown -->
+                                <div class="contact-para">
+                                    <p>+ 888 999 0000</p> // contact number
+                                    <span class="fontello icon-phone-call phone-call"></span>
+                                </div><!-- end contact-para -->
+                            </div><!-- end logo-right-button -->
+                        </div><!-- end main-menu -->
+</pre><!-- /.code -->
+
+					<br />
+					<p>Add your own menu item to that ul li item. and if you want to add
+						dropdown menu just make a nesting ul li with class of <b>main__dropdown-menu</b></p>
+
+					<br />
+					<br />
+					<h3 class="content-title">FOOTER COPYRIGHT</h3><!-- /.content-title -->
+					<br />
+					<pre class="code" data-language="html">
+<section class="footer-area theme-bg-dark">
+    <div class="container">
+        <div class="row copyright-shared">
+           <div class="col-md-8">
+                 <p class="copy__desc">&copy;copyright 2020 by <a href="http://ninetheme.com/">ninetheme.com</a></p>
+           </div><!-- end col-md-8 -->
+       </div><!-- end row -->
+    </div>
+</section><!-- /.footer-area -->
+
+                </pre><!-- /.code -->
+					<p>replace "&copy; copyright 2020 by ninetheme.com" with the copyright info.</p>
+				</div>
+
+			</section>
+
+			<!--Sources and Credits-->
+			<section class="section sources-credits" id="sources-credits">
+				<div class="sec-title">
+					<span class="icon fa fa-credit-card"></span>
+					<h2>Sources and Credits</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+
+					<h3>Fonts Used int the template are google fonts, you can find theme on Google Fonts API</h3>
+
+					<p><strong> Fonts Used are :</strong></p>
+					<p><a href="https://fonts.google.com/specimen/Montserrat">Montserrat</a></p>
+					<p><a href="https://fonts.google.com/specimen/Covered+By+Your+Grace">covered-by-your-grace</a></p>
+
+					<br>
+
+					<p><strong> SASS (SCSS) files:</strong></p>
+					<p><strong>_mixins.scss</strong> (in sass Folder)</p>
+					<p><strong>_plugins.scss</strong> (in sass Folder)</p>
+					<p><strong>_responsive.scss</strong> (in sass Folder)</p>
+					<p><strong>style.scss</strong> (in sass Folder)</p>
+					<p><strong>style.css</strong> (in sass Folder)</p>
+
+					<br>
+
+					<p><strong> Sliders Used Are :</strong></p>
+					<p><a href="https://revolution.themepunch.com/" target="_blank">Slider Revolution</a></p>
+					<p><a href="http://www.owlcarousel.owlgraphic.com/docs/started-welcome.html" target="_blank">Owl Carousel</a></p>
+
+					<br>
+
+					<p><strong> Plugins Used Are :</strong></p>
+
+					<p><a href="http://dimsemenov.com/plugins/magnific-popup/documentation.html" target="_blank">Magnific Popup</a> (can be located in js folder)</p>
+					<p><a href="https://github.com/bfintal/Counter-Up" target="_blank">waypoints.min.js</a> (can be located in js folder)</p>
+					<p><a href="https://github.com/bfintal/Counter-Up" target="_blank">Counter up</a> (can be located in js folder)</p>
+					<p><a href="https://hpneo.github.io/gmaps/" target="_blank">Gmap.js</a> (can be located in js folder)</p>
+					<p><a href="https://fontawesome.com/" target="_blank">FontAwesome Icons</a> (can be located in css
+						folder)</p>
+					<p><a href="http://fontello.com/" target="_blank">Fontello Icons</a> (can be located in css folder)</p>
+
+					Every Code is properly commented for Editing Ease.
+
+				</div>
+
+			</section>
+
+			<!--Support-->
+			<section class="section support" id="support">
+				<div class="sec-title">
+					<span class="icon fa fa-support"></span>
+					<h2>Support</h2>
+				</div>
+
+				<br>
+				<div class="sec-content">
+
+					<h3>Once again, thank you so much for purchasing this theme. As I said at the beginning, I'd be glad to help you if you have any questions relating to this theme. No guarantees, but I'll do my best to assist. If you have any queries, please
+						feel free to contact us at Support Center.</h3>
+
+					<p>Email Us at : <a href="https://ninetheme.com">ninetheme@gmail.com </a> </p>
+
+				</div>
+
+			</section>
+
+
+		</div>
+
+
+	</div>
+	<!--End pagewrapper-->
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.nav.js"></script>
+	<script src="js/jquery.scrollTo.js"></script>
+	<script src="js/scrollbar.js"></script>
+	<script src="js/prism.js"></script>
+
+	<script src="js/jquery.highlight.js"></script>
+
+	<script src="js/script.js"></script>
+</body>
+
+</html>
