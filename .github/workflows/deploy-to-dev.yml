@@ -57,6 +57,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
+        context: ecomarkets-app
+        file: ecomarkets-app/Containerfile
         push: true
         tags: caravanacloud/ecomakets-app:latest
     
