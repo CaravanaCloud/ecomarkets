@@ -44,4 +44,8 @@ public class ProductImage extends PanacheEntity {
         return this.key;
     }
 
+    public List<Tag> tags(){
+        return this.tags;
+    }
+
 }

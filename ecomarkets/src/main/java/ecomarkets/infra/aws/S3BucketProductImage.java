@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class S3BucketProductImage implements ImageRepository {
@@ -40,10 +41,10 @@ public class S3BucketProductImage implements ImageRepository {
     }
 
     private List<Tag> getTags(ProductImage productImage) {
-//        List<Tag> tagsS3 = productImage.tags().entrySet().stream().map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
-//               .collect(Collectors.toList());
-//        return tagsS3;
-        return null;
+        List<Tag> tagsS3 = productImage.tags().stream().map(
+                t -> Tag.builder().key(t.key()).value(t.value()).build()
+        ).collect(Collectors.toList());
+        return tagsS3;
     }
 
     public String getBucketName(){
