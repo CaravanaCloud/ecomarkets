@@ -50,6 +50,7 @@ Resources:
             Action:
               - "s3:GetObject"
               - "s3:PutObject"
+              - "s3:PutObjectTagging"
             Resource: !Sub "arn:aws:s3:::${MyS3Bucket}/*"
 
   CfnApiFn:
@@ -76,6 +77,8 @@ Resources:
           BUCKET_NAME: !Sub
             - ${BucketPrefix}-${AWS::AccountId}-${AWS::Region}
             - BucketPrefix: !Ref "BucketPrefix"
+          QUARKUS_S3_AWS_REGION:
+            !Sub ${AWS::Region}
 
       Events:
         HttpApiEvent:
