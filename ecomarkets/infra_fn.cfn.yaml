@@ -22,8 +22,7 @@ Resources:
     Properties:
       BucketName:
         Fn::Sub:
-          - "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}-${StackIdentifier}"
-          - StackIdentifier: !Ref "AWS::StackName"
+          - "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
       AccessControl: "Private"
 
   MyLambdaRole:
