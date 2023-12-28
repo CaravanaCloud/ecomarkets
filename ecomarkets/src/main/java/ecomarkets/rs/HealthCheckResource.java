@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import ecomarkets.domain.core.product.image.ImageRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -17,6 +18,9 @@ public class HealthCheckResource {
     @Inject
     DataSource ds;
 
+    @Inject
+    ImageRepository imageRepository;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, String> getHealthCheck() {
@@ -25,6 +29,12 @@ public class HealthCheckResource {
             "datasrouce.isValid", isValidDatasource()
         );
         return result;
+    }
+
+    @Path("/bucketphoto")
+    @GET
+    public String getBucketConfigured(){
+        return imageRepository.getBucketName();
     }
 
     public String isValidDatasource(){
