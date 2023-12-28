@@ -1,20 +1,25 @@
 package ecomarkets.domain.core.product;
 
+import ecomarkets.domain.core.product.image.ImageRepository;
 import ecomarkets.domain.core.product.image.ProductImage;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -23,17 +28,18 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
-public class ProductImageTest {
-    @Inject
-    S3Client s3Client;
+public class ProductImageGetTest {
     @ConfigProperty(name = "bucket.name")
     String bucketName;
 
     static Product product;
 
+    @Inject
+    ImageRepository imageRepository;
+
     @BeforeAll
     @Transactional
-    static void startLocalStack(){
+    static void startProductFixture(){
         product = new ProductBuilder().
                 name("Tomate").
                 description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
@@ -44,37 +50,33 @@ public class ProductImageTest {
         product.persist();
     }
     @Test
-    public void testUpdateS3ProductImage() {
-        CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
-                .bucket(bucketName)
-                .build();
+    public void testGetS3ProductImage() {
+        Path fileToUpload = Paths.get("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
+        ProductImage pi = product.newImage(bucketName);
 
-        s3Client.createBucket(bucketRequest);
+        imageRepository.save(fileToUpload, pi);
 
-        File fileToUpload = new File("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
-
-        given()
-            .multiPart("file", fileToUpload)
+        byte [] file = given()
             .when()
-            .put("/api/product/%d/image".formatted(product.id))
+            .get("/api/product/%d/image".formatted(product.id))
             .then()
-            .statusCode(HttpStatus.SC_OK); // Adjust the expected status code as needed
+            .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .body()
+                .asByteArray(); // Adjust the expected status code as needed
 
-        Product prd = Product.findById(product.id);
-        ProductImage img = prd.productImage();
-        assertThat(img, notNullValue());
-        assertThat(img.bucket(), equalTo(bucketName));
-        assertThat(img.key(), equalTo(prd.id.toString()));
+        assertThat(file, notNullValue());
 
-        ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
-                .bucket(bucketName)
-                .build();
 
-        ListObjectsV2Response listObjectsResponse = s3Client.listObjectsV2(listObjectsRequest);
+//        String localFilePath = "/tmp/test.jpg";
+//
+//        try (FileOutputStream fos = new FileOutputStream(localFilePath)) {
+//            fos.write(file);
+//            System.out.println("File downloaded and saved at: " + localFilePath);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        List<S3Object> s3Objects = listObjectsResponse.contents();
-
-        assertThat(1, equalTo(s3Objects.size()));
-        assertThat(prd.id.toString(), equalTo(s3Objects.iterator().next().key()));
+        imageRepository.delete(pi);
     }
 }

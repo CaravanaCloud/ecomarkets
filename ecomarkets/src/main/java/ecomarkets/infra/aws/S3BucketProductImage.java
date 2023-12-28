@@ -2,6 +2,7 @@ package ecomarkets.infra.aws;
 
 import ecomarkets.domain.core.product.image.ImageRepository;
 import ecomarkets.domain.core.product.image.ProductImage;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -9,27 +10,21 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class S3BucketProductImage implements ImageRepository {
-
     @ConfigProperty(name = "bucket.name")
     private String bucketName;
-
     @Inject
     private S3Client s3;
 
-   protected GetObjectRequest buildGetRequest(String bucketName, String objectKey) {
-        return GetObjectRequest.builder()
-                .bucket(bucketName)
-                .key(objectKey)
-                .build();
-    }
     public void save(Path file,
                      ProductImage productImage) {
+
         List<Tag> tagsS3 = getTags(productImage);
         s3.putObject(
         PutObjectRequest.builder()
@@ -38,6 +33,44 @@ public class S3BucketProductImage implements ImageRepository {
                 .tagging(Tagging.builder().tagSet(tagsS3).build())
                 .build(),
                 RequestBody.fromFile(file));
+    }
+
+    public void delete(ProductImage productImage) {
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(productImage.key())
+                .build();
+
+        // Delete the object
+        s3.deleteObject(deleteRequest);
+    }
+
+    public byte[] find(ProductImage productImage) {
+        try {
+            return s3.getObject(GetObjectRequest.builder()
+                       .bucket(productImage.bucket())
+                       .key(productImage.key())
+                       .build()).readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostConstruct
+    private void createBucket(){
+        try {
+            HeadBucketRequest headBucketRequest = HeadBucketRequest.builder()
+                    .bucket(bucketName)
+                    .build();
+            s3.headBucket(headBucketRequest);
+        } catch (NoSuchBucketException e) {
+            CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
+                    .bucket(bucketName)
+                    .build();
+            s3.createBucket(bucketRequest);
+        } catch (Exception e){
+            //FIXME add log or change this. But should not prohibit the startup of the app
+        }
     }
 
     private List<Tag> getTags(ProductImage productImage) {
