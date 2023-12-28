@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -x
 
 ENV_ID=${ENV_ID:-$USER}
 echo "Deploying infrastructure for $ENV_ID"
@@ -24,7 +24,7 @@ if [ ! -f ecomarkets/target/function.zip ]; then
     mvn -f ecomarkets -fn clean package 
 fi
 
-sam deploy --stack-name "$ENV_ID-fn" \
+sam deploy --stack-name "$ENV_ID-api-fn" \
     --template-file ecomarkets/infra_fn.cfn.yaml \
     $SAM_XARGS
 
@@ -44,13 +44,25 @@ sam deploy --stack-name "$ENV_ID-eks" \
     --template-file ecomarkets-app/infra_eks.cfn.yaml \
     $SAM_XARGS
 
+sam deploy --stack-name "$ENV_ID-cdn" \
+    --template-file ecomarkets/infra_cdn.cfn.yaml \
+    --parameter-overrides EnvId=$ENV_ID CertificateArn=$CERTIFICATE_ARN \
+    --resolve-s3 \
+    --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
+    --disable-rollback \
+    --no-fail-on-empty-changeset
+
+echo "done deploy"
+
+# Deploy 
 EKS_CLUSTER_NAME="${EnvId}-EKS-Cluster"
 aws eks --region $AWS_REGION \
      update-kubeconfig \
      --name $EKS_CLUSTER_NAME
 
-sam deploy --stack-name "$ENV_ID-cdn" \
-    --template-file ecomarkets/infra_cdn.cfn.yaml \
-    $SAM_XARGS
+# kubectl create namespace ecomarkets-ns
 
-echo "done deploy"
+
+echo "done config"
+
+echo "done."
