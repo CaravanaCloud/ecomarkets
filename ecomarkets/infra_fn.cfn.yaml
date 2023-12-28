@@ -20,8 +20,9 @@ Resources:
   MyS3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName:
+      BucketName: !Sub
           - "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+          - BucketPrefix: !Ref "BucketPrefix"
       AccessControl: "Private"
 
   MyLambdaRole:
