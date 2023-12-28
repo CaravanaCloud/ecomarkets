@@ -1,9 +1,12 @@
 package ecomarkets.domain.core.product;
 
 import ecomarkets.domain.core.product.category.Category;
+import ecomarkets.domain.core.product.image.ProductImage;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product extends PanacheEntity {
@@ -21,6 +24,7 @@ public class Product extends PanacheEntity {
     @ManyToOne
     private Category category;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ProductImage productImage;
 
     private Product(){}
@@ -72,6 +76,10 @@ public class Product extends PanacheEntity {
         return this.category.name;
     }
 
+    public ProductImage productImage(){
+        return this.productImage;
+    }
+
     public ProductImage newImage(String bucketName){
         this.productImage = ProductImage.of(
                 bucketName,
@@ -79,5 +87,5 @@ public class Product extends PanacheEntity {
                 this.name);
         return productImage;
     }
-    
+
 }

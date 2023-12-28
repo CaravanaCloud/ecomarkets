@@ -1,7 +1,7 @@
 package ecomarkets.domain.core.product;
 
+import ecomarkets.domain.core.product.image.ProductImage;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.annotation.Resource;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
@@ -9,15 +9,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
-import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
-import software.amazon.awssdk.services.s3.model.S3Object;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
 public class ProductImageTest {
@@ -41,7 +44,7 @@ public class ProductImageTest {
         product.persist();
     }
     @Test
-    public void testS3Resource() {
+    public void testUpdateS3ProductImage() {
         CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
                 .bucket(bucketName)
                 .build();
@@ -57,12 +60,21 @@ public class ProductImageTest {
             .then()
             .statusCode(HttpStatus.SC_OK); // Adjust the expected status code as needed
 
-        ListObjectsRequest listRequest = ListObjectsRequest.builder().bucket("ecomarkets").build();
+        Product prd = Product.findById(product.id);
+        ProductImage img = prd.productImage();
+        assertThat(img, notNullValue());
+        assertThat(img.bucket(), equalTo(bucketName));
+        assertThat(img.key(), equalTo(prd.id.toString()));
 
-        List<S3Object> r = s3Client.listObjects(listRequest).contents().stream()
-                .collect(Collectors.toList());
-        r.size();
+        ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
+                .bucket(bucketName)
+                .build();
 
+        ListObjectsV2Response listObjectsResponse = s3Client.listObjectsV2(listObjectsRequest);
+
+        List<S3Object> s3Objects = listObjectsResponse.contents();
+
+        assertThat(1, equalTo(s3Objects.size()));
+        assertThat(prd.id.toString(), equalTo(s3Objects.iterator().next().key()));
     }
-
 }

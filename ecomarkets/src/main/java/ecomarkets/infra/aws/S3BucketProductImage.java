@@ -1,7 +1,7 @@
 package ecomarkets.infra.aws;
 
-import ecomarkets.domain.core.product.ImageRepository;
-import ecomarkets.domain.core.product.ProductImage;
+import ecomarkets.domain.core.product.image.ImageRepository;
+import ecomarkets.domain.core.product.image.ProductImage;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -11,8 +11,6 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class S3BucketProductImage implements ImageRepository {
@@ -42,9 +40,10 @@ public class S3BucketProductImage implements ImageRepository {
     }
 
     private List<Tag> getTags(ProductImage productImage) {
-        List<Tag> tagsS3 = productImage.tags().entrySet().stream().map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
-               .collect(Collectors.toList());
-        return tagsS3;
+//        List<Tag> tagsS3 = productImage.tags().entrySet().stream().map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
+//               .collect(Collectors.toList());
+//        return tagsS3;
+        return null;
     }
 
     public String getBucketName(){

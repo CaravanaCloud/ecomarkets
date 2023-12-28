@@ -1,9 +1,10 @@
 package ecomarkets.rs.product;
 
-import ecomarkets.domain.core.product.ImageRepository;
+import ecomarkets.domain.core.product.image.ImageRepository;
 import ecomarkets.domain.core.product.Product;
-import ecomarkets.domain.core.product.ProductImage;
+import ecomarkets.domain.core.product.image.ProductImage;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -20,6 +21,7 @@ public class ProductImageResource {
 
     @PUT
     @ResponseStatus(HttpStatus.SC_OK)
+    @Transactional
     public void saveImage(@PathParam("id") Long productId,
                           @RestForm("file") FileUpload file){
         Product product = Product.findById(productId);
