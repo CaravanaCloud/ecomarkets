@@ -21,7 +21,7 @@ Resources:
     Type: "AWS::S3::Bucket"
     Properties:
       BucketName: !Sub
-          - "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}"
+          - ${BucketPrefix}-${AWS::AccountId}-${AWS::Region}
           - BucketPrefix: !Ref "BucketPrefix"
       AccessControl: "Private"
 
@@ -73,13 +73,13 @@ Resources:
             !Sub '{{resolve:ssm:/${EnvId}/DBUsername}}'
           QUARKUS_DATASOURCE_PASSWORD:
             !Sub '{{resolve:ssm:/${EnvId}/DBPassword}}'
-          bucket.name: !Ref "MyS3Bucket"
+          BUCKET_NAME: !Sub
+            - ${BucketPrefix}-${AWS::AccountId}-${AWS::Region}
+            - BucketPrefix: !Ref "BucketPrefix"
 
       Events:
         HttpApiEvent:
           Type: HttpApi
-
-
 
 Outputs:
   CfnApiURL:
@@ -87,6 +87,9 @@ Outputs:
     Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/'
     Export:
       Name: CfnApiURL
+
   MyS3BucketName:
     Description: "Ecomarkets products images"
-    Value: !GetAtt "MyS3Bucket.BucketName"
+    Value: !Sub
+      - ${BucketPrefix}-${AWS::AccountId}-${AWS::Region}
+      - BucketPrefix: !Ref "BucketPrefix"
