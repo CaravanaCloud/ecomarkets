@@ -64,7 +64,7 @@ jobs:
     
     - name: Setup CDK
       run: npm install -g aws-cdk
-      
+
     - name: Build lex bot
       working-directory: ecomarkets-lex
       run: |
@@ -74,7 +74,6 @@ jobs:
       run: echo "ENV_ID=$(if [ -z "${{ github.event.inputs.env_id }}" ]; then echo 'qa'; else echo "${{ github.event.inputs.env_id }}"; fi)" >> $GITHUB_ENV
 
     - name: Deploy to AWS 
-      working-directory: ecomarkets
       env:
         ENV_ID: ${{ env.ENV_ID }}
         STACK_NAME: ${{ env.ENV_ID }}
