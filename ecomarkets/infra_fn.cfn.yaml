@@ -11,9 +11,48 @@ Globals:
 Parameters:
   EnvId:
     Type: String
-    Default: "devel" 
+    Default: "devel"
+  BucketPrefix:
+    Type: String
+    Default: "ecomarkets"
 
 Resources:
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName:
+        Fn::Sub:
+          - "${BucketPrefix}-${AWS::AccountId}-${AWS::Region}-${StackIdentifier}"
+          - StackIdentifier: !Ref "AWS::StackName"
+      AccessControl: "Private"
+
+  MyLambdaRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "LambdaS3AccessRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+
+  LambdaS3AccessPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "LambdaS3AccessPolicy"
+      Roles:
+        - !Ref "MyLambdaRole"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - "s3:GetObject"
+              - "s3:PutObject"
+            Resource: !Sub "arn:aws:s3:::${MyS3Bucket}/*"
+
   CfnApiFn:
     Type: AWS::Serverless::Function
     Properties:
@@ -23,6 +62,7 @@ Resources:
       MemorySize: 256
       Timeout: 30
       Policies: AWSLambdaBasicExecutionRole
+      Role: !GetAtt "MyLambdaRole.Arn"
       Environment:
         Variables:
           QUARKUS_PROFILE: "prod"
@@ -34,20 +74,20 @@ Resources:
             !Sub '{{resolve:ssm:/${EnvId}/DBUsername}}'
           QUARKUS_DATASOURCE_PASSWORD:
             !Sub '{{resolve:ssm:/${EnvId}/DBPassword}}'
+          bucket.name: !GetAtt "MyS3Bucket.BucketName"
 
       Events:
         HttpApiEvent:
           Type: HttpApi
+
+
 
 Outputs:
   CfnApiURL:
     Description: URL for application
     Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/'
     Export:
-      Name: !Sub "${EnvId}-ApiURL"
-  
-  CfnApiId:
-    Description: API ID for application
-    Value: !Ref ServerlessHttpApi
-    Export:
-      Name: !Sub "${EnvId}-ApiId"
+      Name: CfnApiURL
+  MyS3BucketName:
+    Description: "Ecomarkets products images"
+    Value: !GetAtt "MyS3Bucket.BucketName"
