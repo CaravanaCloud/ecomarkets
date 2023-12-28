@@ -38,9 +38,33 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Build project
+    - name: Build api
       run: mvn -B -fn --no-transfer-progress -l "mvn_install.log.txt" install
       working-directory: ecomarkets
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      working-directory: ecomarkets-app
+      with:
+        push: true
+        tags: caravanacloud/ecomakets-app:latest
+    
+    - name: Build lex bot
+      working-directory: ecomarkets-lex
+      run: |
+        cdk synth
 
     - name: Set ENV_ID
       run: echo "ENV_ID=$(if [ -z "${{ github.event.inputs.env_id }}" ]; then echo 'qa'; else echo "${{ github.event.inputs.env_id }}"; fi)" >> $GITHUB_ENV
