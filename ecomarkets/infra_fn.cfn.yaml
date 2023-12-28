@@ -73,7 +73,7 @@ Resources:
             !Sub '{{resolve:ssm:/${EnvId}/DBUsername}}'
           QUARKUS_DATASOURCE_PASSWORD:
             !Sub '{{resolve:ssm:/${EnvId}/DBPassword}}'
-          bucket.name: !GetAtt "MyS3Bucket.BucketName"
+          bucket.name: !Ref "MyS3Bucket"
 
       Events:
         HttpApiEvent:
