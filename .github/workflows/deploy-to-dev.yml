@@ -62,6 +62,9 @@ jobs:
         push: true
         tags: caravanacloud/ecomakets-app:latest
     
+    - name: Setup CDK
+      run: npm install -g aws-cdk
+      
     - name: Build lex bot
       working-directory: ecomarkets-lex
       run: |
