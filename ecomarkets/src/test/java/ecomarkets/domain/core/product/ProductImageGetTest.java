@@ -67,6 +67,7 @@ public class ProductImageGetTest {
 
         assertThat(file, notNullValue());
 
+        imageRepository.delete(pi);
 
 //        String localFilePath = "/tmp/test.jpg";
 //
@@ -77,6 +78,5 @@ public class ProductImageGetTest {
 //            e.printStackTrace();
 //        }
 
-        imageRepository.delete(pi);
     }
 }
