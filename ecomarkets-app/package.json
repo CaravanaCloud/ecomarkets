@@ -43,6 +43,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@floating-ui/dom": "1.5.3"
+    "@floating-ui/dom": "1.5.3",
+    "@heroicons/react": "^2.1.1"
   }
 }

@@ -2,6 +2,10 @@ Parameters:
   EnvId:
     Type: String
     Default: "devel"
+  CertificateArn:
+    Type: String
+    Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
+    Description: "ARN of the ACM certificate to use for HTTPS"
 
 Resources:
   CfnCloudFrontDistribution:
@@ -31,7 +35,5 @@ Resources:
               - POST
               - DELETE
           ViewerCertificate:
-            AcmCertificateArn:
-              Fn::ImportValue:
-                !Sub "${EnvId}-CertificateArn"
+            AcmCertificateArn: !Ref CertificateArn
             SslSupportMethod: sni-only

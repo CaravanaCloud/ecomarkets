@@ -121,6 +121,8 @@ Resources:
             Fn::Sub: '${EnvId}-PrivateSubnet3Id'
       Selectors:
         - Namespace: default
+        - Namespace: kube-system
+        - Namespace: ecomarkets-ns
 
   FargatePodExecutionRole:
     Type: 'AWS::IAM::Role'

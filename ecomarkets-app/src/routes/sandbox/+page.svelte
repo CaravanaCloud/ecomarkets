@@ -1,13 +1,21 @@
 <script>
-    let msg = "Hello World!"
+	import { AppBar } from '@skeletonlabs/skeleton';
 
-    function doTheTrick() {
-        msg = "You did the trick!"
-    }
+	let title = 'EcoMarkets';
+	let email = 'help@ecofeiras.com'
 </script>
-<div>
-    <h1>{msg}</h1>
-    <button type="button" 
-        class="btn variant-filled"
-        on:click={doTheTrick}>Do the Trick!</button>
+<div class="flex flex-col h-screen justify-between items-center">
+  
+  <header class="text-2xl font-bold h-28 w-full flex items-center justify-center border-b border-gray-200">
+	<h1>{title}</h1>
+  </header>
+  
+  <main class="text-xl flex-grow">
+    <p>This is the body content.</p>
+  </main>
+
+  <footer class="text-sm">
+    <p>© 2022 EcoMarkets</p>
+  </footer>
+  
 </div>
