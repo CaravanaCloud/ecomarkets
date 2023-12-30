@@ -8,6 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 @Entity
 public class Product extends PanacheEntity {
 
@@ -81,10 +86,21 @@ public class Product extends PanacheEntity {
     }
 
     public ProductImage newImage(String bucketName){
+        if(id == null){
+            throw new IllegalStateException("product not persisted!");
+        }
+        String key = UUID.randomUUID().toString();
+
+        if(productImage != null){
+            key = productImage.key();
+        }
         this.productImage = ProductImage.of(
                 bucketName,
-                id.toString(),
-                this.name);
+                key);
+        this.productImage
+                .addTag("productId", this.id.toString())
+                .addTag("productName", this.name);
+
         return productImage;
     }
 

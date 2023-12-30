@@ -1,39 +1,45 @@
 package ecomarkets.domain.core.product.image;
 
-import com.google.errorprone.annotations.Immutable;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Immutable
-public class ProductImage extends PanacheEntity {
-    private String bucket;
+public class ProductImage extends PanacheEntityBase {
+
+    @Id
     @Column(name = "bucket_key")
     private String key;
-    @ElementCollection
+    private String bucket;
+    @Transient
     private List<Tag> tags;
 
     public ProductImage(String bucket, String key, List<Tag> tags){
+        this(bucket, key);
+        this.tags = tags;
+    }
+    public ProductImage(String bucket, String key){
         this.bucket = bucket;
         this.key = key;
-        this.tags = tags;
+        this.tags = new ArrayList<>();
     }
     private ProductImage(){
     }
 
     public static ProductImage of(String bucket,
-                                  String key,
-                                  String product){
-        List<Tag> tagList = new ArrayList<>();
-        tagList.add(new Tag("product", product));
+                                  String key){
         return new ProductImage(bucket,
-                key,
-                tagList);
+                key);
+    }
+
+    public ProductImage addTag(String key, String value){
+        tags.add(new Tag(key, value));
+        return this;
     }
 
     public String bucket(){

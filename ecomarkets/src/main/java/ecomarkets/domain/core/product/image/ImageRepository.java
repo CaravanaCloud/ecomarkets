@@ -10,6 +10,8 @@ public interface ImageRepository {
 
     public void delete(ProductImage productImage);
 
+    public String createPresignedGetUrl(ProductImage productImage);
+
     public String getBucketName();
 
 }

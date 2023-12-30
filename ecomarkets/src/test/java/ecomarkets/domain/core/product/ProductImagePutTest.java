@@ -9,6 +9,7 @@ import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -23,14 +24,14 @@ public class ProductImagePutTest {
     @ConfigProperty(name = "bucket.name")
     String bucketName;
 
-    static Product product;
+    Product product;
 
     @Inject
     ImageRepository imageRepository;
 
-    @BeforeAll
+    @BeforeEach
     @Transactional
-    static void startProductFixture(){
+    void startProductFixture(){
         product = new ProductBuilder().
                 name("Tomate").
                 description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
@@ -41,9 +42,6 @@ public class ProductImagePutTest {
         product.persist();
     }
 
-    @AfterAll
-    static void removeBucket(){
-    }
     @Test
     public void testUpdateS3ProductImage() {
         File fileToUpload = new File("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
@@ -59,7 +57,7 @@ public class ProductImagePutTest {
         ProductImage img = prd.productImage();
         assertThat(img, notNullValue());
         assertThat(img.bucket(), equalTo(bucketName));
-        assertThat(img.key(), equalTo(prd.id.toString()));
+        assertThat(img.key(), notNullValue());
 
         byte [] data = imageRepository.find(img);
 

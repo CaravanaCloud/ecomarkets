@@ -35,4 +35,11 @@ public class ProductImageResource {
         ProductImage pm = product.newImage(imageRepository.getBucketName());
         return imageRepository.find(pm);
     }
+
+    @Path("presignedGetUrl")
+    @GET
+    public String createPresignedGetUrl(@PathParam("id") Long productId){
+        Product product = Product.findById(productId);
+        return imageRepository.createPresignedGetUrl(product.productImage());
+    }
 }
