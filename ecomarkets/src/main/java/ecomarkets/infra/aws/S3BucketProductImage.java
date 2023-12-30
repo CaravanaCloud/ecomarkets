@@ -31,7 +31,7 @@ public class S3BucketProductImage implements ImageRepository {
     private S3Client s3;
 
     @Inject
-    S3Presigner presigner;
+    private S3Presigner presigner;
 
     public void save(Path file,
                      ProductImage productImage) {
@@ -73,7 +73,7 @@ public class S3BucketProductImage implements ImageRepository {
                 .build();
 
         GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                .signatureDuration(Duration.ofMinutes(presignedUrlDurationInMinutes))  // The URL will expire in 10 minutes.
+                .signatureDuration(Duration.ofMinutes(presignedUrlDurationInMinutes))
                 .getObjectRequest(objectRequest)
                 .build();
 

@@ -5,11 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
+import org.hibernate.annotations.Immutable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Immutable
 public class ProductImage extends PanacheEntityBase {
 
     @Id
