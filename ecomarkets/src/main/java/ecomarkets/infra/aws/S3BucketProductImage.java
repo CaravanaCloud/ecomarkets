@@ -48,7 +48,7 @@ public class S3BucketProductImage implements ImageRepository {
 
     public void delete(ProductImage productImage) {
         DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
-                .bucket(bucketName)
+                .bucket(productImage.bucket())
                 .key(productImage.key())
                 .build();
 

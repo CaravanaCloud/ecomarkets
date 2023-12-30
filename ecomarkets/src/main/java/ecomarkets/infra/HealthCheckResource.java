@@ -1,4 +1,4 @@
-package ecomarkets.rs;
+package ecomarkets.infra;
 
 import java.io.IOException;
 import java.util.Map;

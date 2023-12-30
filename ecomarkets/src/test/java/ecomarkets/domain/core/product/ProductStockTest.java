@@ -27,7 +27,7 @@ public class ProductStockTest {
 
         Farmer farmer = Farmer.of("Maria",
         Email.of("maria@gmail.com"), 
-        Telephone.of(27, 123456789), 
+        Telephone.of("27", "123456789"),
         Address.of("Brasil", 
         "Espirito Santo", 
         "Vitória",

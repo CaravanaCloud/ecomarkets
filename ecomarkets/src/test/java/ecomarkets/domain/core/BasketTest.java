@@ -30,10 +30,10 @@ import jakarta.transaction.Transactional;
 public class BasketTest {
 
     final static Partner PARTNER_JOHN = Partner.of("Joao",
-          CPF.of(12122112) ,
+          CPF.of("12122112") ,
           Email.of("joao@gmail.com"),
           LocalDate.now(),
-          Telephone.of(27, 123456789),
+          Telephone.of("27", "123456789"),
             Address.of("Brasil", 
             "Espirito Santo", 
             "Vitória",
