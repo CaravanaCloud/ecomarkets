@@ -9,8 +9,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.jboss.resteasy.reactive.ResponseStatus;
-import org.jboss.resteasy.reactive.RestForm;
-import org.jboss.resteasy.reactive.multipart.FileUpload;
 
 @Path("/product/{id}/image")
 public class ProductImageResource {
@@ -20,20 +18,22 @@ public class ProductImageResource {
 
     @PUT
     @ResponseStatus(HttpStatus.SC_OK)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Transactional
     public void saveImage(@PathParam("id") Long productId,
-                          @RestForm("file") FileUpload file){
+                          ImageFormData file){
         Product product = Product.findById(productId);
-        ProductImage pm = product.newImage(imageRepository.getBucketName());
-        imageRepository.save(file.uploadedFile(), pm);
+        ProductImage pm = product.newImage(imageRepository.getBucketName(),
+                                    file.fileName,
+                                    file.mimeType);
+        imageRepository.save(file.file.toPath(), pm);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public byte[] getImage(@PathParam("id") Long productId){
         Product product = Product.findById(productId);
-        ProductImage pm = product.newImage(imageRepository.getBucketName());
-        return imageRepository.find(pm);
+        return imageRepository.find(product.productImage());
     }
 
     @Path("presignedGetUrl")

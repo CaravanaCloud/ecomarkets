@@ -1,35 +1,24 @@
-package ecomarkets.domain.core.product;
+package ecomarkets.domain.core.product.image;
 
-import ecomarkets.domain.core.product.image.ImageRepository;
-import ecomarkets.domain.core.product.image.ProductImage;
+import ecomarkets.domain.core.product.MeasureUnit;
+import ecomarkets.domain.core.product.ProductBuilder;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
-public class ProductImageGetTest {
-    @ConfigProperty(name = "bucket.name")
-    String bucketName;
-
-    Product product;
-
-    @Inject
-    ImageRepository imageRepository;
-
+public class ProductImageGetTest extends ProductImageTest{
     @Inject
     S3Client s3Client;
 
@@ -45,13 +34,13 @@ public class ProductImageGetTest {
 
         product.persist();
 
-        ProductImage pi = product.newImage(bucketName);
+        ProductImage pi = product.newImage(bucketName,
+                fileName,
+                mimetype);
     }
     @Test
     public void testGetS3ProductImage() {
-        Path fileToUpload = Paths.get("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
-
-        imageRepository.save(fileToUpload, product.productImage());
+        imageRepository.save(file, product.productImage());
 
         byte [] file = given()
             .when()
@@ -71,10 +60,11 @@ public class ProductImageGetTest {
 
     @Test
     public void testPresignedGetUrlS3() {
-        Path fileToUpload = Paths.get("src/test/resources/ecomarkets/domain/core/product/acerola.jpg");
-        ProductImage pi = product.newImage(bucketName);
+        ProductImage pi = product.newImage(bucketName,
+                fileName,
+                mimetype);
 
-        imageRepository.save(fileToUpload, pi);
+        imageRepository.save(file, pi);
 
         String preAssignedUrl = given()
                 .when()

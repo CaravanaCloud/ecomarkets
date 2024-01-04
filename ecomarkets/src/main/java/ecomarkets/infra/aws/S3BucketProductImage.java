@@ -41,6 +41,7 @@ public class S3BucketProductImage implements ImageRepository {
         PutObjectRequest.builder()
                 .bucket(productImage.bucket())
                 .key(productImage.key())
+                .contentType(productImage.mimeType())
                 .tagging(Tagging.builder().tagSet(tagsS3).build())
                 .build(),
                 RequestBody.fromFile(file));
