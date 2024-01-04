@@ -4,15 +4,17 @@ import ecomarkets.domain.core.farmer.Farmer;
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.Email;
 import ecomarkets.domain.register.Telephone;
-import io.quarkus.test.junit.QuarkusIntegrationTest;
+import io.quarkus.test.TestTransaction;
+import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@QuarkusIntegrationTest
-public class ProductIT {
+@QuarkusTest
+public class ProductStockTest {
 
     @Test
+    @TestTransaction
     void createProductStock() {
         Product prd = new ProductBuilder().
         name("Tomate").
@@ -25,7 +27,7 @@ public class ProductIT {
 
         Farmer farmer = Farmer.of("Maria",
         Email.of("maria@gmail.com"), 
-        Telephone.of(27, 123456789), 
+        Telephone.of("27", "123456789"),
         Address.of("Brasil", 
         "Espirito Santo", 
         "Vitória",

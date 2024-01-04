@@ -1,9 +1,17 @@
 package ecomarkets.domain.core.product;
 
 import ecomarkets.domain.core.product.category.Category;
+import ecomarkets.domain.core.product.image.ProductImage;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Entity
 public class Product extends PanacheEntity {
@@ -20,6 +28,9 @@ public class Product extends PanacheEntity {
 
     @ManyToOne
     private Category category;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private ProductImage productImage;
 
     private Product(){}
 
@@ -69,5 +80,28 @@ public class Product extends PanacheEntity {
         }
         return this.category.name;
     }
-    
+
+    public ProductImage productImage(){
+        return this.productImage;
+    }
+
+    public ProductImage newImage(String bucketName){
+        if(id == null){
+            throw new IllegalStateException("product not persisted!");
+        }
+        String key = UUID.randomUUID().toString();
+
+        if(productImage != null){
+            key = productImage.key();
+        }
+        this.productImage = ProductImage.of(
+                bucketName,
+                key);
+        this.productImage
+                .addTag("productId", this.id.toString())
+                .addTag("productName", this.name);
+
+        return productImage;
+    }
+
 }
