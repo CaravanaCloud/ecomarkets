@@ -2,6 +2,7 @@ package ecomarkets.domain.core.product;
 
 import ecomarkets.domain.core.product.category.Category;
 import ecomarkets.domain.core.product.image.ProductImage;
+import ecomarkets.domain.core.product.image.ProductImageBuilder;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -85,21 +86,30 @@ public class Product extends PanacheEntity {
         return this.productImage;
     }
 
-    public ProductImage newImage(String bucketName){
+    public ProductImage newImage(String bucketName,
+                                 String fileName,
+                                 String mimeType){
         if(id == null){
             throw new IllegalStateException("product not persisted!");
         }
-        String key = UUID.randomUUID().toString();
+        String key;
 
         if(productImage != null){
             key = productImage.key();
+        }else{
+            key = UUID.randomUUID().toString();
         }
-        this.productImage = ProductImage.of(
-                bucketName,
-                key);
-        this.productImage
-                .addTag("productId", this.id.toString())
-                .addTag("productName", this.name);
+
+        this.productImage = ProductImageBuilder
+                .newInstance()
+                .withBucket(bucketName)
+                .withKey(key)
+                .withFileName(fileName)
+                .withMimeType(mimeType)
+                .withTag("productId", this.id.toString())
+                .withTag("productName", this.name)
+                .withTag("fileName", fileName)
+                .build();
 
         return productImage;
     }
