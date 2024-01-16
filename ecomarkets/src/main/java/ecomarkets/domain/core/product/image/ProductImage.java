@@ -18,25 +18,20 @@ public class ProductImage extends PanacheEntityBase {
     @Column(name = "bucket_key")
     private String key;
     private String bucket;
+    private String mimetype;
+    private String filename;
     @Transient
     private List<Tag> tags;
 
-    public ProductImage(String bucket, String key, List<Tag> tags){
-        this(bucket, key);
+    ProductImage(String key, String bucket, String mimetype, String filename, List<Tag> tags) {
+        this.key = key;
+        this.bucket = bucket;
+        this.mimetype = mimetype;
+        this.filename = filename;
         this.tags = tags;
     }
-    public ProductImage(String bucket, String key){
-        this.bucket = bucket;
-        this.key = key;
-        this.tags = new ArrayList<>();
-    }
-    private ProductImage(){
-    }
 
-    public static ProductImage of(String bucket,
-                                  String key){
-        return new ProductImage(bucket,
-                key);
+    private ProductImage(){
     }
 
     public ProductImage addTag(String key, String value){
@@ -51,6 +46,10 @@ public class ProductImage extends PanacheEntityBase {
     public String key(){
         return this.key;
     }
+
+    public String fileName(){ return this.filename; }
+
+    public String mimeType(){ return this.mimetype; }
 
     public List<Tag> tags(){
         return this.tags;
