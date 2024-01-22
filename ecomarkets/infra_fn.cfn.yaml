@@ -1,4 +1,4 @@
-# sam deploy --stack-name cfn-fn --template-file infra_fn.cfn.yaml --resolve-s3 --capabilities "CAPABILITY_IAM" "CAPABILITY_AUTO_EXPAND" 
+# sam deploy --stack-name cfn-fn --template-file ecomarkets/infra_fn.cfn.yaml --resolve-s3 --capabilities "CAPABILITY_NAMED_IAM" "CAPABILITY_AUTO_EXPAND" 
 
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
@@ -86,10 +86,16 @@ Resources:
 
 Outputs:
   CfnApiURL:
-    Description: URL for application
+    Description: Execute URL for API
     Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/'
     Export:
-      Name: CfnApiURL
+      Name: !Sub "${EnvId}-ApiURL"
+
+  CfnApiId:
+    Description: Id for API
+    Value: !Ref ServerlessHttpApi
+    Export:
+      Name: !Sub "${EnvId}-ApiId"
 
   MyS3BucketName:
     Description: "Ecomarkets products images"

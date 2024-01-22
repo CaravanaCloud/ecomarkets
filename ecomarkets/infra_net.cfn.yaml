@@ -18,7 +18,9 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: CfnVPC
+          Value: !Sub "${AWS::StackName}"
+        - Key: Name
+          Value: !Sub "${EnvId}-VPC"
 
   CfnInternetGateway:
     Type: 'AWS::EC2::InternetGateway'

@@ -6,12 +6,12 @@ echo "Deploying infrastructure for $ENV_ID"
 
 SAM_XARGS="--resolve-s3 --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --parameter-overrides EnvId=$ENV_ID --disable-rollback --no-fail-on-empty-changeset"
 
-sam deploy --stack-name "$ENV_ID-params" \
-    --template-file ecomarkets/infra_params.cfn.yaml \
-    $SAM_XARGS
-
 sam deploy --stack-name "$ENV_ID-net" \
     --template-file ecomarkets/infra_net.cfn.yaml \
+    $SAM_XARGS
+
+sam deploy --stack-name "$ENV_ID-params" \
+    --template-file ecomarkets/infra_params.cfn.yaml \
     $SAM_XARGS
 
 sam deploy --stack-name "$ENV_ID-db" \
