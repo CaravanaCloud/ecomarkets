@@ -29,14 +29,14 @@ Resources:
   NetStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ecomarkets/infra_net.cfn.yaml
+      TemplateURL: infra_net.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
 
   ParamsStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ecomarkets/infra_params.cfn.yaml
+      TemplateURL: infra_params.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
 
@@ -46,7 +46,7 @@ Resources:
          - NetStack
          - ParamsStack
     Properties:
-      TemplateURL: ecomarkets/infra_db.cfn.yaml
+      TemplateURL: infra_db.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
 
@@ -55,7 +55,7 @@ Resources:
     DependsOn:
          - DBStack
     Properties:
-      TemplateURL: ecomarkets/infra_fn.cfn.yaml
+      TemplateURL: infra_fn.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
       
@@ -65,7 +65,7 @@ Resources:
          - FnStack
     Condition: DomainEnabled
     Properties:
-      TemplateURL: ecomarkets/infra_api_dns.cfn.yaml
+      TemplateURL: infra_api_dns.cfn.yaml
       Parameters:
         EnvId: !Ref EnvId
         DomainName: !Ref DomainName
@@ -79,7 +79,7 @@ Resources:
   #        - DomainStack
   #   Condition: DomainEnabled
   #   Properties:
-  #     TemplateURL: ecomarkets/infra_cdn.cfn.yaml
+  #     TemplateURL: infra_cdn.cfn.yaml
   #     Parameters:
   #       EnvId: !Ref EnvId
 
