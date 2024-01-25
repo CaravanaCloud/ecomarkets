@@ -8,22 +8,17 @@ mvn -fn -B -ntp -f ecomarkets clean package
 
 IMAGE_TAG="caravanacloud/ecomarkets-app:$VERSION"
 # Build App (Skeleton)
-docker build \
+podman build \
     -f ecomarkets-app/Containerfile \
     --no-cache ecomarkets-app \
     -t "$IMAGE_TAG"
 
 
 # Build Infrastructure as Code (AWS CloudFormation)
-mkdir -p dist
+mkdir dist
 cp -a ecomarkets-cfn dist/
 mkdir -p dist/ecomarkets/target
 cp -a ecomarkets/target/function.zip dist/ecomarkets/target/
 
-rm ecomarkets.zip || true
-cd dist
-zip -r ecomarkets.zip .
-unzip -l ecomarkets.zip
-cd ..
+zip -r ecomarkets.zip dist/
 
-echo "build done."
