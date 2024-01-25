@@ -2,6 +2,17 @@ Parameters:
   EnvId:
     Type: String
     Default: "devel"
+  
+  EnvAlias:
+    Type: String
+    Default: "latest"
+    Description: "Environment alias"
+  
+  DomainName:
+    Type: String
+    Default: "domain.strigus.cloud"
+    Description: "Domain name"
+
   CertificateArn:
     Type: String
     Default: "arn:aws:acm:us-east-1:932529686876:certificate/ff26c860-8432-4ecf-ba49-0d574e3b591c"
@@ -12,6 +23,8 @@ Resources:
       Type: 'AWS::CloudFront::Distribution'
       Properties:
         DistributionConfig:
+          Aliases:
+            - !Sub "${EnvAlias}.${DomainName}"
           Origins:
             - DomainName: 
                 Fn::ImportValue:
@@ -34,6 +47,10 @@ Resources:
               - PATCH
               - POST
               - DELETE
+            ForwardedValues:
+              QueryString: true
+              Cookies:
+                Forward: 'all'
           ViewerCertificate:
             AcmCertificateArn: !Ref CertificateArn
             SslSupportMethod: sni-only

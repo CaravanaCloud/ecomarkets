@@ -58,7 +58,7 @@ Resources:
     Properties:
       Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
       Runtime: java21
-      CodeUri: target/function.zip
+      CodeUri: ../ecomarkets/target/function.zip
       MemorySize: 256
       Timeout: 30
       Policies: AWSLambdaBasicExecutionRole

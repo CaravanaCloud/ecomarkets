@@ -22,12 +22,17 @@ Parameters:
     Type: String
     Default: "Z10286903Q0N4MOTSU2PS"
     Description: "Hosted Zone ID"
+  
+  EnvAlias:
+    Type: String
+    Default: "latest"
+    Description: "Environment alias"
 
 Resources:
   CfnDomain:
     Type: "AWS::ApiGatewayV2::DomainName"
     Properties:
-      DomainName: !Sub "${EnvId}-api.${DomainName}"
+      DomainName: !Sub "${EnvAlias}-api.${DomainName}"
       DomainNameConfigurations:
         - EndpointType: "REGIONAL"
           CertificateArn: !Ref RegionalCertificateArn
@@ -42,7 +47,7 @@ Resources:
         Fn::ImportValue:
           !Sub "${EnvId}-ApiId"
       # DomainName: !GetAtt CfnDomain.RegionalDomainName
-      DomainName: !Sub "${EnvId}-api.${DomainName}" 
+      DomainName: !Sub "${EnvAlias}-api.${DomainName}" 
       Stage: !Ref Stage
   
   CfnRecordSet:
@@ -50,7 +55,7 @@ Resources:
     DependsOn: CfnDomain
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: !Sub "${EnvId}-api.${DomainName}"
+      Name: !Sub "${EnvAlias}-api.${DomainName}"
       Type: A
       AliasTarget:
         DNSName: !GetAtt CfnDomain.RegionalDomainName
@@ -64,28 +69,22 @@ Outputs:
       !Sub "${DomainName}"
     Export:
       Name:
-        !Sub "${EnvId}-DomainName"
+        !Sub "${EnvId}-${EnvAlias}-DomainName"
   
   CfnApiEndpoint:
     Description: Address for API endpoint
     Value:
-      !Sub "${EnvId}-api.${DomainName}"
+      !Sub "${EnvAlias}-api.${DomainName}"
     Export:
       Name:
-        !Sub "${EnvId}-APIEndpoint"
+        !Sub "${EnvId}-${EnvAlias}-APIEndpoint"
 
   CfnEndpointURL:
     Description: URL for API endpoint
     Value:
-      !Sub "https://${EnvId}-api.${DomainName}"
+      !Sub "https://${EnvAlias}-api.${DomainName}"
     Export:
       Name:
-        !Sub "${EnvId}-EndpointURL"
+        !Sub "${EnvId}-${EnvAlias}-EndpointURL"
   
-  CertificateArn:
-    Description: ARN of the certificate
-    Value:
-      !Sub "${RegionalCertificateArn}"
-    Export:
-      Name:
-        !Sub "${EnvId}-CertificateArn"
+
