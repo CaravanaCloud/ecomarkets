@@ -1,0 +1,29 @@
+name: Start of day
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 8-22 * * *'
+
+jobs:
+  start-of-day:
+    runs-on: ubuntu-latest
+
+    env:
+      ENV_ID: qa
+      ENV_ALIAS: latest
+
+    steps:
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.REDHACKS_PERM_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.REDHACKS_PERM_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Depoy new environment
+      run: infrastructure.deploy.env.sh
+      working-directory: ./ecomarkets-cfn
+  
