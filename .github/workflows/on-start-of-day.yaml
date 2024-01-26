@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      AWS_REGION: us-east-1
       ENV_ID: qa
       ENV_ALIAS: latest
 
@@ -25,6 +26,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Depoy new environment
-      run: infrastructure.deploy.env.sh
-      working-directory: ./ecomarkets-cfn
+      run: ./infrastructure.deploy.env.sh
+      working-directory: ecomarkets-cfn
   

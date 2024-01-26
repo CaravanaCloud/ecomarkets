@@ -2,6 +2,7 @@
 FROM gitpod/workspace-full
 
 # System
+RUN bash -c "sudo install-packages gettext"
 RUN bash -c "sudo apt-get update"
 RUN bash -c "sudo pip install --upgrade pip"
 

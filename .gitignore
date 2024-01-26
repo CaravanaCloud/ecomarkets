@@ -1,2 +1,23 @@
 .env*
+*.log
+.*.json
+
+
 dist
+
+ecomarkets-secrets
+
+# Openshift 
+oc
+ccoctl
+kubectl
+openshift-install
+metadata.json
+kubeadmin-password
+kubeconfig
+journal-*
+
+# Terraform
+terraform.*.json
+
+

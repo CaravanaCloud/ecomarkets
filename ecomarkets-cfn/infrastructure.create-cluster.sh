@@ -13,9 +13,11 @@ check_variables() {
 
 export AWS_REGION=${AWS_REGION:-"us-east-1"}
 export CLUSTER_NAME=${CLUSTER_NAME:-"okd$RANDOM"}
-export OCP_BASE_DOMAIN=${OCP_BASE_DOMAIN:-"devcluster.openshift.com"}
+export OCP_BASE_DOMAIN=${DOMAIN_NAME:-"qa.ecofeiras.com"}
 export SSH_KEY=$(cat $HOME/.ssh/id_rsa.pub)
-export INSTANCE_TYPE=${INSTANCE_TYPE:-"m6i.2xlarge"}
+export INSTANCE_TYPE=${INSTANCE_TYPE:-"t3.2xlarge"}
+export DRY_RUN=${DRY_RUN:-"false"}
+
 
 echo "Pre-flight checks..."
 check_variables "AWS_REGION" "OCP_BASE_DOMAIN" "PULL_SECRET" "SSH_KEY"
@@ -27,18 +29,23 @@ echo "Creating cluster $CLUSTER_NAME"
 echo "WARNING: This will run 1 x $INSTANCE_TYPE instances on your AWS account."
 sleep 5
 
-openshift-install create cluster --log-level debug | tee create-cluster.log 
-openshift-install wait-for install-complete
+if [ "$DRY_RUN" == "true" ]; then
+  echo "Dry run, exiting."
+  exit 0
+fi
 
-mkdir -p "$HOME/.kube"
-cp "$DIR/auth/kubeconfig" "$HOME/.kube/config"
+./openshift-install create cluster --log-level debug | tee create-cluster.log 
+if [ $? -ne 0 ]; then
+    echo "Create cluster failed, exiting."
+    exit 1
+fi
 
-oc cluster-info
 
-# some things to try
-# kubectl get nodes
-# kubectl get deployments --all-namespaces
-# kubectl run -it --rm --restart=Never --image=busybox:1.33.1 testpod -- /bin/sh
+#./openshift-install wait-for install-complete
 
+echo export KUBECONFIG="$DIR/auth/kubeconfig" "$HOME/.kube/config"
+export KUBECONFIG="$DIR/auth/kubeconfig"
+
+./oc cluster-info
 
 echo "cluster $CLUSTER_NAME created."
