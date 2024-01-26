@@ -1,0 +1,20 @@
+name: Hourly (daytime)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  tag-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create Tag
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        VERSION=$(./VERSION.sh)
+        git tag -a "$VERSION" -m "Release version $VERSION"
+        git push origin "$VERSION"
