@@ -1,4 +1,4 @@
-name: Start of day
+name: Hourly (daytime)
 
 on:
   workflow_dispatch: {}
@@ -6,12 +6,13 @@ on:
     - cron: '0 8-22 * * *'
 
 jobs:
-  start-of-day:
+  start-of-hour:
     runs-on: ubuntu-latest
 
     env:
       ENV_ID: qa
       ENV_ALIAS: latest
+      AWS_REGION: us-east-1
 
     steps:
     - uses: aws-actions/configure-aws-credentials@v4
