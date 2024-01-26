@@ -1,7 +1,11 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-VERSION=$(cat "VERSION")
+if [ -z "$VERSION" ]
+then
+    export VERSION=$(./VERSION.sh)
+    echo "No version informed, using $VERSION"
+fi
 
 # Build API (Quarkus for AWS Lambda)
 mvn -fn -B -ntp -f ecomarkets clean package
