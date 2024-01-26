@@ -1,4 +1,4 @@
-name: Release binaries when tagged
+name: Release when tagged
 
 on:
   push:

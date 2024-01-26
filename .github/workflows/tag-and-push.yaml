@@ -1,4 +1,4 @@
-name: Hourly (daytime)
+name: Tag and push
 
 on:
   workflow_dispatch: {}
