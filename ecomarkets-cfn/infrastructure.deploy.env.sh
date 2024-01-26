@@ -28,7 +28,7 @@ sam deploy --stack-name "$ENV_ID-db" \
 # run build if function.zip does not exist
 if [ ! -f "$PDIR/ecomarkets/target/function.zip" ]; then
     echo "Building function.zip"
-    mvn -f "$PDIR/ecomarkets" -fn clean package 
+    mvn -f "$PDIR/ecomarkets" -B -ntp -fn clean package 
 fi
 
 sam deploy --stack-name "$ENV_ID-api-fn" \
