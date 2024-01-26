@@ -26,5 +26,5 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Delete infrastructure
-      run: infrastructure.delete.sh
-      working-directory: ./ecomarkets-cfn
+      run: ./infrastructure.delete.sh
+      working-directory: ecomarkets-cfn
