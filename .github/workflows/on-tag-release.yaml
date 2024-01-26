@@ -24,6 +24,8 @@ jobs:
 
       - name: Push tag
         run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           export VERSION=$(./VERSION.sh)
           git tag -a "$VERSION" -m "Release version $VERSION"
           git push origin "$VERSION"
