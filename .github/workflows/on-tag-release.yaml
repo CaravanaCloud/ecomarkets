@@ -1,6 +1,7 @@
 name: Tag then release
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - '*'
