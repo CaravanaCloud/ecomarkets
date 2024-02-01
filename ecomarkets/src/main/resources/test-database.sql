@@ -64,13 +64,13 @@ VALUES
 --Basket items test data
 INSERT INTO Basket_items (amount, Basket_id, creationDate, product_id)
 VALUES
-  (2, 1, null, 2), (12, 1, null, 9),
-  (30, 2, null, 8), (19, 2, null, 3),
-  (6, 3, null, 14),
-  (10, 4, null, 7),
-  (7, 5, null, 10), (23, 5, null, 15), (1, 5, null, 5),
-  (14, 6, null, 4),
-  (30, 7, null, 6), (3, 7, null, 11);
+  (2, 1, '2024-01-12 13:32:03', 2), (12, 1, '2024-01-15: 09:01:43', 9),
+  (30, 2, '2023-04-03 13:24:36', 8), (19, 2, '2023-01-01 12:53:50', 3),
+  (6, 3, '2023-12-09 20:13:05', 14),
+  (10, 4, '2024-01-18 11:12:12', 7),
+  (7, 5, '2023-07-15 12:04:04', 10), (23, 5, '2023-11-22 12:14:01', 15), (1, 5, '2023-09-14 07:47:01', 5),
+  (14, 6, '2023-08-09 08:40:36', 4),
+  (30, 7, '2023-09-23 18:27:55', 6), (3, 7, '2023-11-08 14:15:57', 11);
 
 -- Farmer test data
 INSERT INTO Farmer (houseNumber, postCode, id, addOn, areaCode, city, country, email, name, number, reference, state)
