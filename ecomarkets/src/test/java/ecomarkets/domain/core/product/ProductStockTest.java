@@ -1,9 +1,9 @@
 package ecomarkets.domain.core.product;
 
+import ecomarkets.FixtureFactory;
+import ecomarkets.domain.core.basket.Basket;
 import ecomarkets.domain.core.farmer.Farmer;
-import ecomarkets.domain.register.Address;
-import ecomarkets.domain.register.EmailAddress;
-import ecomarkets.domain.register.Telephone;
+import ecomarkets.domain.core.partner.Partner;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
@@ -16,25 +16,11 @@ public class ProductStockTest {
     @Test
     @TestTransaction
     void createProductStock() {
-        Product prd = new ProductBuilder().
-        name("Tomate").
-        description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
-        recipeIngredients("Banana, aveia, Chocolate em pó 50% canela em pó Ovos, granola Açúcar mascavo, Fermento em pó").
-        measureUnit(MeasureUnit.UNIT).
-        price(10, 50).create();
+        Product prd = FixtureFactory.createProduct();
 
         prd.persist();
 
-        Farmer farmer = Farmer.of("Maria",
-        EmailAddress.of("maria@gmail.com"),
-        Telephone.of("27", "123456789"),
-        Address.of("Brasil", 
-        "Espirito Santo", 
-        "Vitória",
-        123,
-        "Apt 123",
-        "Perto da...",
-        123456) );
+        Farmer farmer = FixtureFactory.createFarmer();
 
         farmer.persist();
 
@@ -47,6 +33,32 @@ public class ProductStockTest {
         assertEquals(stockBefore.getFarmerId(), stock.getFarmerId());
         assertEquals(stockBefore.getProduct().getName(), stock.getProduct().getName());
         assertEquals(stockBefore.getAmount(), stock.getAmount());
+
+    }
+
+    @Test
+    @TestTransaction
+    public void testAvailableStock(){
+
+        Product prd = FixtureFactory.createProduct();
+        prd.persist();
+
+        Farmer farmer = FixtureFactory.createFarmer();
+        farmer.persist();
+
+        ProductStock stock = ProductStock.of(farmer.farmerId(), prd, 10);
+        stock.persist();
+
+        Partner partner = FixtureFactory.createPartner();
+        partner.persist();
+
+        Basket basket = Basket.of(partner.partnerId());
+        basket.addItem(prd, 8);
+        basket.persist();
+
+        Double result = ProductStock.getAvailableStock(prd.productId());
+
+        assertEquals(2, result);
 
     }
 }
