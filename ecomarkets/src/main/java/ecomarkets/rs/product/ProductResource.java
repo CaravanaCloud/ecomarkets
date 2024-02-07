@@ -26,7 +26,7 @@ public class ProductResource {
     public void init(@Observes StartupEvent event) {
         System.out.println("Initializing test database...");
         new ProductBuilder().
-        name("Tomate").
+        name("Bolo de Banana").
         description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
         recipeIngredients("Banana, aveia, Chocolate em pó 50% canela em pó Ovos, granola Açúcar mascavo, Fermento em pó").
         measureUnit(MeasureUnit.UNIT).

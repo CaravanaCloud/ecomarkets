@@ -1,7 +1,8 @@
 package ecomarkets.domain.core.basket;
 
-
 import ecomarkets.domain.core.partner.PartnerId;
+import ecomarkets.domain.core.product.Price;
+import ecomarkets.domain.core.product.Product;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -35,8 +36,17 @@ public class Basket extends PanacheEntity {
         return result;
     }
 
-    public void reserveBasket(){
+    public BasketEvent reserveBasket(){
+        if(this.id == null){
+            throw new IllegalStateException("Basket not created yet!");
+        }
+
+        if(this.items == null || this.items.isEmpty()){
+            throw new IllegalStateException("There are no items added to the Basket!");
+        }
+
         this.reservedDate = LocalDateTime.now();
+        return new BasketEvent(basketId(), BasketEvent.EventType.RESERVED);
     }
     
     public void deliverBasket(){
@@ -63,7 +73,8 @@ public class Basket extends PanacheEntity {
         return new ArrayList<>(this.items);
     }
 
-    public void addItem(BasketItem item){
+    public void addItem(Product product,
+                        Integer amount){
         if(this.reservedDate != null){
             throw new IllegalStateException("Basket Already scheduled to delivery.");
         }
@@ -72,14 +83,20 @@ public class Basket extends PanacheEntity {
             throw new IllegalArgumentException("product is null");
         }
 
-        this.items.add(item);
+        this.items.add(BasketItem.of(product.productId(), amount, totalPayment(product.getPrice(), amount)));
     }
 
-    public void addItems(Collection<BasketItem> items){
-        if(items == null)
-            return;
+    //TODO WIP - it is necessary refactor for a better solution
+    private Double totalPayment(Price price, Integer amount){
+        return (1.0 + price.unit() + price.cents()) * amount;
+    }
 
-        items.forEach(this::addItem);
+    public Double totalPayment(){
+        return this.items.stream().mapToDouble(BasketItem::totalPayment).sum();
+    }
+
+    public BasketId basketId(){
+        return BasketId.of(this.id);
     }
 
 

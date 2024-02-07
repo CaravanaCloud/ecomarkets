@@ -2,7 +2,7 @@ package ecomarkets.domain.core.product;
 
 import ecomarkets.domain.core.farmer.Farmer;
 import ecomarkets.domain.register.Address;
-import ecomarkets.domain.register.Email;
+import ecomarkets.domain.register.EmailAddress;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -26,7 +26,7 @@ public class ProductStockTest {
         prd.persist();
 
         Farmer farmer = Farmer.of("Maria",
-        Email.of("maria@gmail.com"), 
+        EmailAddress.of("maria@gmail.com"),
         Telephone.of("27", "123456789"),
         Address.of("Brasil", 
         "Espirito Santo", 
