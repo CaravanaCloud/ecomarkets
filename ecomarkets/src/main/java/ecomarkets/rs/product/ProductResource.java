@@ -23,11 +23,14 @@ public class ProductResource {
     
     @POST
     @Transactional
-    public Response create(Product product) {
-        product.persist();
+    public Response create(ProductForm productForm) {
+
+        Product result = productForm.parse();
+        result.persist();
+
         return Response
         .status(Response.Status.CREATED)
-        .entity(product)
+        .entity(result)
         .build();
     }
 

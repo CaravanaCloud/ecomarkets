@@ -42,7 +42,7 @@ public class EmailSenderScheduled {
         return email;
     }
 
-    //TODO Change to use parameters and template from database
+    //TODO Change to use parameters and template from aws service...
     private String getSubject(BasketEvent.EventType eventType){
         return switch (eventType){
             case RESERVED -> "REDE BEM VIVER-ES - Sua Cesta Montada e Conferida!";
@@ -50,7 +50,7 @@ public class EmailSenderScheduled {
         };
     }
 
-    //TODO Change to use parameters and template from database. It is for test...
+    //TODO Change to use parameters and template from aws service...
     private String getBody(Basket basket, Partner partner, BasketEvent.EventType eventType){
         final String template = """
                     Prezado(a) PARCEIRO(A) {0}

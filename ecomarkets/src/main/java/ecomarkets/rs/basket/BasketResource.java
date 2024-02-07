@@ -40,7 +40,7 @@ public class BasketResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBasket(@PathParam("partnerId") Long partnerId,
-    Collection<BasketItemDTO> items) {
+    Collection<BasketItemForm> items) {
         
         Basket basket = Basket.of(PartnerId.of(partnerId));
         if(items != null){
@@ -60,7 +60,7 @@ public class BasketResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addBasketItem(@PathParam("id") Integer id,
-    Collection<BasketItemDTO> items) {
+    Collection<BasketItemForm> items) {
         
         Basket basket = Basket.findById(id);
 
