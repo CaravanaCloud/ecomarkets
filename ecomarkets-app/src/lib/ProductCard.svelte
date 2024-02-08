@@ -20,7 +20,7 @@
   }
 </script>
 
-<div class="flex flex-col justify-between items-center bg-white w-[13%] h-[28%] min-h-[281px] min-w-[248px] mx-2 rounded-md shadow-md hover:shadow-xl">
+<div class="hover:scale-105 flex flex-col justify-between items-center bg-white w-[13%] h-[28%] min-h-[281px] min-w-[248px] mx-2 rounded-md shadow-md hover:shadow-xl">
   {#if product.imagePath != undefined}
     <img src={image} alt={`Imagem de ${product.name}`} class="rounded-t-md" />
   {/if}
