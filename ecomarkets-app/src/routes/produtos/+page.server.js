@@ -8,11 +8,18 @@ export async function load() {
     {name: "Mel", is_selected: false},
   ]
 
+  let products = [
+    {name: "Teste", measureUnit: "KG", price: {unit: 1, cents: 20}}
+  ]
+
   try {
     categories = await fetch('http://localhost:9090/api/category')
+      .then((res) => res.json())
+
+    products = await fetch('http://localhost:9090/api/product')
       .then((res) => res.json())
   } catch (error) {
   }
 
-  return { categories }
+  return { categories, products }
 }
