@@ -7,6 +7,8 @@
 
 <CategoriesBar categories={data.categories} />
 
-{#each data.products as product}
-  <ProductCard {product} imageSrc=undefined/>
-{/each}
+<div class="grid gap-y-6 grid-cols-7 max-[1811px]:grid-cols-6 max-[1565px]:grid-cols-5 max-[1340px]:grid-cols-4 max-[1070px]:grid-cols-3">
+  {#each data.products as product}
+    <ProductCard {product} imageSrc=undefined/>
+  {/each}
+</div>
