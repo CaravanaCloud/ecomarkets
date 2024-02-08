@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.ses.SesClient;
 
 @ApplicationScoped
 public class SESEmailSender implements EmailNotificationService {
-
     @Inject
     SesClient ses;
 
@@ -23,4 +22,5 @@ public class SESEmailSender implements EmailNotificationService {
                         .body(b -> b.text(txt -> txt.data(email.getBody()))))).messageId();
         //TODO add observability for emails sent and error treatment
     }
+
 }

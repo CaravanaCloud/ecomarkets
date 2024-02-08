@@ -11,9 +11,11 @@ import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
 import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityResponse;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @QuarkusTest
 public class SESEmailSenderTest {
-
     @ConfigProperty(name = "email.from.notification")
     private String emailFrom;
     @Inject
@@ -38,6 +40,8 @@ public class SESEmailSenderTest {
 
         sesEmailSender.send(email);
     }
+
+
 
 }
 
