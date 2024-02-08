@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cat_store } from "../stores";
+  import { cat_store, selected_category } from "../stores";
 
   export let categories: any;
 
@@ -7,8 +7,9 @@
   cat_store.subscribe(updated_categories => categories = updated_categories)
 
   const handleClick = (e: any) => {
+    selected_category.set(e.srcElement.innerText)
     unselectAll()
-    select($cat_store.findIndex(el => el.name == e.srcElement.innerText))
+    select($cat_store.findIndex(el => el.name == $selected_category))
     $cat_store = $cat_store
   }
 

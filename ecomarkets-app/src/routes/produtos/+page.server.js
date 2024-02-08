@@ -9,8 +9,8 @@ export async function load() {
   ]
 
   let products = [
-    {name: "Teste", measureUnit: "KG", price: {unit: 1, cents: 20}},
-    {name: "Chocolate com name gigantesco", measureUnit: "KG", price: {unit: 1, cents: 20}}
+    {name: "Teste", measureUnit: "KG", price: {unit: 1, cents: 20}, category: "Bebidas"},
+    {name: "Chocolate com name gigantesco", measureUnit: "KG", price: {unit: 1, cents: 20}, category: "Caseiros"}
   ]
 
   try {
