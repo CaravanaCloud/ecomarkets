@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { selected_product, show_info } from '../stores';
   import infoIcon from '$lib/assets/info-icon.png';
 
   export let product: any;
-  export let imageSrc: string;
 
-  let image = new URL(imageSrc, import.meta.url).href
+  let image = new URL(product.imagePath, import.meta.url).href
 
   let nameTextSize = "text-3xl"
 
@@ -13,10 +13,15 @@
   } else if (product.name.length >= 15) {
     nameTextSize = "text-2xl"
   }
+
+  const handleInfoClick = () => {
+    show_info.set(true)
+    selected_product.set(product)
+  }
 </script>
 
 <div class="flex flex-col justify-between items-center bg-white w-[13%] h-[28%] min-h-[281px] min-w-[248px] mx-2 rounded-md shadow-md hover:shadow-xl">
-  {#if imageSrc != undefined}
+  {#if product.imagePath != undefined}
     <img src={image} alt={`Imagem de ${product.name}`} class="rounded-t-md" />
   {/if}
 
@@ -30,7 +35,7 @@
   </div>
 
   <div class="flex justify-around w-[100%] m-1">
-    <button class="bg-slate-400"><img src={infoIcon} alt="Informações" class="w-[36px]"/></button>
-    <button class="bg-lime-500 p-1 rounded-md">Adicionar à cesta</button>
+    <button on:click={handleInfoClick} class="bg-slate-400"><img src={infoIcon} alt="Informações" class="w-[36px]"/></button>
+    <button class="bg-lime-500 hover:bg-lime-600 p-1 rounded-md">Adicionar à cesta</button>
   </div>
 </div>
