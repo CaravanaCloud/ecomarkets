@@ -9,6 +9,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
+import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityResponse;
+
 @QuarkusTest
 public class SESEmailSenderTest {
 
@@ -26,10 +28,10 @@ public class SESEmailSenderTest {
                 .emailAddress(emailFrom)
                 .build();
 
-        ses.verifyEmailIdentity(request);
+        VerifyEmailIdentityResponse resp = ses.verifyEmailIdentity(request);
 
         Email email = new Email(EmailAddress.of(emailFrom),
-                EmailAddress.of("test@ecomarkets.com"),
+                EmailAddress.of("test@example.com"),
                 "Test email notification",
                 " This is a email body!"
         );
