@@ -1,4 +1,6 @@
 <script lang="ts">
+  import infoIcon from '$lib/assets/info-icon.png';
+
   export let product: any;
   export let imageSrc: string;
 
@@ -28,7 +30,7 @@
   </div>
 
   <div class="flex justify-around w-[100%] m-1">
-    <button class="bg-slate-400">[i]</button>
+    <button class="bg-slate-400"><img src={infoIcon} alt="Informações" class="w-[36px]"/></button>
     <button class="bg-lime-500 p-1 rounded-md">Adicionar à cesta</button>
   </div>
 </div>
