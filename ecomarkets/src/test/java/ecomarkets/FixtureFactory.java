@@ -15,12 +15,16 @@ import java.time.LocalDate;
 public class FixtureFactory {
 
    public static Product createProduct() {
+        return getProductBuilder().create();
+    }
+
+    public static ProductBuilder getProductBuilder() {
         return new ProductBuilder().
                 name("Bolo de Banana").
                 description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
                 recipeIngredients("Banana, aveia, Chocolate em pó 50% canela em pó Ovos, granola Açúcar mascavo, Fermento em pó").
                 measureUnit(MeasureUnit.UNIT).
-                price(10, 50).create();
+                price(10, 50);
     }
 
     public static Farmer createFarmer() {

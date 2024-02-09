@@ -17,6 +17,6 @@ public class EmailTemplateTest {
 
         assertTrue(emailBody.contains("Prezado(a) PARCEIRO(A) Fulano"));
         assertTrue(emailBody.contains("Sua Cesta 1234 foi Conferido com SUCESSO."));
-
+        assertTrue(emailBody.contains("Valor Final: R$ 10,50."));
     }
 }

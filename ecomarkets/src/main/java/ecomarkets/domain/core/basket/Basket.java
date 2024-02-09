@@ -88,7 +88,7 @@ public class Basket extends PanacheEntity {
 
     //TODO WIP - it is necessary refactor for a better solution
     private Double totalPayment(Price price, Integer amount){
-        return (1.0 + price.unit() + price.cents()) * amount;
+        return (price.unit() + price.cents() / 100.0) * amount;
     }
 
     public Double totalPayment(){
@@ -98,6 +98,5 @@ public class Basket extends PanacheEntity {
     public BasketId basketId(){
         return BasketId.of(this.id);
     }
-
 
 }
