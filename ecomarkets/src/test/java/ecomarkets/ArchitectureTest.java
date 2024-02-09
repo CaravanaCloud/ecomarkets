@@ -9,7 +9,7 @@ import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 @AnalyzeClasses(packages = "ecomarkets", importOptions = ImportOption.DoNotIncludeTests.class)
-public class MyArchitectureTest {
+public class ArchitectureTest {
 
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringOnlyDependenciesInLayers()
