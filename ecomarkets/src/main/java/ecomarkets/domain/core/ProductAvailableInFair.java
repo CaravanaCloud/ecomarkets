@@ -21,26 +21,26 @@ import jakarta.persistence.NamedNativeQuery;
                            AND b.fair_id = :fairId ) AS basketItemsSum,
                         (
                         SELECT SUM(amount) AS stockSum
-                          FROM ProductStock
+                          FROM ProductAvailableInFair
                          WHERE product_id = :productId
                            and fair_id = :fairId ) AS stockSum
                 """,
         resultClass = Double.class
 )
 @Immutable
-public class ProductStock extends PanacheEntity{
+public class ProductAvailableInFair extends PanacheEntity{
     private FairId fairId;
     private FarmerId farmerId;
     private ProductId productId;
     private Integer amount;
 
-    private ProductStock(){}
+    private ProductAvailableInFair(){}
 
-    public static ProductStock of(FairId fairId,
-    FarmerId farmerId,
-    ProductId productId,
-    Integer amount){
-        ProductStock result = new ProductStock();
+    public static ProductAvailableInFair of(FairId fairId,
+                                            FarmerId farmerId,
+                                            ProductId productId,
+                                            Integer amount){
+        ProductAvailableInFair result = new ProductAvailableInFair();
         result.farmerId = farmerId;
         result.productId = productId;
         result.amount = amount;

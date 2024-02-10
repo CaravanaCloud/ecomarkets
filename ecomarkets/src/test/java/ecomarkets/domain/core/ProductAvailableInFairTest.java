@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
-public class ProductStockTest {
+public class ProductAvailableInFairTest {
 
     @Test
     @TestTransaction
@@ -27,10 +27,10 @@ public class ProductStockTest {
         Fair fair = FixtureFactory.getFair();
         fair.persist();
 
-        ProductStock stockBefore = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
+        ProductAvailableInFair stockBefore = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
         stockBefore.persist();
 
-        ProductStock stock = ProductStock.findById(stockBefore.id);
+        ProductAvailableInFair stock = ProductAvailableInFair.findById(stockBefore.id);
 
         assertEquals(stockBefore.id, stock.id);
         assertEquals(stockBefore.getFarmerId(), stock.getFarmerId());
@@ -52,7 +52,7 @@ public class ProductStockTest {
         Fair fair = FixtureFactory.getFair();
         fair.persist();
 
-        ProductStock stock = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
+        ProductAvailableInFair stock = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
         stock.persist();
 
         Partner partner = FixtureFactory.createPartner();
@@ -62,7 +62,7 @@ public class ProductStockTest {
         basket.addItem(prd, 8);
         basket.persist();
 
-        Double result = ProductStock.getAvailableStock(fair.fairId(), prd.productId());
+        Double result = ProductAvailableInFair.getAvailableStock(fair.fairId(), prd.productId());
 
         assertEquals(2, result);
 

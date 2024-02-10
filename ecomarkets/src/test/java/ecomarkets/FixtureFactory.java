@@ -2,7 +2,7 @@ package ecomarkets;
 
 import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.fair.FairId;
-import ecomarkets.domain.core.ProductStock;
+import ecomarkets.domain.core.ProductAvailableInFair;
 import ecomarkets.domain.core.fair.ShoppingPeriod;
 import ecomarkets.domain.core.farmer.Farmer;
 import ecomarkets.domain.core.farmer.FarmerId;
@@ -34,8 +34,8 @@ public class FixtureFactory {
                 price(10, 50);
     }
 
-    public static ProductStock getProductStock(FairId fairId, FarmerId farmerId, ProductId productId, Integer amount){
-        return ProductStock.of(fairId, farmerId, productId, amount);
+    public static ProductAvailableInFair getProductStock(FairId fairId, FarmerId farmerId, ProductId productId, Integer amount){
+        return ProductAvailableInFair.of(fairId, farmerId, productId, amount);
     }
 
     public static Fair getFair(){
