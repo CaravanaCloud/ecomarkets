@@ -1,8 +1,7 @@
 package ecomarkets.rs.basket;
 
 import ecomarkets.domain.core.basket.Basket;
-import ecomarkets.domain.core.basket.BasketEvent;
-import ecomarkets.domain.core.partner.PartnerId;
+import ecomarkets.domain.core.basket.event.BasketReservedEvent;
 import ecomarkets.domain.core.product.Product;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.event.Event;
@@ -19,7 +18,7 @@ import java.util.List;
 public class BasketResource {
 
     @Inject
-    Event<BasketEvent> basketEvent;
+    Event<BasketReservedEvent> basketEvent;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,17 +33,15 @@ public class BasketResource {
         return Basket.findById(id);
     }
     
-    @Path("/{partnerId}")
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBasket(@PathParam("partnerId") Long partnerId,
-    Collection<BasketItemForm> items) {
+    public Response createBasket(CreateBasketForm createBasketForm) {
         
-        Basket basket = Basket.of(PartnerId.of(partnerId));
-        if(items != null){
-            items.forEach(it -> basket.addItem(Product.findById(it.productId().id()), it.amount()));
+        Basket basket = Basket.of(createBasketForm.fairId(), createBasketForm.partnerId());
+        if(createBasketForm.items() != null){
+            createBasketForm.items().forEach(it -> basket.addItem(Product.findById(it.productId().id()), it.amount()));
         }
         basket.persist();
 
@@ -89,7 +86,7 @@ public class BasketResource {
             throw new NotFoundException("Basket do not exists for id " + id);
         }
 
-        BasketEvent event = basket.reserveBasket();
+        BasketReservedEvent event = basket.reserveBasket();
         basketEvent.fire(event);
 
         return basket;

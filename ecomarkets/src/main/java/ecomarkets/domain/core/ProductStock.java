@@ -1,15 +1,14 @@
-package ecomarkets.domain.core.product;
+package ecomarkets.domain.core;
 
 import com.google.errorprone.annotations.Immutable;
+import ecomarkets.domain.core.fair.FairId;
 import ecomarkets.domain.core.farmer.FarmerId;
+import ecomarkets.domain.core.product.ProductId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedNativeQuery;
 
 @Entity
-@Immutable
-//TODO this solution should be refined based on the domain
 @NamedNativeQuery(
         name = "ProductStock.availableStock",
         query = """
@@ -18,41 +17,39 @@ import jakarta.persistence.NamedNativeQuery;
                         SELECT SUM(item.amount) AS basketItemsSum
                           FROM Basket_items item
                           JOIN Basket b ON item.basket_id = b.id
-                         WHERE item.product_id = :productId ) AS basketItemsSum,
+                         WHERE item.product_id = :productId 
+                           AND b.fair_id = :fairId ) AS basketItemsSum,
                         (
                         SELECT SUM(amount) AS stockSum
                           FROM ProductStock
-                         WHERE product_id = :productId ) AS stockSum
+                         WHERE product_id = :productId
+                           and fair_id = :fairId ) AS stockSum
                 """,
         resultClass = Double.class
 )
+@Immutable
 public class ProductStock extends PanacheEntity{
+    private FairId fairId;
     private FarmerId farmerId;
-    @ManyToOne
-    private Product product;
+    private ProductId productId;
     private Integer amount;
 
     private ProductStock(){}
 
-    public static ProductStock of(FarmerId farmerId,
-    Product product,
+    public static ProductStock of(FairId fairId,
+    FarmerId farmerId,
+    ProductId productId,
     Integer amount){
         ProductStock result = new ProductStock();
         result.farmerId = farmerId;
-        result.product = product;
+        result.productId = productId;
         result.amount = amount;
+        result.fairId = fairId;
         return result;
     }
 
-    //TODO this solution should be refined based on the domain
-    public static Double getAvailableStock(ProductId productId){
-        return (Double) getEntityManager().createNamedQuery("ProductStock.availableStock")
-                .setParameter("productId", productId.id())
-                .getSingleResult();
-    }
-
-    public Product getProduct(){
-        return this.product;
+    public ProductId getProductId(){
+        return this.productId;
     }
 
     public Integer getAmount(){
@@ -62,5 +59,15 @@ public class ProductStock extends PanacheEntity{
     public FarmerId getFarmerId(){
         return this.farmerId;
     }
-    
+
+    public FairId getFairId(){
+        return this.fairId;
+    }
+
+    public static Double getAvailableStock(FairId fairId, ProductId productId){
+        return (Double) getEntityManager().createNamedQuery("ProductStock.availableStock")
+                .setParameter("fairId", fairId.id())
+                .setParameter("productId", productId.id())
+                .getSingleResult();
+    }
 }

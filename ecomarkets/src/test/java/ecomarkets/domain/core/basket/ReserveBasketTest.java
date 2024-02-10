@@ -2,6 +2,8 @@ package ecomarkets.domain.core.basket;
 
 import ecomarkets.FixtureFactory;
 import ecomarkets.domain.core.Tenant;
+import ecomarkets.domain.core.basket.event.BasketReservedEvent;
+import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
 import io.quarkus.test.junit.QuarkusTest;
@@ -12,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -33,10 +34,12 @@ public class ReserveBasketTest {
         Partner.persist(PARTNER_JOHN);
 
         product = FixtureFactory.createProduct();
-
         product.persist();
 
-        basket = Basket.of(PARTNER_JOHN.partnerId());
+        Fair fair = FixtureFactory.getFair();
+        fair.persist();
+
+        basket = Basket.of(fair.fairId(), PARTNER_JOHN.partnerId());
 
         basket.addItem(product, 5);
 
@@ -45,16 +48,15 @@ public class ReserveBasketTest {
 
     @Test
     public void testReserveBasket(){
-
         final ValidatableResponse vrCreate = given().contentType("application/json")
                 .put("/api/basket/" + basket.id + "/reserve")
                 .then()
-                .body("reservedDate", is(notNullValue()))
                 .statusCode(HttpStatus.SC_OK)
                 .assertThat();
 
         Basket basketFromDB = Basket.findById(basket.id);
-        assertThat(basketFromDB.getReservedDate(), notNullValue());
+        BasketReservedEvent event = BasketReservedEvent.find("basketId", basket.basketId()).firstResult();
+        assertThat(event, notNullValue());
     }
 
 }

@@ -1,15 +1,16 @@
 package ecomarkets.domain.notification.email;
 
 import ecomarkets.domain.core.basket.Basket;
-import ecomarkets.domain.core.basket.BasketEvent;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.register.EmailAddress;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import ecomarkets.domain.core.basket.event.*;
 
 import java.util.List;
+
 
 @ApplicationScoped
 public class EmailSenderScheduled {
@@ -22,36 +23,41 @@ public class EmailSenderScheduled {
 
     @Scheduled(every="2m")
     public void sendPendingEmails() {
-        List<BasketEvent> basketEvents = BasketEvent.findAll().list();
+        List<EmailPendingToSend> emailPendingList = EmailPendingToSend.findAll().list();
 
-        basketEvents.stream().forEach(event ->{
-            emailNotificationService.send(parse(event));
-            event.delete();
+        emailPendingList.stream().forEach(e ->{
+            emailNotificationService.send(parse(e.getBasketEventId()));
+            e.delete();
         });
     }
 
-    private Email parse(BasketEvent event) {
-        Basket basket = Basket.findById(event.getBasketId().id());
+    private Email parse(BasketEventId eventId) {
+        BasketEvent basketEvent = BasketEvent.findById(eventId.id());
+        Basket basket = Basket.findById(basketEvent.getBasketId().id());
         Partner partner = Partner.findById(basket.getPartnerId().id());
 
-        final String status = switch (event.getType()){
-            case RESERVED -> "Separada";
-            case DELIVERED -> "Entregue";
+        final String status = switch (basketEvent){
+            case BasketReservedEvent r -> "Separada";
+            case BasketDeliveredEvent d -> "Entregue";
+            case BasketPayedEvent p -> "Paga";
+            default -> throw new IllegalStateException("event not supported!");
         };
 
         Email email = new Email(EmailAddress.of(emailFrom),
                 partner.getEmailAddress(),
-                getSubject(event.getType()),
+                getSubject(basketEvent),
                 emailTemplate.getBody(partner.getName(), basket.id, basket.totalPayment(), status)
         );
 
         return email;
     }
 
-    public String getSubject(BasketEvent.EventType eventType){
-        return switch (eventType){
-            case RESERVED -> "REDE BEM VIVER-ES - Sua Cesta Montada e Conferida!";
-            case DELIVERED -> "REDE BEM VIVER-ES - Sua Cesta Chegou!";
+    public String getSubject(BasketEvent event){
+        return switch (event){
+            case BasketReservedEvent r -> "REDE BEM VIVER-ES - Sua Cesta Montada e Conferida!";
+            case BasketDeliveredEvent d -> "REDE BEM VIVER-ES - Sua Cesta Chegou!";
+            case BasketPayedEvent p -> "REDE BEM VIVER-ES - Pagamento confirmado!";
+            default -> throw new IllegalStateException("event not supported!");
         };
     }
 

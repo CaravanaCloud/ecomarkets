@@ -1,8 +1,6 @@
 package ecomarkets.rs.product;
 
 import ecomarkets.domain.core.product.Product;
-import ecomarkets.domain.core.product.ProductId;
-import ecomarkets.domain.core.product.ProductStock;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -44,13 +42,6 @@ public class ProductResource {
         }
 
         return Product.findById(id);
-    }
-
-    @Path("/{id}/stock")
-    @GET
-    public Double getAvailableStock(@PathParam("id") Long id){
-        getProduct(id);
-        return ProductStock.getAvailableStock(ProductId.of(id));
     }
 
 }

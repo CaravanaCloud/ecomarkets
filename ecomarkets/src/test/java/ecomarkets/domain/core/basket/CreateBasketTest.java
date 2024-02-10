@@ -2,6 +2,7 @@ package ecomarkets.domain.core.basket;
 
 import ecomarkets.FixtureFactory;
 import ecomarkets.domain.core.Tenant;
+import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
 import io.quarkus.test.TestTransaction;
@@ -26,6 +27,8 @@ public class CreateBasketTest {
 
     static Product prd;
 
+    static Fair fair;
+
     @BeforeAll
     @Transactional
     static void beforeAll(){
@@ -33,15 +36,21 @@ public class CreateBasketTest {
         Partner.persist(PARTNER_JOHN);
 
         prd = FixtureFactory.createProduct();
-
         prd.persist();
+
+        fair = FixtureFactory.getFair();
+        fair.persist();
     }
     
     @Test
     public void create() {
 
         final ValidatableResponse vrCreate = given().contentType("application/json")
-        .post("/api/basket/" + PARTNER_JOHN.id)
+                .body("""
+               {"fairId": {"id": %d},
+                "partnerId": {"id": %d}}
+        """.formatted(fair.id, PARTNER_JOHN.id))
+                .post("/api/basket/")
         .then()
         .assertThat();
 
@@ -61,6 +70,7 @@ public class CreateBasketTest {
         vr.statusCode(httpStatus)
         .body("id", is(notNullValue()))
         .body("partnerId.id", is(PARTNER_JOHN.id.intValue()))
+        .body("fairId.id", is(fair.id.intValue()))
         .body("creationDate", is(notNullValue()))
         .body("items.size()", is(0));
     }
@@ -70,13 +80,17 @@ public class CreateBasketTest {
     public void createBasketItem(){
         final ValidatableResponse vrCreate = given().contentType("application/json")
         .body("""
-            [
+             {"fairId": {"id": %d},
+              "partnerId": {"id": %d},
+              "items":
+               [
                 {"productId": {"id": %d},
                  "amount": 5}
-            ]
-        """.formatted(prd.id))
+               ] 
+             }
+        """.formatted(fair.id, PARTNER_JOHN.id, prd.id))
         .when()
-        .post("/api/basket/" + PARTNER_JOHN.id)
+        .post("/api/basket/")
         .then()
         .assertThat();
 
