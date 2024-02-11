@@ -15,9 +15,9 @@ public class BasketTest {
     @Test
     @TestTransaction
     public void testPaymentFormatted(){
-        Basket basket = Basket.of(FixtureFactory.getFair().fairId(), PartnerId.of(1l));
+        Basket basket = Basket.of(FixtureFactory.createFair().fairId(), PartnerId.of(1l));
 
-        Product product = FixtureFactory.getProductBuilder().price(5, 15).create();
+        Product product = FixtureFactory.createProductBuilder().price(5, 15).create();
         basket.addItem(product, 10);
 
         assertEquals(51.5, basket.totalPayment());

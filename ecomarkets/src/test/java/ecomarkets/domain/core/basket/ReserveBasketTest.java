@@ -36,7 +36,7 @@ public class ReserveBasketTest {
         product = FixtureFactory.createProduct();
         product.persist();
 
-        Fair fair = FixtureFactory.getFair();
+        Fair fair = FixtureFactory.createFair();
         fair.persist();
 
         basket = Basket.of(fair.fairId(), PARTNER_JOHN.partnerId());

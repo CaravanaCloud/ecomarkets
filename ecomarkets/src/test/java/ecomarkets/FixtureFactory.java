@@ -22,10 +22,10 @@ import java.time.LocalDateTime;
 public class FixtureFactory {
 
    public static Product createProduct() {
-        return getProductBuilder().create();
+        return createProductBuilder().create();
     }
 
-    public static ProductBuilder getProductBuilder() {
+    public static ProductBuilder createProductBuilder() {
         return new ProductBuilder().
                 name("Bolo de Banana").
                 description("Bolo de Banana Fitness (Zero Glúten e Lactose)").
@@ -34,11 +34,11 @@ public class FixtureFactory {
                 price(10, 50);
     }
 
-    public static ProductAvailableInFair getProductStock(FairId fairId, FarmerId farmerId, ProductId productId, Integer amount){
+    public static ProductAvailableInFair createProductStock(FairId fairId, FarmerId farmerId, ProductId productId, Integer amount){
         return ProductAvailableInFair.of(fairId, farmerId, productId, amount);
     }
 
-    public static Fair getFair(){
+    public static Fair createFair(){
         ShoppingPeriod shoppingPeriod = ShoppingPeriod.of(LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
         return new Fair(shoppingPeriod);
     }

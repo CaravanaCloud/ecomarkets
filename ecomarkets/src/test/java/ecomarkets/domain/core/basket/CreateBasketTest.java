@@ -38,7 +38,7 @@ public class CreateBasketTest {
         prd = FixtureFactory.createProduct();
         prd.persist();
 
-        fair = FixtureFactory.getFair();
+        fair = FixtureFactory.createFair();
         fair.persist();
     }
     

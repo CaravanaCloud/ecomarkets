@@ -24,10 +24,10 @@ public class ProductAvailableInFairTest {
         Farmer farmer = FixtureFactory.createFarmer();
         farmer.persist();
 
-        Fair fair = FixtureFactory.getFair();
+        Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stockBefore = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
+        ProductAvailableInFair stockBefore = FixtureFactory.createProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
         stockBefore.persist();
 
         ProductAvailableInFair stock = ProductAvailableInFair.findById(stockBefore.id);
@@ -49,10 +49,10 @@ public class ProductAvailableInFairTest {
         Farmer farmer = FixtureFactory.createFarmer();
         farmer.persist();
 
-        Fair fair = FixtureFactory.getFair();
+        Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stock = FixtureFactory.getProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
+        ProductAvailableInFair stock = FixtureFactory.createProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
         stock.persist();
 
         Partner partner = FixtureFactory.createPartner();
