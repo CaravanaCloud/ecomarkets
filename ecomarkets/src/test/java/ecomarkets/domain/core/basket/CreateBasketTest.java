@@ -5,11 +5,13 @@ import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
+import ecomarkets.domain.notification.email.EmailPendingToSend;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +42,12 @@ public class CreateBasketTest {
 
         fair = FixtureFactory.createFair();
         fair.persist();
+    }
+
+    @AfterAll
+    @Transactional
+    public static void deleteEmailPending(){
+        EmailPendingToSend.deleteAll();
     }
     
     @Test
