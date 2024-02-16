@@ -1,8 +1,7 @@
-package ecomarkets.domain.core;
+package ecomarkets.domain.core.fair;
 
 import ecomarkets.FixtureFactory;
 import ecomarkets.domain.core.basket.Basket;
-import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.farmer.Farmer;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
@@ -27,7 +26,7 @@ public class ProductAvailableInFairTest {
         Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stockBefore = FixtureFactory.createProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
+        ProductAvailableInFair stockBefore = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
         stockBefore.persist();
 
         ProductAvailableInFair stock = ProductAvailableInFair.findById(stockBefore.id);
@@ -52,7 +51,7 @@ public class ProductAvailableInFairTest {
         Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stock = FixtureFactory.createProductStock(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
+        ProductAvailableInFair stock = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
         stock.persist();
 
         Partner partner = FixtureFactory.createPartner();

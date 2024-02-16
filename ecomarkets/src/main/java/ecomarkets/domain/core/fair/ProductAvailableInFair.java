@@ -1,7 +1,6 @@
-package ecomarkets.domain.core;
+package ecomarkets.domain.core.fair;
 
 import com.google.errorprone.annotations.Immutable;
-import ecomarkets.domain.core.fair.FairId;
 import ecomarkets.domain.core.farmer.FarmerId;
 import ecomarkets.domain.core.product.ProductId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;

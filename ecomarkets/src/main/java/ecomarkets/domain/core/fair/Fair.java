@@ -1,5 +1,7 @@
 package ecomarkets.domain.core.fair;
 
+import ecomarkets.domain.core.farmer.FarmerId;
+import ecomarkets.domain.core.product.ProductId;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
@@ -27,5 +29,14 @@ public class Fair extends PanacheEntity {
         return FairId.of(id);
     }
 
+    public ProductAvailableInFair addProduct(FarmerId farmerId, ProductId productId, Integer amount){
+        ProductAvailableInFair productAvailableInFair = ProductAvailableInFair.of(
+                fairId(),
+                farmerId,
+                productId,
+                amount);
+        productAvailableInFair.persist();
+        return productAvailableInFair;
+    }
 
 }
