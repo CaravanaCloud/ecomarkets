@@ -61,7 +61,7 @@ public class ProductAvailableInFairTest {
         basket.addItem(prd, 8);
         basket.persist();
 
-        Double result = ProductAvailableInFair.getAvailableStock(fair.fairId(), prd.productId());
+        Double result = ProductAvailableInFair.getAmountProductAvailable(fair.fairId(), prd.productId());
 
         assertEquals(2, result);
 

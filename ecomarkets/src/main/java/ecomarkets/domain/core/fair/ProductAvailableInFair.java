@@ -9,7 +9,7 @@ import jakarta.persistence.NamedNativeQuery;
 
 @Entity
 @NamedNativeQuery(
-        name = "ProductStock.availableStock",
+        name = "ProductAvailableInFair.amountProductAvailable",
         query = """
                     SELECT (stockSum - basketItemsSum) AS result
                       FROM (
@@ -63,8 +63,8 @@ public class ProductAvailableInFair extends PanacheEntity{
         return this.fairId;
     }
 
-    public static Double getAvailableStock(FairId fairId, ProductId productId){
-        return (Double) getEntityManager().createNamedQuery("ProductStock.availableStock")
+    public static Double getAmountProductAvailable(FairId fairId, ProductId productId){
+        return (Double) getEntityManager().createNamedQuery("ProductAvailableInFair.amountProductAvailable")
                 .setParameter("fairId", fairId.id())
                 .setParameter("productId", productId.id())
                 .getSingleResult();
