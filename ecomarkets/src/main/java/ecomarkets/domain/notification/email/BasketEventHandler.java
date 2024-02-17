@@ -20,7 +20,6 @@ public class BasketEventHandler {
     }
 
     private void saveEmailPending(BasketEvent basketEvent){
-        basketEvent.persist();
         EmailPendingToSend emailPendingToSend = new EmailPendingToSend(basketEvent.basketEventId());
         emailPendingToSend.persist();
     }

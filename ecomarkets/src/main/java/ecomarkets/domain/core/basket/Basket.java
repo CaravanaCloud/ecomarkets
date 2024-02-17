@@ -60,14 +60,18 @@ public class Basket extends PanacheEntity {
             throw new IllegalStateException("Basket already reserved!");
         }
 
-        return new BasketReservedEvent(basketId());
+        BasketReservedEvent event = new BasketReservedEvent(basketId());
+        event.persist();
+        return event;
     }
 
     public BasketDeliveredEvent deliverBasket(){
         if(isDelivered()){
             throw new IllegalStateException("Basket already delivered!");
         }
-        return new BasketDeliveredEvent(this.basketId());
+        BasketDeliveredEvent basketDeliveredEvent = new BasketDeliveredEvent(basketId());
+        basketDeliveredEvent.persist();
+        return basketDeliveredEvent;
     }
 
     public LocalDateTime getCreationDate(){
