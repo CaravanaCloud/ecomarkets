@@ -15,6 +15,10 @@ public record Price(@Column(name = "price_unit") Integer unit, Integer cents) {
         }
     }
 
+    public Double total(){
+        return unit() + (cents() / 100.0);
+    }
+
     public static Price of(Integer unit, Integer cents){
         return new Price(unit, cents);
     }

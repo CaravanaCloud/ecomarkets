@@ -11,6 +11,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,12 +100,12 @@ public class Basket extends PanacheEntity {
     }
 
     //TODO WIP - it is necessary refactor for a better solution
-    private Double totalPayment(Price price, Integer amount){
-        return (price.unit() + price.cents() / 100.0) * amount;
+    private BigDecimal totalPayment(Price price, Integer amount){
+        return new BigDecimal(price.total()).multiply(new BigDecimal(amount));
     }
 
-    public Double totalPayment(){
-        return this.items.stream().mapToDouble(BasketItem::totalPayment).sum();
+    public BigDecimal totalPayment(){
+        return this.items.stream().map(BasketItem::totalPayment).reduce((a1, a2) -> a1.add(a2)).orElse(BigDecimal.ZERO);
     }
 
     public BasketId basketId(){

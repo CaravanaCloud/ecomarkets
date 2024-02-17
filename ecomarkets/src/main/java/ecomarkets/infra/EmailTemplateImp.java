@@ -5,6 +5,7 @@ import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -17,7 +18,7 @@ public class EmailTemplateImp implements EmailTemplate {
     Template basketTemplate;
 
     @Override
-    public String getBody(String partnerName, Long basketId, Double paymentValue, String status){
+    public String getBody(String partnerName, Long basketId, BigDecimal paymentValue, String status){
         return basketTemplate
                 .data("partnerName", partnerName)
                 .data("basketId", basketId)
@@ -26,7 +27,7 @@ public class EmailTemplateImp implements EmailTemplate {
     }
 
     //TODO add internationalization
-    public String formatPayment(Double value){
+    public String formatPayment(BigDecimal value){
         DecimalFormat nf =  new DecimalFormat("#,###,##0.00");;
         nf.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt", "BR")));
         return nf.format(value);

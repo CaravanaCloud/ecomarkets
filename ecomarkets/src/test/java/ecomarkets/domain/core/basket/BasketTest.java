@@ -7,7 +7,10 @@ import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.math.BigDecimal;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 
 @QuarkusTest
 public class BasketTest {
@@ -20,7 +23,7 @@ public class BasketTest {
         Product product = FixtureFactory.createProductBuilder().price(5, 15).create();
         basket.addItem(product, 10);
 
-        assertEquals(51.5, basket.totalPayment());
-
+        final BigDecimal error = new BigDecimal(0.001);
+        assertThat(new BigDecimal(51.5), closeTo(basket.totalPayment(), error));
     }
 }
