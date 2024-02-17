@@ -1,4 +1,4 @@
-package ecomarkets.rs.basket;
+package ecomarkets.rs.basket.form;
 
 import ecomarkets.domain.core.fair.FairId;
 import ecomarkets.domain.core.partner.PartnerId;

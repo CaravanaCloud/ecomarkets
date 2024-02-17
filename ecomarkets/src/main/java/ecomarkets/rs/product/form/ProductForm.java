@@ -1,4 +1,4 @@
-package ecomarkets.rs.product;
+package ecomarkets.rs.product.form;
 
 
 import ecomarkets.domain.core.product.*;

@@ -1,6 +1,7 @@
 package ecomarkets.rs.product;
 
 import ecomarkets.domain.core.product.Product;
+import ecomarkets.rs.product.form.ProductForm;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
