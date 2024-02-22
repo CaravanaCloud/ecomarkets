@@ -86,4 +86,39 @@ public class DivideProductsToFarmersTest {
         FarmerProductionToDeliver farmerProductionToDeliver2 = result.stream().filter(p -> p.farmerId().equals(farmer2)).findFirst().get();
         assertThat(farmerProductionToDeliver2.amountToDeliver(), is(1));
     }
+
+    @Test
+    public void testNFarmersNBaskets(){
+        FairId fairId = FairId.of(10l);
+        FarmerId farmer1 = FarmerId.of(1l);
+        FarmerId farmer2 = FarmerId.of(2l);
+        ProductId productId1 = ProductId.of(1l);
+        ProductId productId2 = ProductId.of(2l);
+
+        Map<ProductId, Integer> productsAmountInBaskets = new HashMap<>();
+        productsAmountInBaskets.put(productId1, 3);
+        productsAmountInBaskets.put(productId2, 5);
+
+        List<FarmerProductAvailableInFair> productsAmountInFair = new ArrayList<>();
+        productsAmountInFair.add(FarmerProductAvailableInFair.of(fairId, farmer1, productId1, 8));
+        productsAmountInFair.add(FarmerProductAvailableInFair.of(fairId, farmer2, productId1, 10));
+        productsAmountInFair.add(FarmerProductAvailableInFair.of(fairId, farmer1, productId2, 15));
+        productsAmountInFair.add(FarmerProductAvailableInFair.of(fairId, farmer2, productId2, 7));
+
+        List<FarmerProductionToDeliver> result = new DivideProductsToFarmers().divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
+
+        assertThat(result.size(), is(4));
+
+        FarmerProductionToDeliver farmer1Production1ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer1) && p.productId().equals(productId1)).findFirst().get();
+        assertThat(farmer1Production1ToDeliver.amountToDeliver(), is(2));
+
+        FarmerProductionToDeliver farmer2Production1ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer2) && p.productId().equals(productId1)).findFirst().get();
+        assertThat(farmer2Production1ToDeliver.amountToDeliver(), is(1));
+
+        FarmerProductionToDeliver farmer1Production2ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer1) && p.productId().equals(productId2)).findFirst().get();
+        assertThat(farmer1Production2ToDeliver.amountToDeliver(), is(2));
+
+        FarmerProductionToDeliver farmer2Production2ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer2) && p.productId().equals(productId2)).findFirst().get();
+        assertThat(farmer2Production2ToDeliver.amountToDeliver(), is(3));
+    }
 }

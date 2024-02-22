@@ -83,31 +83,31 @@ public class DivideProductsToFarmers {
         return result;
     }
 
-    private static boolean basketsAlreadySupplied(int amountToDeliver) {
+    private boolean basketsAlreadySupplied(int amountToDeliver) {
         return amountToDeliver <= 0;
     }
 
-    private static int calculateAmountToDeliverByFarmerToSupplyBaskets(int sumAmountProductInBaskets, int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer, int totalDelivered) {
+    private int calculateAmountToDeliverByFarmerToSupplyBaskets(int sumAmountProductInBaskets, int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer, int totalDelivered) {
         int amountToDeliver;
         amountToDeliver = requiredAmountToDeliver(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer);
         amountToDeliver = verifyAmountToDeliverSurpassAmountInBaskets(sumAmountProductInBaskets, totalDelivered, amountToDeliver);
         return amountToDeliver;
     }
 
-    private static void notifyStockFaults(int sumAmountProductInBaskets, int totalDelivered) {
+    private void notifyStockFaults(int sumAmountProductInBaskets, int totalDelivered) {
         if(totalDelivered < sumAmountProductInBaskets){
             // TODO: Implement notification for reporting inconsistencies in production division among farmers caused by stock faults.
         }
     }
 
-    private static int distributeRestBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int rest) {
+    private int distributeRestBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int rest) {
         if(qtFarmers > 0){
             qtToDeliverForEachFarmer += Math.ceilDiv(rest, qtFarmers);
         }
         return qtToDeliverForEachFarmer;
     }
 
-    private static int getAmountNotSuppliedByFarmer(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+    private int getAmountNotSuppliedByFarmer(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
         int rest;
         if(hasFarmerAmountToSupplyBaskets(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer)){
             rest = 0;
@@ -117,7 +117,7 @@ public class DivideProductsToFarmers {
         return rest;
     }
 
-    private static int requiredAmountToDeliver(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+    private int requiredAmountToDeliver(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
         int result;
         if(hasFarmerAmountToSupplyBaskets(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer)){
             result = qtToDeliverForEachFarmer;
@@ -127,11 +127,11 @@ public class DivideProductsToFarmers {
         return result;
     }
 
-    private static boolean hasFarmerAmountToSupplyBaskets(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+    private boolean hasFarmerAmountToSupplyBaskets(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
         return amountAvailableInFairByFarmer >= qtToDeliverForEachFarmer;
     }
 
-    private static int verifyAmountToDeliverSurpassAmountInBaskets(int sumAmountProductInBaskets, int totalDelivered, int amountToDeliver) {
+    private int verifyAmountToDeliverSurpassAmountInBaskets(int sumAmountProductInBaskets, int totalDelivered, int amountToDeliver) {
         if(totalDelivered + amountToDeliver > sumAmountProductInBaskets){
             amountToDeliver = sumAmountProductInBaskets - totalDelivered;
         }
