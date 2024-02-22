@@ -23,51 +23,52 @@ public class DivideProductsToFarmers {
     public List<FarmerProductionToDeliver> process(FairId fairId){
         List<FarmerProductAvailableInFair> productsAmountInFair =  FarmerProductAvailableInFair.find("fairId", fairId).list();
 
-        Map<ProductId, Integer> productsAmountInBaskets = findProductAmountInBaskets(fairId);
+        Map<ProductId, Integer> productByTotalAmountInBaskets = findProductAmountInBaskets(fairId);
 
-        return divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
+        return divideProductionForEachFarmer(fairId, productByTotalAmountInBaskets, productsAmountInFair);
     }
 
-    private List<FarmerProductionToDeliver> divideProductionForEachFarmer(FairId fairId, Map<ProductId, Integer> productsAmountInBaskets,
+    List<FarmerProductionToDeliver> divideProductionForEachFarmer(FairId fairId, Map<ProductId, Integer> productByTotalAmountInBaskets,
                                                List<FarmerProductAvailableInFair> productsAmountInFair) {
         List<FarmerProductionToDeliver> result = new ArrayList<>();
 
-        for(Map.Entry<ProductId, Integer> entry : productsAmountInBaskets.entrySet()){
-            final ProductId productId = entry.getKey();
-            final int sumAmountProductInBaskets = entry.getValue();
+        for(Map.Entry<ProductId, Integer> productByTotalAmount : productByTotalAmountInBaskets.entrySet()){
+            final ProductId productId = productByTotalAmount.getKey();
+            final int sumAmountProductInBaskets = productByTotalAmount.getValue();
 
-            List<FarmerProductAvailableInFair> productsInAscendingAmountOrder = filterByProductInAscendingAmount(productId, productsAmountInFair);
-            result.addAll(divideProduct(productsInAscendingAmountOrder, sumAmountProductInBaskets));
+            List<FarmerProductAvailableInFair> farmersProductSupplyInAscendingAmountOrder = filterByProductInAscendingAmount(productId, productsAmountInFair);
+            result.addAll(divideProductFromSmallerToGreaterFarmerStock(farmersProductSupplyInAscendingAmountOrder, sumAmountProductInBaskets));
         }
 
         return result;
     }
 
-    private List<FarmerProductionToDeliver> divideProduct(List<FarmerProductAvailableInFair> productsInAscendingAmountOrder, final int sumAmountProductInBaskets) {
+    private List<FarmerProductionToDeliver> divideProductFromSmallerToGreaterFarmerStock(List<FarmerProductAvailableInFair> productsInAscendingAmountOrder, final int sumAmountProductInBaskets) {
         List<FarmerProductionToDeliver> result = new ArrayList<>();
 
-        int qtFarmers = productsInAscendingAmountOrder.size();
+        final int qtFarmers = productsInAscendingAmountOrder.size();
+
+        if(qtFarmers == 0){
+            return result;
+        }
+
         int qtToDeliverForEachFarmer = Math.ceilDiv(sumAmountProductInBaskets, qtFarmers);
         int totalDelivered = 0;
+        int qtFarmersPendingToDeliver = 0;
         for(FarmerProductAvailableInFair item : productsInAscendingAmountOrder){
-            if(totalDelivered >= sumAmountProductInBaskets){
+            final int amountAvailableInFairByFarmer = item.getAmount();
+
+            final int amountToDeliver = calculateAmountToDeliverByFarmerToSupplyBaskets(sumAmountProductInBaskets, amountAvailableInFairByFarmer, qtToDeliverForEachFarmer, totalDelivered);
+
+            if(basketsAlreadySupplied(amountToDeliver)){
                 break;
             }
 
-            final int amountAvailableInFairByFarmer = item.getAmount();
+            int rest = getAmountNotSuppliedByFarmer(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer);
 
-            final int amountToDeliver;
+            qtFarmersPendingToDeliver--;
 
-            final int rest;
-            if(amountAvailableInFairByFarmer >= qtToDeliverForEachFarmer){
-                amountToDeliver = qtToDeliverForEachFarmer;
-                rest = 0;
-            }else{
-                amountToDeliver = amountAvailableInFairByFarmer;
-                rest = qtToDeliverForEachFarmer - amountAvailableInFairByFarmer;
-            }
-            qtFarmers--;
-            qtToDeliverForEachFarmer += Math.ceilDiv(rest, qtFarmers);
+            qtToDeliverForEachFarmer = distributeRestBetweenPendingFarmers(qtFarmersPendingToDeliver, qtToDeliverForEachFarmer, rest);
 
             result.add(FarmerProductionToDeliver.of(item.getFairId(),
                     item.getFarmerId(),
@@ -77,11 +78,64 @@ public class DivideProductsToFarmers {
             totalDelivered += amountToDeliver;
         }
 
+        notifyStockFaults(sumAmountProductInBaskets, totalDelivered);
+
+        return result;
+    }
+
+    private static boolean basketsAlreadySupplied(int amountToDeliver) {
+        return amountToDeliver <= 0;
+    }
+
+    private static int calculateAmountToDeliverByFarmerToSupplyBaskets(int sumAmountProductInBaskets, int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer, int totalDelivered) {
+        int amountToDeliver;
+        amountToDeliver = requiredAmountToDeliver(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer);
+        amountToDeliver = verifyAmountToDeliverSurpassAmountInBaskets(sumAmountProductInBaskets, totalDelivered, amountToDeliver);
+        return amountToDeliver;
+    }
+
+    private static void notifyStockFaults(int sumAmountProductInBaskets, int totalDelivered) {
         if(totalDelivered < sumAmountProductInBaskets){
             // TODO: Implement notification for reporting inconsistencies in production division among farmers caused by stock faults.
         }
+    }
 
+    private static int distributeRestBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int rest) {
+        if(qtFarmers > 0){
+            qtToDeliverForEachFarmer += Math.ceilDiv(rest, qtFarmers);
+        }
+        return qtToDeliverForEachFarmer;
+    }
+
+    private static int getAmountNotSuppliedByFarmer(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+        int rest;
+        if(hasFarmerAmountToSupplyBaskets(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer)){
+            rest = 0;
+        }else{
+            rest = qtToDeliverForEachFarmer - amountAvailableInFairByFarmer;
+        }
+        return rest;
+    }
+
+    private static int requiredAmountToDeliver(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+        int result;
+        if(hasFarmerAmountToSupplyBaskets(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer)){
+            result = qtToDeliverForEachFarmer;
+        }else{
+            result = amountAvailableInFairByFarmer;
+        }
         return result;
+    }
+
+    private static boolean hasFarmerAmountToSupplyBaskets(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
+        return amountAvailableInFairByFarmer >= qtToDeliverForEachFarmer;
+    }
+
+    private static int verifyAmountToDeliverSurpassAmountInBaskets(int sumAmountProductInBaskets, int totalDelivered, int amountToDeliver) {
+        if(totalDelivered + amountToDeliver > sumAmountProductInBaskets){
+            amountToDeliver = sumAmountProductInBaskets - totalDelivered;
+        }
+        return amountToDeliver;
     }
 
     private Map<ProductId, Integer> findProductAmountInBaskets(FairId fairId) {
