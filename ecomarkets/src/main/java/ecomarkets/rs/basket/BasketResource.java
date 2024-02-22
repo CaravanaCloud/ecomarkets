@@ -2,6 +2,7 @@ package ecomarkets.rs.basket;
 
 import ecomarkets.domain.core.basket.Basket;
 import ecomarkets.domain.core.basket.event.BasketEvent;
+import ecomarkets.domain.core.fair.ProductStock;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.rs.basket.form.BasketItemForm;
 import ecomarkets.rs.basket.form.CreateBasketForm;
@@ -21,6 +22,9 @@ public class BasketResource {
 
     @Inject
     Event<BasketEvent> basketEvent;
+
+    @Inject
+    ProductStock productStock;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +47,7 @@ public class BasketResource {
         
         Basket basket = Basket.of(createBasketForm.fairId(), createBasketForm.partnerId());
         if(createBasketForm.items() != null){
-            createBasketForm.items().forEach(it -> basket.addItem(Product.findById(it.productId().id()), it.amount()));
+            createBasketForm.items().forEach(it -> basket.addItem(productStock, Product.findById(it.productId().id()), it.amount()));
         }
         basket.persist();
 
@@ -67,7 +71,7 @@ public class BasketResource {
             throw new NotFoundException("Basket do not exists for id " + id);
         }
         
-        items.forEach(it -> basket.addItem(Product.findById(it.productId().id()), it.amount()));
+        items.forEach(it -> basket.addItem(productStock, Product.findById(it.productId().id()), it.amount()));
         
         return Response
         .status(Response.Status.CREATED)

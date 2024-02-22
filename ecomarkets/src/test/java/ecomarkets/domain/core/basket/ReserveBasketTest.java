@@ -4,16 +4,19 @@ import ecomarkets.FixtureFactory;
 import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.basket.event.BasketReservedEvent;
 import ecomarkets.domain.core.fair.Fair;
+import ecomarkets.domain.core.fair.ProductStock;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.domain.notification.email.EmailPendingToSend;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -21,19 +24,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @QuarkusTest
 public class ReserveBasketTest {
-    final static Partner PARTNER_JOHN = FixtureFactory.createPartner();
+    final Partner partner = FixtureFactory.createPartner();
 
-    static Product product;
+    Product product;
 
-    static Basket basket;
+    Basket basket;
 
-    final static Tenant TENANT = Tenant.of("Tenant1", "1");
+    @InjectMock
+    ProductStock productStock;
 
-    @BeforeAll
+    final Tenant TENANT = Tenant.of("Tenant1", "1");
+
+
+    @BeforeEach
     @Transactional
-    static void beforeAll(){
+    void beforeAll(){
         Tenant.persist(TENANT);
-        Partner.persist(PARTNER_JOHN);
+        partner.persist();
 
         product = FixtureFactory.createProduct();
         product.persist();
@@ -41,9 +48,11 @@ public class ReserveBasketTest {
         Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        basket = Basket.of(fair.fairId(), PARTNER_JOHN.partnerId());
+        basket = Basket.of(fair.fairId(), partner.partnerId());
 
-        basket.addItem(product, 5);
+        Mockito.when(productStock.getAmountProductAvailable(basket.getFairId(), product.productId())).thenReturn(10.0);
+
+        basket.addItem(productStock, product, 5);
 
         basket.persist();
     }

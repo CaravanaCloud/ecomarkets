@@ -1,11 +1,9 @@
 package ecomarkets.rs.fair;
 
-import ecomarkets.domain.core.fair.Fair;
-import ecomarkets.domain.core.fair.FairId;
-import ecomarkets.domain.core.fair.FarmerProductAvailableInFair;
-import ecomarkets.domain.core.fair.ShoppingPeriod;
+import ecomarkets.domain.core.fair.*;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.domain.core.product.ProductId;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -16,6 +14,9 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class FairResource {
+
+    @Inject
+    ProductStock productStockService;
 
     @Path("/{fairId}/product/{productId}")
     @GET
@@ -32,7 +33,7 @@ public class FairResource {
             throw new NotFoundException("fair with id %d not found.".formatted(fairId));
         }
 
-        return FarmerProductAvailableInFair.getAmountProductAvailable(FairId.of(fairId), ProductId.of(productId));
+        return productStockService.getAmountProductAvailable(FairId.of(fairId), ProductId.of(productId));
     }
 
     @Path("/{fairId}/product/{productId}")

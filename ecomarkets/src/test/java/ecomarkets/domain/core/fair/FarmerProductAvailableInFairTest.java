@@ -7,12 +7,16 @@ import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 public class FarmerProductAvailableInFairTest {
+
+    @Inject
+    ProductStock productStock;
 
     @Test
     @TestTransaction
@@ -58,10 +62,10 @@ public class FarmerProductAvailableInFairTest {
         partner.persist();
 
         Basket basket = Basket.of(fair.fairId(), partner.partnerId());
-        basket.addItem(prd, 8);
+        basket.addItem(productStock, prd, 8);
         basket.persist();
 
-        Double result = FarmerProductAvailableInFair.getAmountProductAvailable(fair.fairId(), prd.productId());
+        Double result = productStock.getAmountProductAvailable(fair.fairId(), prd.productId());
 
         assertEquals(2, result);
 

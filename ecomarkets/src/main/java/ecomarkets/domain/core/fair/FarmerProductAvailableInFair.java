@@ -13,13 +13,13 @@ import jakarta.persistence.NamedNativeQuery;
         query = """
                     SELECT (stockSum - basketItemsSum) AS result
                       FROM (
-                        SELECT SUM(item.amount) AS basketItemsSum
+                        SELECT COALESCE(SUM(item.amount), 0) AS basketItemsSum
                           FROM Basket_items item
                           JOIN Basket b ON item.basket_id = b.id
                          WHERE item.product_id = :productId 
                            AND b.fair_id = :fairId ) AS basketItemsSum,
                         (
-                        SELECT SUM(amount) AS stockSum
+                        SELECT COALESCE(SUM(amount), 0) AS stockSum
                           FROM FarmerProductAvailableInFair
                          WHERE product_id = :productId
                            and fair_id = :fairId ) AS stockSum
@@ -28,7 +28,7 @@ import jakarta.persistence.NamedNativeQuery;
 )
 // TODO: Add a unique constraint for the combination of fairId, farmerId, and productId fields.
 @Immutable
-public class FarmerProductAvailableInFair extends PanacheEntity{
+public class FarmerProductAvailableInFair extends PanacheEntity {
     private FairId fairId;
     private FarmerId farmerId;
     private ProductId productId;
@@ -64,10 +64,5 @@ public class FarmerProductAvailableInFair extends PanacheEntity{
         return this.fairId;
     }
 
-    public static Double getAmountProductAvailable(FairId fairId, ProductId productId){
-        return (Double) getEntityManager().createNamedQuery("FarmerProductAvailableInFair.amountProductAvailable")
-                .setParameter("fairId", fairId.id())
-                .setParameter("productId", productId.id())
-                .getSingleResult();
-    }
+
 }

@@ -4,6 +4,7 @@ import com.google.errorprone.annotations.Immutable;
 import ecomarkets.domain.core.basket.event.BasketDeliveredEvent;
 import ecomarkets.domain.core.basket.event.BasketReservedEvent;
 import ecomarkets.domain.core.fair.FairId;
+import ecomarkets.domain.core.fair.ProductStock;
 import ecomarkets.domain.core.partner.PartnerId;
 import ecomarkets.domain.core.product.Price;
 import ecomarkets.domain.core.product.Product;
@@ -87,13 +88,21 @@ public class Basket extends PanacheEntity {
         return new ArrayList<>(this.items);
     }
 
-    public void addItem(Product product,
-                        Integer amount){
+    public void addItem(
+            ProductStock productStock,
+            Product product,
+            Integer amount){
         if(BasketReservedEvent.count("basketId", basketId()) > 0){
             throw new IllegalStateException("Basket Already scheduled to delivery.");
         }
         if(this.items == null){
             throw new IllegalArgumentException("product is null");
+        }
+
+        Double amountAvailable = productStock.getAmountProductAvailable(fairId, product.productId());
+
+        if(amountAvailable < amount){
+            throw new IllegalArgumentException("There isn't product amount available!");
         }
 
         this.items.add(BasketItem.of(product.productId(), amount, totalPayment(product.getPrice(), amount)));

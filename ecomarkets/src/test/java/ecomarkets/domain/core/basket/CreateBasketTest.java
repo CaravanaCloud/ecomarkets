@@ -3,17 +3,20 @@ package ecomarkets.domain.core.basket;
 import ecomarkets.FixtureFactory;
 import ecomarkets.domain.core.Tenant;
 import ecomarkets.domain.core.fair.Fair;
+import ecomarkets.domain.core.fair.ProductStock;
 import ecomarkets.domain.core.partner.Partner;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.domain.notification.email.EmailPendingToSend;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,25 +26,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @QuarkusTest
 public class CreateBasketTest {
 
-    final static Partner PARTNER_JOHN = FixtureFactory.createPartner();
+    Partner partner = FixtureFactory.createPartner();
     
     final static Tenant TENANT = Tenant.of("Tenant1", "1");
 
-    static Product prd;
+    Product prd;
 
-    static Fair fair;
+    Fair fair;
 
-    @BeforeAll
+    @InjectMock
+    ProductStock productStock;
+
+    @BeforeEach
     @Transactional
-    static void beforeAll(){
-        Tenant.persist(TENANT);        
-        Partner.persist(PARTNER_JOHN);
+    void before(){
+        partner.persist();
 
         prd = FixtureFactory.createProduct();
         prd.persist();
 
         fair = FixtureFactory.createFair();
         fair.persist();
+
+        Mockito.when(productStock.getAmountProductAvailable(fair.fairId(), prd.productId())).thenReturn(10.0);
     }
 
     @AfterAll
@@ -57,7 +64,7 @@ public class CreateBasketTest {
                 .body("""
                {"fairId": {"id": %d},
                 "partnerId": {"id": %d}}
-        """.formatted(fair.id, PARTNER_JOHN.id))
+        """.formatted(fair.id, partner.id))
                 .post("/api/basket/")
         .then()
         .assertThat();
@@ -77,7 +84,7 @@ public class CreateBasketTest {
     private void assertBasket(ValidatableResponse vr, int httpStatus) {
         vr.statusCode(httpStatus)
         .body("id", is(notNullValue()))
-        .body("partnerId.id", is(PARTNER_JOHN.id.intValue()))
+        .body("partnerId.id", is(partner.id.intValue()))
         .body("fairId.id", is(fair.id.intValue()))
         .body("creationDate", is(notNullValue()))
         .body("items.size()", is(0));
@@ -96,7 +103,7 @@ public class CreateBasketTest {
                  "amount": 5}
                ] 
              }
-        """.formatted(fair.id, PARTNER_JOHN.id, prd.id))
+        """.formatted(fair.id, partner.id, prd.id))
         .when()
         .post("/api/basket/")
         .then()
