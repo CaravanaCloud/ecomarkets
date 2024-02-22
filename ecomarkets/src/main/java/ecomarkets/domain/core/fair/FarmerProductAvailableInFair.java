@@ -9,7 +9,7 @@ import jakarta.persistence.NamedNativeQuery;
 
 @Entity
 @NamedNativeQuery(
-        name = "ProductAvailableInFair.amountProductAvailable",
+        name = "FarmerProductAvailableInFair.amountProductAvailable",
         query = """
                     SELECT (stockSum - basketItemsSum) AS result
                       FROM (
@@ -20,7 +20,7 @@ import jakarta.persistence.NamedNativeQuery;
                            AND b.fair_id = :fairId ) AS basketItemsSum,
                         (
                         SELECT SUM(amount) AS stockSum
-                          FROM ProductAvailableInFair
+                          FROM FarmerProductAvailableInFair
                          WHERE product_id = :productId
                            and fair_id = :fairId ) AS stockSum
                 """,
@@ -65,7 +65,7 @@ public class FarmerProductAvailableInFair extends PanacheEntity{
     }
 
     public static Double getAmountProductAvailable(FairId fairId, ProductId productId){
-        return (Double) getEntityManager().createNamedQuery("ProductAvailableInFair.amountProductAvailable")
+        return (Double) getEntityManager().createNamedQuery("FarmerProductAvailableInFair.amountProductAvailable")
                 .setParameter("fairId", fairId.id())
                 .setParameter("productId", productId.id())
                 .getSingleResult();

@@ -1,4 +1,4 @@
-package ecomarkets.domain.core.fair.report;
+package ecomarkets.domain.core.fair.delivery;
 
 import ecomarkets.domain.core.basket.Basket;
 import ecomarkets.domain.core.basket.BasketItem;
@@ -43,7 +43,7 @@ public class DivideProductsToFarmers {
         return result;
     }
 
-    private List<FarmerProductionToDeliver> divideProduct(List<FarmerProductAvailableInFair> productsInAscendingAmountOrder, int sumAmountProductInBaskets) {
+    private List<FarmerProductionToDeliver> divideProduct(List<FarmerProductAvailableInFair> productsInAscendingAmountOrder, final int sumAmountProductInBaskets) {
         List<FarmerProductionToDeliver> result = new ArrayList<>();
 
         int qtFarmers = productsInAscendingAmountOrder.size();
@@ -67,7 +67,7 @@ public class DivideProductsToFarmers {
                 rest = qtToDeliverForEachFarmer - amountAvailableInFairByFarmer;
             }
             qtFarmers--;
-            qtToDeliverForEachFarmer += (rest / qtFarmers);
+            qtToDeliverForEachFarmer += Math.ceilDiv(rest, qtFarmers);
 
             result.add(FarmerProductionToDeliver.of(item.getFairId(),
                     item.getFarmerId(),
@@ -77,7 +77,7 @@ public class DivideProductsToFarmers {
             totalDelivered += amountToDeliver;
         }
 
-        if(qtToDeliverForEachFarmer > 0){
+        if(totalDelivered < sumAmountProductInBaskets){
             // TODO: Implement notification for reporting inconsistencies in production division among farmers caused by stock faults.
         }
 

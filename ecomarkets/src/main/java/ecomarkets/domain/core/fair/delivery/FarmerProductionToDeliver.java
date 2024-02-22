@@ -1,4 +1,4 @@
-package ecomarkets.domain.core.fair.report;
+package ecomarkets.domain.core.fair.delivery;
 
 import ecomarkets.domain.core.fair.FairId;
 import ecomarkets.domain.core.farmer.FarmerId;
