@@ -64,11 +64,11 @@ public class DivideProductsToFarmers {
                 break;
             }
 
-            int rest = getAmountNotSuppliedByFarmer(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer);
+            int remainder = getAmountNotSuppliedByFarmer(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer);
 
             qtFarmersPendingToDeliver--;
 
-            qtToDeliverForEachFarmer = distributeRestBetweenPendingFarmers(qtFarmersPendingToDeliver, qtToDeliverForEachFarmer, rest);
+            qtToDeliverForEachFarmer = distributeRemainderBetweenPendingFarmers(qtFarmersPendingToDeliver, qtToDeliverForEachFarmer, remainder);
 
             result.add(FarmerProductionToDeliver.of(item.getFairId(),
                     item.getFarmerId(),
@@ -100,21 +100,21 @@ public class DivideProductsToFarmers {
         }
     }
 
-    private int distributeRestBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int rest) {
+    private int distributeRemainderBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int remainder) {
         if(qtFarmers > 0){
-            qtToDeliverForEachFarmer += Math.ceilDiv(rest, qtFarmers);
+            qtToDeliverForEachFarmer += Math.ceilDiv(remainder, qtFarmers);
         }
         return qtToDeliverForEachFarmer;
     }
 
     private int getAmountNotSuppliedByFarmer(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
-        int rest;
+        int remainder;
         if(hasFarmerAmountToSupplyBaskets(amountAvailableInFairByFarmer, qtToDeliverForEachFarmer)){
-            rest = 0;
+            remainder = 0;
         }else{
-            rest = qtToDeliverForEachFarmer - amountAvailableInFairByFarmer;
+            remainder = qtToDeliverForEachFarmer - amountAvailableInFairByFarmer;
         }
-        return rest;
+        return remainder;
     }
 
     private int requiredAmountToDeliver(int amountAvailableInFairByFarmer, int qtToDeliverForEachFarmer) {
