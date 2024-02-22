@@ -64,11 +64,11 @@ public class FairTest {
                 .body("id", is(notNullValue()))
                 .extract().path("id");
 
-        ProductAvailableInFair productAvailableInFair = ProductAvailableInFair.findById(id);
-        assertThat(productAvailableInFair.getFairId(), Matchers.is(fair.fairId()));
-        assertThat(productAvailableInFair.getProductId(), Matchers.is(product.productId()));
-        assertThat(productAvailableInFair.getFarmerId(), Matchers.is(farmer.farmerId()));
-        assertThat(productAvailableInFair.getAmount(), Matchers.is(AMOUNT));
+        FarmerProductAvailableInFair farmerProductAvailableInFair = FarmerProductAvailableInFair.findById(id);
+        assertThat(farmerProductAvailableInFair.getFairId(), Matchers.is(fair.fairId()));
+        assertThat(farmerProductAvailableInFair.getProductId(), Matchers.is(product.productId()));
+        assertThat(farmerProductAvailableInFair.getFarmerId(), Matchers.is(farmer.farmerId()));
+        assertThat(farmerProductAvailableInFair.getAmount(), Matchers.is(AMOUNT));
     }
 
     @Test

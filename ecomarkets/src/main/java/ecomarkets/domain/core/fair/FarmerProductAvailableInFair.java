@@ -26,20 +26,21 @@ import jakarta.persistence.NamedNativeQuery;
                 """,
         resultClass = Double.class
 )
+// TODO: Add a unique constraint for the combination of fairId, farmerId, and productId fields.
 @Immutable
-public class ProductAvailableInFair extends PanacheEntity{
+public class FarmerProductAvailableInFair extends PanacheEntity{
     private FairId fairId;
     private FarmerId farmerId;
     private ProductId productId;
     private Integer amount;
 
-    private ProductAvailableInFair(){}
+    private FarmerProductAvailableInFair(){}
 
-    public static ProductAvailableInFair of(FairId fairId,
-                                            FarmerId farmerId,
-                                            ProductId productId,
-                                            Integer amount){
-        ProductAvailableInFair result = new ProductAvailableInFair();
+    public static FarmerProductAvailableInFair of(FairId fairId,
+                                                  FarmerId farmerId,
+                                                  ProductId productId,
+                                                  Integer amount){
+        FarmerProductAvailableInFair result = new FarmerProductAvailableInFair();
         result.farmerId = farmerId;
         result.productId = productId;
         result.amount = amount;

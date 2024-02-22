@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
-public class ProductAvailableInFairTest {
+public class FarmerProductAvailableInFairTest {
 
     @Test
     @TestTransaction
@@ -26,10 +26,10 @@ public class ProductAvailableInFairTest {
         Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stockBefore = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
+        FarmerProductAvailableInFair stockBefore = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 100);
         stockBefore.persist();
 
-        ProductAvailableInFair stock = ProductAvailableInFair.findById(stockBefore.id);
+        FarmerProductAvailableInFair stock = FarmerProductAvailableInFair.findById(stockBefore.id);
 
         assertEquals(stockBefore.id, stock.id);
         assertEquals(stockBefore.getFarmerId(), stock.getFarmerId());
@@ -51,7 +51,7 @@ public class ProductAvailableInFairTest {
         Fair fair = FixtureFactory.createFair();
         fair.persist();
 
-        ProductAvailableInFair stock = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
+        FarmerProductAvailableInFair stock = FixtureFactory.createProductAvailableInFair(fair.fairId(), farmer.farmerId(), prd.productId(), 10);
         stock.persist();
 
         Partner partner = FixtureFactory.createPartner();
@@ -61,7 +61,7 @@ public class ProductAvailableInFairTest {
         basket.addItem(prd, 8);
         basket.persist();
 
-        Double result = ProductAvailableInFair.getAmountProductAvailable(fair.fairId(), prd.productId());
+        Double result = FarmerProductAvailableInFair.getAmountProductAvailable(fair.fairId(), prd.productId());
 
         assertEquals(2, result);
 

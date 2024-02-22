@@ -2,7 +2,7 @@ package ecomarkets.rs.fair;
 
 import ecomarkets.domain.core.fair.Fair;
 import ecomarkets.domain.core.fair.FairId;
-import ecomarkets.domain.core.fair.ProductAvailableInFair;
+import ecomarkets.domain.core.fair.FarmerProductAvailableInFair;
 import ecomarkets.domain.core.fair.ShoppingPeriod;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.domain.core.product.ProductId;
@@ -32,14 +32,14 @@ public class FairResource {
             throw new NotFoundException("fair with id %d not found.".formatted(fairId));
         }
 
-        return ProductAvailableInFair.getAmountProductAvailable(FairId.of(fairId), ProductId.of(productId));
+        return FarmerProductAvailableInFair.getAmountProductAvailable(FairId.of(fairId), ProductId.of(productId));
     }
 
     @Path("/{fairId}/product/{productId}")
     @POST
-    public ProductAvailableInFair addProduct(@PathParam("fairId") Long fairId, @PathParam("productId") Long productId, AddProductForm addProductForm){
+    public FarmerProductAvailableInFair addProduct(@PathParam("fairId") Long fairId, @PathParam("productId") Long productId, AddProductForm addProductForm){
         Fair fair = find(fairId);
-        ProductAvailableInFair result = fair.addProduct(addProductForm.farmerId(), ProductId.of(productId), addProductForm.amount());
+        FarmerProductAvailableInFair result = fair.addProduct(addProductForm.farmerId(), ProductId.of(productId), addProductForm.amount());
         return result;
     }
 

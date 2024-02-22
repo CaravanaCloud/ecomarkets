@@ -33,14 +33,14 @@ public class Fair extends PanacheEntity {
         return FairId.of(id);
     }
 
-    public ProductAvailableInFair addProduct(FarmerId farmerId, ProductId productId, Integer amount){
-        ProductAvailableInFair productAvailableInFair = ProductAvailableInFair.of(
+    public FarmerProductAvailableInFair addProduct(FarmerId farmerId, ProductId productId, Integer amount){
+        FarmerProductAvailableInFair farmerProductAvailableInFair = FarmerProductAvailableInFair.of(
                 fairId(),
                 farmerId,
                 productId,
                 amount);
-        productAvailableInFair.persist();
-        return productAvailableInFair;
+        farmerProductAvailableInFair.persist();
+        return farmerProductAvailableInFair;
     }
 
 }
