@@ -20,4 +20,4 @@ journal-*
 # Terraform
 terraform.*.json
 
-
+.envrc*

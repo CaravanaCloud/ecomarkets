@@ -1,6 +1,5 @@
 <script>
-
-	let title = 'EcoMarkets';
+	let title = 'EcoMarkets responsivo';
 </script>
 <div class="flex flex-col h-screen justify-between items-center">
   
