@@ -3,6 +3,7 @@ package ecomarkets.rs.product;
 import ecomarkets.domain.core.product.Product;
 import ecomarkets.domain.core.product.image.ImageRepository;
 import ecomarkets.domain.core.product.image.ProductImage;
+import ecomarkets.rs.product.form.ImageFormData;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;

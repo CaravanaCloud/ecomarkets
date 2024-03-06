@@ -1,9 +1,14 @@
-package ecomarkets.rs;
+package ecomarkets.rs.basket;
 
 import ecomarkets.domain.core.basket.Basket;
-import ecomarkets.domain.core.basket.BasketItem;
-import ecomarkets.domain.core.partner.PartnerId;
+import ecomarkets.domain.core.basket.event.BasketEvent;
+import ecomarkets.domain.core.fair.ProductStock;
+import ecomarkets.domain.core.product.Product;
+import ecomarkets.rs.basket.form.BasketItemForm;
+import ecomarkets.rs.basket.form.CreateBasketForm;
 import io.quarkus.panache.common.Sort;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +20,11 @@ import java.util.List;
 @Path("/basket")
 public class BasketResource {
 
-   
+    @Inject
+    Event<BasketEvent> basketEvent;
+
+    @Inject
+    ProductStock productStock;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -30,18 +39,17 @@ public class BasketResource {
         return Basket.findById(id);
     }
     
-    @Path("/{partnerId}")
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBasket(@PathParam("partnerId") Long partnerId,
-    Collection<BasketItem> items) {
+    public Response createBasket(CreateBasketForm createBasketForm) {
         
-        Basket basket = Basket.of(PartnerId.of(partnerId));
-        basket.addItems(items);
+        Basket basket = Basket.of(createBasketForm.fairId(), createBasketForm.partnerId());
+        if(createBasketForm.items() != null){
+            createBasketForm.items().forEach(it -> basket.addItem(productStock, Product.findById(it.productId().id()), it.amount()));
+        }
         basket.persist();
-
 
         return Response
         .status(Response.Status.CREATED)
@@ -55,7 +63,7 @@ public class BasketResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addBasketItem(@PathParam("id") Integer id,
-    Collection<BasketItem> items) {
+    Collection<BasketItemForm> items) {
         
         Basket basket = Basket.findById(id);
 
@@ -63,14 +71,14 @@ public class BasketResource {
             throw new NotFoundException("Basket do not exists for id " + id);
         }
         
-        basket.addItems(items);
+        items.forEach(it -> basket.addItem(productStock, Product.findById(it.productId().id()), it.amount()));
         
         return Response
         .status(Response.Status.CREATED)
         .entity(basket)
         .build();
     }
-   
+
     @Path("/{id}/reserve")
     @PUT
     @Transactional
@@ -84,11 +92,12 @@ public class BasketResource {
             throw new NotFoundException("Basket do not exists for id " + id);
         }
 
-        basket.reserveBasket();
-        
+        BasketEvent event = basket.reserveBasket();
+        basketEvent.fire(event);
+
         return basket;
     }
-  
+
     @Path("/{id}/deliver")
     @PUT
     @Transactional
@@ -102,8 +111,9 @@ public class BasketResource {
             throw new NotFoundException("Basket do not exists for id " + id);
         }
 
-        basket.deliverBasket();
-        
+        BasketEvent event = basket.deliverBasket();
+        basketEvent.fire(event);
+
         return basket;
     }
 

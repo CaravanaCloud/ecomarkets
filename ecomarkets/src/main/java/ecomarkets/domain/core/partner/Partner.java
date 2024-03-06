@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 import ecomarkets.domain.register.Address;
 import ecomarkets.domain.register.CPF;
-import ecomarkets.domain.register.Email;
+import ecomarkets.domain.register.EmailAddress;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
 @Entity
-/**
- * Partner is a generic name for "Customer"
+/*
+  Partner is a generic name for "Customer"
  */
 public class Partner extends PanacheEntity{
 
@@ -19,7 +19,7 @@ public class Partner extends PanacheEntity{
 
     private CPF cpf;
     
-    private Email email;
+    private EmailAddress emailAddress;
     
     private LocalDate birthDate;
     
@@ -29,10 +29,10 @@ public class Partner extends PanacheEntity{
 
     private Partner() {}
 
-    private Partner(String name, CPF cpf, Email email, LocalDate birthDate, Address address, Telephone telephone) {
+    private Partner(String name, CPF cpf, EmailAddress emailAddress, LocalDate birthDate, Address address, Telephone telephone) {
         this.name = name;
         this.cpf = cpf;
-        this.email = email;
+        this.emailAddress = emailAddress;
         this.birthDate = birthDate;
         this.address = address;
         this.telephone = telephone;
@@ -40,7 +40,7 @@ public class Partner extends PanacheEntity{
 
     public static Partner of(String name,
     CPF cpf,
-    Email email,
+    EmailAddress emailAddress,
     LocalDate birthDate,
     Telephone telephone,
     Address address
@@ -48,7 +48,7 @@ public class Partner extends PanacheEntity{
         return new Partner(
             name,
             cpf,
-            email,
+                emailAddress,
             birthDate,
             address,
             telephone
@@ -63,8 +63,8 @@ public class Partner extends PanacheEntity{
         return this.cpf;
     }
 
-    public Email getEmail() {
-        return this.email;
+    public EmailAddress getEmailAddress() {
+        return this.emailAddress;
     }
 
     public LocalDate getBirthDate() {

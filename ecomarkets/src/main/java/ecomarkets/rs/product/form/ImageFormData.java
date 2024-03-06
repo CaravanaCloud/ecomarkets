@@ -1,4 +1,4 @@
-package ecomarkets.rs.product;
+package ecomarkets.rs.product.form;
 
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.resteasy.reactive.PartType;

@@ -1,7 +1,7 @@
 package ecomarkets.domain.core.farmer;
 
 import ecomarkets.domain.register.Address;
-import ecomarkets.domain.register.Email;
+import ecomarkets.domain.register.EmailAddress;
 import ecomarkets.domain.register.Telephone;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
@@ -11,7 +11,7 @@ public class Farmer extends PanacheEntity{
 
     private String name;
 
-    private Email email;
+    private EmailAddress emailAddress;
 
     private Telephone telephone;
 
@@ -19,21 +19,21 @@ public class Farmer extends PanacheEntity{
     
     private Farmer() {}
 
-    private Farmer(String name, Email email, Address address, Telephone telephone) {
+    private Farmer(String name, EmailAddress emailAddress, Address address, Telephone telephone) {
         this.name = name;
-        this.email = email;
+        this.emailAddress = emailAddress;
         this.address = address;
         this.telephone = telephone;
     }
 
     public static Farmer of(String name,
-    Email email,
+    EmailAddress emailAddress,
     Telephone telephone,
     Address address
     ){
         return new Farmer(
             name,
-            email,
+                emailAddress,
             address,
             telephone
         );
@@ -43,8 +43,8 @@ public class Farmer extends PanacheEntity{
         return this.name;
     }
 
-    public Email getEmail() {
-        return this.email;
+    public EmailAddress getEmail() {
+        return this.emailAddress;
     }
 
     public Address getAddress() {

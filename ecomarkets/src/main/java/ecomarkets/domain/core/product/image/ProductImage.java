@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 import org.hibernate.annotations.Immutable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
