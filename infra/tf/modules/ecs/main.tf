@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "that" {
 }
 
 resource "aws_security_group" "ecs_sg" {
-  name        = "aurora-security-group"
+  name        = "ecs-security-group"
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
