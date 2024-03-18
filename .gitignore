@@ -21,3 +21,9 @@ journal-*
 terraform.*.json
 
 .envrc*
+
+.terraform*
+terraform.*
+*.tfstate
+*.tfstate.backup
+*.tfvars*

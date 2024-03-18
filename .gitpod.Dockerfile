@@ -28,3 +28,5 @@ RUN bash -c "curl -Ls '${SAM_URL}' -o '/tmp/aws-sam-cli-linux-x86_64.zip' \
     && unzip '/tmp/aws-sam-cli-linux-x86_64.zip' -d '/tmp/sam-installation' \
     && sudo '/tmp/sam-installation/install' \
     && sam --version"
+
+RUN bash -c "brew install terraform kubectl eksctl"

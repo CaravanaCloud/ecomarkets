@@ -5,3 +5,8 @@ variable aws_region {
 variable env_id {
   default = "ecomarkets_dev"
 }
+
+variable db_publicly_accessible {
+  type    = bool
+  default = false
+}
