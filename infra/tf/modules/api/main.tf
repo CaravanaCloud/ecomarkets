@@ -1,10 +1,10 @@
-data "aws_ssm_parameter" "db_username_param" {
-  name = var.db_username
-}
-
-data "aws_ssm_parameter" "db_password_param" {
-  name = var.db_password
-}
+# data "aws_ssm_parameter" "db_username_param" {
+#  name = var.db_username
+#}
+#
+#data "aws_ssm_parameter" "db_password_param" {
+#  name = var.db_password
+#}
 
 resource "aws_iam_role" "lambda_role" {
   name = "lambda_execution_role"
@@ -64,8 +64,8 @@ resource "aws_lambda_function" "that_lambda" {
   environment {
     variables = {
       QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
-      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username_param.value
-      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_password_param.value
+#      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username_param.value
+#      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_password_param.value
     }
   }
 }

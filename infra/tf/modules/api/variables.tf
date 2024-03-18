@@ -1,6 +1,5 @@
-variable "db_username" {}
-
-variable "db_password" {}
+# variable "db_username" {}
+# variable "db_password" {}
 
 variable "api_subnet_ids" {
     description = "The subnet ids for the API"
