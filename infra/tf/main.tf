@@ -39,6 +39,7 @@ module "database" {
 module "ecs" {
     source = "./modules/ecs"
     depends_on = [ module.security ]
+    env_id = var.env_id
     vpc_id = module.network.vpc_id
     ecs_subnets = module.network.private_subnet_ids
 }

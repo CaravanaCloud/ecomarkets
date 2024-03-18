@@ -1,6 +1,6 @@
 # ECS Cluster
 resource "aws_ecs_cluster" "that" {
-  name = "ecscluster"
+  name = "${var.env_id}-ecs"
 }
 
 # IAM Role for ECS Task Execution
