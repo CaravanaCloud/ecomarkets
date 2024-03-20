@@ -39,9 +39,10 @@ module "database" {
 module "ecs" {
     source = "./modules/ecs"
     depends_on = [ module.security ]
+    aws_region = var.aws_region
     env_id = var.env_id
     vpc_id = module.network.vpc_id
-    ecs_subnets = module.network.private_subnet_ids
+    ecs_subnets = module.network.public_subnet_ids
 }
 
 module "api" {

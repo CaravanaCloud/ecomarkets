@@ -11,3 +11,13 @@ variable db_password {
     type = string
     default = ""
 }
+
+variable docker_username {
+    type = string
+    default = "caravanacloud"
+}
+
+variable docker_password {
+    type = string
+    default = ""
+}

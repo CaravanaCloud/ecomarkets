@@ -22,16 +22,16 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class S3BucketProductImage implements ImageRepository {
     @ConfigProperty(name = "bucket.name")
-    private String bucketName;
+    String bucketName;
 
     @ConfigProperty(name = "presigned.url.duration.in.minutes")
-    private Integer presignedUrlDurationInMinutes;
+    Integer presignedUrlDurationInMinutes;
 
     @Inject
-    private S3Client s3;
+    S3Client s3;
 
     @Inject
-    private S3Presigner presigner;
+    S3Presigner presigner;
 
     public void save(Path file,
                      ProductImage productImage) {
@@ -84,7 +84,7 @@ public class S3BucketProductImage implements ImageRepository {
     }
 
     @PostConstruct
-    private void createBucket() {
+    void createBucket() {
         try {
             try {
                 HeadBucketRequest headBucketRequest = HeadBucketRequest.builder()
