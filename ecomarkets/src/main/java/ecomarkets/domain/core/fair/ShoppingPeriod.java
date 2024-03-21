@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Embeddable
-public record ShoppingPeriod(@NotNull LocalDateTime start, @NotNull LocalDateTime end) {
+public record ShoppingPeriod(@NotNull LocalDateTime startDate, @NotNull LocalDateTime endDate) {
 
     public ShoppingPeriod {
-        if(!end.isAfter(start)){
-            throw new IllegalStateException("end date should be after start date.");
+        if(!endDate.isAfter(startDate)){
+            throw new IllegalStateException("endDate date should be after startDate date.");
         }
     }
 
