@@ -11,18 +11,8 @@ resource "aws_ssm_parameter" "db_password" {
   value = var.db_password != "" ? var.db_password : uuid()
 }
 
-variable "docker_username" {
-  description = "Docker Registry Username"
-  type        = string
-}
-
-variable "docker_password" {
-  description = "Docker Registry Password"
-  type        = string
-}
-
 resource "aws_secretsmanager_secret" "docker_credentials" {
-  name        = "docker_registry_credentials"
+  name        = "/${var.env_id}/docker_registry_credentials"
   description = "Credentials for Docker Registry"
 }
 

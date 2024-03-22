@@ -21,3 +21,7 @@ variable "bucket_name" {
     type        = string
 }
 
+variable "code_package_path" {
+    type = string
+    default = "../../../ecomarkets/target/function.zip"
+}

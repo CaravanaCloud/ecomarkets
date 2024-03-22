@@ -7,8 +7,6 @@
 #}
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_execution_role"
-
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -49,7 +47,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
 resource "aws_s3_bucket_object" "lambda_code" {
   bucket = var.bucket_name
   key    = "function.zip"
-  source = "../../ecomarkets/target/function.zip"
+  source = var.code_package_path
 }
 
 resource "aws_lambda_function" "that_lambda" {
@@ -59,7 +57,6 @@ resource "aws_lambda_function" "that_lambda" {
   runtime          = "java21"
   s3_bucket        = var.bucket_name
   s3_key           = aws_s3_bucket_object.lambda_code.key
-  source_code_hash = filebase64sha256("../../ecomarkets/target/function.zip")
 
   environment {
     variables = {

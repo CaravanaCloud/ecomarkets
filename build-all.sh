@@ -16,7 +16,7 @@ docker build \
 
 # Build Infrastructure as Code (AWS CloudFormation)
 mkdir -p dist
-cp -a ecomarkets-cfn dist/
+cp -a infra dist/
 mkdir -p dist/ecomarkets/target
 cp -a ecomarkets/target/function.zip dist/ecomarkets/target/
 

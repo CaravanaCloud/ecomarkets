@@ -34,7 +34,6 @@ resource "aws_db_subnet_group" "that" {
 }
 
 resource "aws_rds_cluster" "aurora_cluster" {
-  cluster_identifier      = var.db_cluster_identifier
   engine                  = var.db_engine
   engine_version          = var.db_engine_version
   database_name           = var.db_database_name

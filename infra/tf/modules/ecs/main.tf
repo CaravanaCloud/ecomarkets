@@ -5,8 +5,6 @@ resource "aws_ecs_cluster" "that" {
 
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs_task_execution_role"
-
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -27,7 +25,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
 }
 
 resource "aws_iam_policy" "ecs_secrets_policy" {
-  name        = "ecs-secrets-policy"
   description = "Allow ECS Task Execution Role to retrieve secrets"
 
   policy = jsonencode({
@@ -51,21 +48,31 @@ resource "aws_iam_role_policy_attachment" "ecs_secrets_policy_attach" {
   policy_arn = aws_iam_policy.ecs_secrets_policy.arn
 }
 
+resource "aws_cloudwatch_log_group" "ecs_task_logs" {
+  name = "/ecs/task-logs"
+  retention_in_days = 7
+
+  # Optionally, add tags to help organize and manage your log group
+  tags = {
+    EnvId = var.env_id
+  }
+}
+
 # Task Definition
 resource "aws_ecs_task_definition" "that" {
   family                   = "task-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  cpu                      = "256"
-  memory                   = "512"
+  cpu                      = "${var.container_cpu}"
+  memory                   = "${var.container_mem}"
 
   container_definitions = jsonencode([
     {
-      name      = "container",
-      image     = "nginx",
-      cpu       = 256,
-      memory    = 512,
+      name      = "web_container",
+      image     = var.container_image,
+      cpu       = var.container_cpu,
+      memory    = var.container_mem,
       essential = true,
       
       portMappings = [
@@ -89,7 +96,6 @@ resource "aws_ecs_task_definition" "that" {
 }
 
 resource "aws_security_group" "ecs_sg" {
-  name        = "ecs-security-group"
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
@@ -111,17 +117,71 @@ resource "aws_security_group" "ecs_sg" {
   }
 }
 
+resource "aws_lb" "ecs_alb" {
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.ecs_sg.id]
+  subnets            = var.ecs_subnets
+
+  enable_deletion_protection = false
+
+  tags = {
+    Name = "ecsALB"
+    Env  = var.env_id
+  }
+}
+
+resource "aws_lb_target_group" "ecs_tgtgrp" {
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+  target_type = "ip"
+  
+  health_check {
+    enabled             = true
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    timeout             = 5
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 15
+  }
+
+  tags = {
+    Name = "ecsTG"
+    Env  = var.env_id
+  }
+}
+
+resource "aws_lb_listener" "ecs_listener" {
+  load_balancer_arn = aws_lb.ecs_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_tgtgrp.arn
+  }
+}
+
 # ECS Service
 resource "aws_ecs_service" "that" {
-  name            = "service"
+  name            = "${var.env_id }_service"
   cluster         = aws_ecs_cluster.that.id
   task_definition = aws_ecs_task_definition.that.arn
   launch_type     = "FARGATE"
 
   network_configuration {
     subnets          = var.ecs_subnets
-    security_groups  = [ aws_security_group.ecs_sg.id]
+    security_groups  = [ aws_security_group.ecs_sg.id ]
     assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.ecs_tgtgrp.arn
+    container_name   = "web_container"
+    container_port   = var.container_port
   }
 
   desired_count = 1
