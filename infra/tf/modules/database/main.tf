@@ -7,7 +7,7 @@ data "aws_ssm_parameter" "db_password_param" {
 }
 
 resource "aws_security_group" "db_sg" {
-  name        = "aurora-security-group"
+  name_prefix        = "aurorasg"
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
@@ -29,7 +29,6 @@ resource "aws_security_group" "db_sg" {
 }
 
 resource "aws_db_subnet_group" "that" {
-  name       = "main"
   subnet_ids = var.db_subnet_ids
 }
 
@@ -45,7 +44,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {
-  identifier         = "${var.db_cluster_identifier}-0"
+  identifier_prefix  = "aurora-"
   cluster_identifier = aws_rds_cluster.aurora_cluster.id
   instance_class     = var.db_instance_class
   engine             = var.db_engine

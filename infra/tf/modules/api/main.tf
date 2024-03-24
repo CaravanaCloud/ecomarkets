@@ -1,10 +1,10 @@
-# data "aws_ssm_parameter" "db_username_param" {
-#  name = var.db_username
-#}
-#
-#data "aws_ssm_parameter" "db_password_param" {
-#  name = var.db_password
-#}
+data "aws_ssm_parameter" "db_username" {
+  name = var.db_username_param
+}
+
+data "aws_ssm_parameter" "db_password" {
+  name = var.db_password_param
+}
 
 resource "aws_iam_role" "lambda_role" {
   assume_role_policy = jsonencode({
@@ -44,10 +44,15 @@ resource "aws_iam_role_policy" "lambda_policy" {
   })
 }
 
-resource "aws_s3_bucket_object" "lambda_code" {
-  bucket = var.bucket_name
-  key    = "function.zip"
-  source = var.code_package_path
+locals {
+  object_source = var.code_package_path
+}
+
+resource "aws_s3_object" "lambda_code" {
+  bucket      = var.bucket_name
+  key         = "${var.env_id}/function.zip"
+  source      = local.object_source
+  source_hash = filemd5(local.object_source)
 }
 
 resource "aws_lambda_function" "that_lambda" {
@@ -56,13 +61,13 @@ resource "aws_lambda_function" "that_lambda" {
   role             = aws_iam_role.lambda_role.arn
   runtime          = "java21"
   s3_bucket        = var.bucket_name
-  s3_key           = aws_s3_bucket_object.lambda_code.key
+  s3_key           = aws_s3_object.lambda_code.key
 
   environment {
     variables = {
       QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
-#      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username_param.value
-#      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_password_param.value
+      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username.value
+      QUARKUS_DATASOURCE_PASSWORD = data.aws_ssm_parameter.db_password.value
     }
   }
 }

@@ -18,8 +18,9 @@ module "security" {
     env_id = var.env_id
 }
 
-module "storage" {
+module "infra_storage" {
     source = "../modules/storage"
+    bucket_prefix = "infra-"
 }
 
 module "network" {

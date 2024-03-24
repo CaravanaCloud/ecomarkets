@@ -1,5 +1,6 @@
-# variable "db_username" {}
-# variable "db_password" {}
+
+
+variable env_id {}
 
 variable "api_subnet_ids" {
     description = "The subnet ids for the API"
@@ -25,3 +26,6 @@ variable "code_package_path" {
     type = string
     default = "../../../ecomarkets/target/function.zip"
 }
+
+variable "db_username_param" {}
+variable "db_password_param" {}

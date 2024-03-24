@@ -24,8 +24,8 @@ output private_subnet_ids_str {
     value =  join(",", module.network.private_subnet_ids)
 }
 
-output storage_bucket_name {
-    value = module.storage.bucket_name
+output infra_bucket_name {
+    value = module.infra_storage.bucket_name
 }
 
 output db_endpoint {
@@ -34,6 +34,14 @@ output db_endpoint {
 
 output db_name {
     value = module.database.db_name
+}
+
+output "db_username_param" {
+    value = module.security.db_username
+}
+
+output "db_password_param" {
+    value = module.security.db_password
 }
 
 

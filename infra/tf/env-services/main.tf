@@ -23,10 +23,11 @@ module "ecs" {
 
 module "api" {
     source = "../modules/api"
+    env_id = var.env_id
     api_subnet_ids = split(",", var.api_subnet_ids)
     db_endpoint = var.db_endpoint
     db_name = var.db_name
     bucket_name = var.bucket_name
-#    db_username = module.security.db_username
-#    db_password = module.security.db_password
+    db_username_param = var.db_username_param
+    db_password_param = var.db_password_param
 }
