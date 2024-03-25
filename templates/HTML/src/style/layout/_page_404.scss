@@ -1,0 +1,78 @@
+/* --------------------------------
+   page 404
+-------------------------------- */
+
+.page-404
+{
+	main { border-bottom: 1px solid #e9e9e9; }
+}
+
+.section-404
+{
+	img
+	{
+		margin-top: 50px;
+		margin-bottom: 50px;
+
+		&:first-child { margin-top: 0; }
+		&:last-child { margin-bottom: 0; }
+	}
+
+	.title { }
+
+	.text
+	{
+		margin-top: 40px;
+		margin-bottom: 40px;
+
+		&:first-child { margin-top: 0; }
+		&:last-child { margin-bottom: 0; }
+	}
+
+	form
+	{
+		width: 100%;
+		max-width: 620px;
+		margin-top: 40px;
+
+		&:first-child { margin-top: 0; }
+	}
+}
+
+@include min-screen($sm-width)
+{
+	
+}
+
+@include min-screen($md-width)
+{
+	.section-404
+	{
+		.text
+		{
+			margin-top:65px;
+			margin-bottom:65px;
+		}
+
+		form { margin-top:65px; }
+	}
+}
+
+@include min-screen($lg-width)
+{
+	.section-404
+	{
+		.text
+		{
+			margin-top: 85px;
+			margin-bottom: 85px;
+		}
+
+		form { margin-top: 85px; }
+	}
+}
+
+@include min-screen($xl-width)
+{
+	
+}

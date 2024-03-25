@@ -6,7 +6,6 @@ variable aws_region {
   default = "us-east-1"
 }
 
-
 variable vpc_id {}
 
 variable ecs_subnets {
@@ -19,4 +18,6 @@ variable api_subnet_ids {
 
 variable db_endpoint {}
 variable db_name {}
-variable bucket_name {}
+variable infra_bucket_name {}
+variable db_username_param {}
+variable db_password_param {}

@@ -10,3 +10,4 @@ variable db_publicly_accessible {
   type    = bool
   default = false
 }
+

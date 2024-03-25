@@ -1,0 +1,129 @@
+/* --------------------------------
+   Contact
+-------------------------------- */
+
+.section-contact
+{
+	color: $white;
+
+	[class*=" col-"],
+	[class^=col-]
+	{
+		&:first-child .item { margin-left: auto; }
+	}
+
+	.bg-1 { background-color: $primary-color; }
+	.bg-2 { background-color: #282828; }
+
+	.item
+	{
+		position: relative;
+		max-width: 510px;
+		height: 100%;
+		padding-top: 60px;
+		padding-bottom: 60px;
+
+		&.map-container
+		{
+			margin-left: -15px !important;
+			margin-right: -15px !important;
+			padding: 0;
+			max-width: none;
+		}
+
+		&__header { margin-bottom: 50px; }
+
+		&__title
+		{
+			line-height: 1;
+			color: inherit;
+		}
+
+		&__subtitle
+		{
+			font-size: rem-calc(16px);
+			color: #f0f0f0;
+		}
+
+		.company-contacts
+		{
+			address { margin-bottom: 45px; }
+		}
+
+		.copy
+		{
+			line-height: 1.2;
+			font-size: rem-calc(12px);
+			color: #a1cdbb;
+		}
+
+		a:not([class])
+		{
+			color: inherit;
+			text-decoration: underline;
+
+			&:hover,
+			&:focus
+			{
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+@include max-screen($md-width - 1)
+{
+	.section-contact
+	{
+		.item
+		{
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}
+
+@include min-screen($sm-width)
+{
+	
+}
+
+@include min-screen($md-width)
+{
+	.section-contact
+	{
+		.item
+		{
+			padding-top: 80px;
+			padding-left: 25px;
+			padding-right: 25px;
+		}
+	}
+}
+
+@include min-screen($lg-width)
+{
+	.section-contact
+	{
+		.item
+		{
+			max-width: 475px;
+			padding-top: 100px;
+
+			.g_map { min-height: 615px; }
+		}
+	}
+}
+
+@include min-screen($xl-width)
+{
+	.section-contact
+	{
+		.item
+		{
+			max-width: 600px;
+			padding-left: 45px;
+			padding-right: 45px;
+		}
+	}
+}

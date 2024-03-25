@@ -19,6 +19,7 @@ module "ecs" {
     env_id = var.env_id
     vpc_id = var.vpc_id
     ecs_subnets = split(",", var.ecs_subnets)
+    container_image = "caravanacloud/ecomarkets-app:"
 }
 
 module "api" {
@@ -27,7 +28,7 @@ module "api" {
     api_subnet_ids = split(",", var.api_subnet_ids)
     db_endpoint = var.db_endpoint
     db_name = var.db_name
-    bucket_name = var.bucket_name
+    bucket_name = var.infra_bucket_name
     db_username_param = var.db_username_param
     db_password_param = var.db_password_param
 }

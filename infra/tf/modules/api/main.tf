@@ -22,7 +22,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name = "lambda_policy"
+  name_prefix = "lambda_policy"
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
@@ -30,9 +30,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
     Statement = [
       {
         Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
+          "logs:*",
           "rds-data:*",
           "rds:*",
           "secretsmanager:GetSecretValue",
@@ -63,6 +61,7 @@ resource "aws_lambda_function" "that_lambda" {
   s3_bucket        = var.bucket_name
   s3_key           = aws_s3_object.lambda_code.key
 
+
   environment {
     variables = {
       QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
@@ -70,6 +69,12 @@ resource "aws_lambda_function" "that_lambda" {
       QUARKUS_DATASOURCE_PASSWORD = data.aws_ssm_parameter.db_password.value
     }
   }
+}
+
+
+resource "aws_cloudwatch_log_group" "api_log_group" {
+  name              = "/aws/lambda/${aws_lambda_function.that_lambda.function_name}"
+  retention_in_days = 7 # Set the retention period for the log events in the log group
 }
 
 resource "aws_apigatewayv2_api" "that" {

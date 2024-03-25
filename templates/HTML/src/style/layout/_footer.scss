@@ -1,0 +1,168 @@
+/* --------------------------------
+   footer
+-------------------------------- */
+
+#footer
+{
+	position: relative;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	color: #555;
+
+	.footer__inner { margin-bottom: -50px; }
+	.footer__item { margin-bottom: 50px; }
+
+	.site-logo
+	{
+		background: url('../img/logo_3.png');
+		width: 253px;
+		height: 71px;
+	}
+
+	.footer__title
+	{
+		margin-bottom: 25px;
+		font-weight: 600;
+		text-transform: uppercase;
+		color: #282828;
+
+		& + .footer__form.f1 { margin-top: -20px; }
+	}
+
+	.footer__text
+	{
+		p
+		{
+			margin-top: 15px;
+			margin-bottom: 15px;
+
+			&:first-child { margin-top: 0; }
+			&:last-child  { margin-bottom: 0; }
+		}
+	}
+
+	.footer__menu
+	{
+		li
+		{
+			margin-top: 20px;
+			line-height: 1;
+
+			&:first-child { margin-top: 0; }
+		}
+
+		a
+		{
+			display: inline-block;
+			vertical-align: top;
+			line-height: 1.2;
+			font-size: rem-calc(12px);
+			font-weight: 600;
+			font-family: $secondary-fontFamily;
+			text-decoration: none;
+			text-transform: uppercase;
+			color: #282828;
+
+			&:hover { text-decoration: underline; }
+		}
+	}
+
+	.footer__form
+	{
+		p
+		{
+			margin-bottom: 25px;
+			font-size: rem-calc(12px);
+		}
+	}
+
+	.footer__copy
+	{
+		margin-top: 40px;
+		line-height: 1.5;
+		font-size: rem-calc(12px);
+
+		&:first-child { margin-top: 0; }
+	}
+
+	&.footer--dark
+	{
+		background-color: #282828;
+		color: $white;
+
+		.footer__title,
+		.footer__menu a
+		{
+			color: inherit;
+		}
+
+		.footer__copy { color: #b4b4b4; }
+	}
+
+	&.footer--style-1
+	{
+		.site-logo { margin-bottom: 40px; }
+	}
+
+	&.footer--style-2
+	{
+		.site-logo { margin-bottom: 35px; }
+	}
+
+	&.footer--style-3
+	{
+		.site-logo { margin-bottom: 35px; }
+
+		.company-contacts
+		{
+			address i,
+			.social-btns
+			{
+				color: $primary-color;
+			}
+		}
+	}
+}
+
+
+@include min-screen($sm-width)
+{
+	
+}
+
+@include min-screen($md-width)
+{
+	#footer
+	{
+		padding-top: 80px;
+		padding-bottom: 80px;
+
+		&.footer--style-2,
+		&.footer--style-3
+		{
+			.site-logo { margin-top: -35px; }
+		}
+	}
+}
+
+@include min-screen($lg-width)
+{
+	#footer
+	{
+		&.footer--style-2
+		{
+			padding-top:100px;
+			padding-bottom:100px;
+		}
+
+		&.footer--style-3
+		{
+			padding-top: 130px;
+		}
+	}
+}
+
+@include min-screen($xl-width)
+{
+	
+}

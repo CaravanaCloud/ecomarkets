@@ -1,0 +1,45 @@
+@mixin make-col-push($size, $columns: $grid-columns) {
+	left: if($size > 0, percentage($size / $columns), auto);
+}
+
+@mixin make-col-pull($size, $columns: $grid-columns) {
+	right: if($size > 0, percentage($size / $columns), auto);
+}
+
+@mixin make-col-modifier($type, $size, $columns) {
+	// Work around the lack of dynamic mixin @include support (https://github.com/sass/sass/issues/626)
+	@if $type == push {
+		@include make-col-push($size, $columns);
+	}
+	@else if $type == pull {
+		@include make-col-pull($size, $columns);
+	}
+}
+
+@mixin make-col-pull-push($columns: $grid-columns, $breakpoints: $grid-breakpoints) {
+
+	@each $breakpoint in map-keys($breakpoints)
+	{
+		$infix: breakpoint-infix($breakpoint, $breakpoints);
+
+		@include media-breakpoint-up($breakpoint, $breakpoints)
+		{
+			@each $modifier in (pull, push) {
+				@for $i from 0 through $columns {
+					@if not ($infix == "" and $i == 0)
+					{
+						.#{$modifier}#{$infix}-#{$i} {
+							@include make-col-modifier($modifier, $i, $columns)
+						}
+					}
+				}
+			}
+		}
+
+	}
+}
+
+@if $enable-grid-classes {
+	@include make-col-pull-push();
+}
+
