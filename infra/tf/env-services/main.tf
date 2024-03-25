@@ -19,7 +19,8 @@ module "ecs" {
     env_id = var.env_id
     vpc_id = var.vpc_id
     ecs_subnets = split(",", var.ecs_subnets)
-    container_image = "caravanacloud/ecomarkets-app:"
+    container_image = "caravanacloud/ecomarkets-app:0.0.1"
+    container_port = 3000
 }
 
 module "api" {

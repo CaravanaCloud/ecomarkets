@@ -10,7 +10,7 @@ RUN npm run build
 # RUN find .
 
 FROM fedora:latest as runtime
-# RUN dnf -y update && 
+# RUN dnf -y update && --refresh?
 RUN dnf -y install nodejs npm
 RUN npm install -g serve
 COPY --from=build /usr/src/svelte-app/build /opt/svelte-app/build
