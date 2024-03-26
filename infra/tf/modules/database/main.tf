@@ -49,4 +49,5 @@ resource "aws_rds_cluster_instance" "aurora_instance" {
   instance_class     = var.db_instance_class
   engine             = var.db_engine
   engine_version     = var.db_engine_version
+  publicly_accessible = var.publicly_accessible
 }

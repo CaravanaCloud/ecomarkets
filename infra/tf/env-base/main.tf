@@ -35,4 +35,5 @@ module "database" {
     db_subnet_ids = var.db_publicly_accessible ? module.network.public_subnet_ids : module.network.private_subnet_ids
     db_username = module.security.db_username
     db_password = module.security.db_password
+    publicly_accessible = var.db_publicly_accessible
 }

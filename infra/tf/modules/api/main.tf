@@ -103,34 +103,58 @@ resource "aws_cloudwatch_log_group" "api_log_group" {
   retention_in_days = 7 # Set the retention period for the log events in the log group
 }
 
-resource "aws_apigatewayv2_api" "that" {
-  name          = "apigw"
-  protocol_type = "HTTP"
+resource "aws_api_gateway_rest_api" "that" {
+  name        = "that"
+  description = "REST API integrated with Lambda"
 }
 
-resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id                 = aws_apigatewayv2_api.that.id
-  integration_type       = "AWS_PROXY"
-  integration_uri        = aws_lambda_function.api_lambda.invoke_arn
-  payload_format_version = "2.0"
+resource "aws_api_gateway_resource" "that" {
+  rest_api_id = aws_api_gateway_rest_api.that.id
+  parent_id   = aws_api_gateway_rest_api.that.root_resource_id
+  path_part   = "proxy"
 }
 
-resource "aws_apigatewayv2_route" "that_route" {
-  api_id    = aws_apigatewayv2_api.that.id
-  route_key = "ANY /{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+resource "aws_api_gateway_method" "that" {
+  rest_api_id   = aws_api_gateway_rest_api.that.id
+  resource_id   = aws_api_gateway_resource.that.id
+  http_method   = "ANY"
+  authorization = "NONE"
 }
 
-resource "aws_apigatewayv2_stage" "that_stage" {
-  api_id      = aws_apigatewayv2_api.that.id
-  name        = "default"
-  auto_deploy = true
+resource "aws_api_gateway_integration" "that" {
+  rest_api_id = aws_api_gateway_rest_api.that.id
+  resource_id = aws_api_gateway_resource.that.id
+  http_method = aws_api_gateway_method.that.http_method
+
+  type              = "AWS_PROXY"
+  integration_http_method = "POST" # AWS Lambda uses POST for proxy integration
+  uri               = aws_lambda_function.api_lambda.invoke_arn
 }
 
-resource "aws_lambda_permission" "api_gw_lambda" {
+resource "aws_api_gateway_deployment" "that" {
+  depends_on = [
+    aws_api_gateway_integration.that,
+  ]
+
+  rest_api_id = aws_api_gateway_rest_api.that.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "that" {
+  deployment_id = aws_api_gateway_deployment.that.id
+  rest_api_id   = aws_api_gateway_rest_api.that.id
+  stage_name    = "${var.env_id}_stage"
+}
+
+resource "aws_lambda_permission" "that" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.api_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.that.execution_arn}/*/*"
+  
+  # The source_arn specifies that ANY method on the specified resource can invoke the Lambda
+  source_arn    = "${aws_api_gateway_rest_api.that.execution_arn}/*/*/*"
 }

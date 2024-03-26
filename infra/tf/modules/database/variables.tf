@@ -39,4 +39,9 @@ variable "db_cluster_identifier" {
     default = "auroradb"
 }
 
+variable "publicly_accessible" {
+    type = bool
+    default = false
+}
+
 
