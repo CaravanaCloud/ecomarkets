@@ -21,3 +21,6 @@ variable db_name {}
 variable infra_bucket_name {}
 variable db_username_param {}
 variable db_password_param {}
+variable oidc_client_id {}
+variable oidc_client_secret {}
+variable oidc_provider {}

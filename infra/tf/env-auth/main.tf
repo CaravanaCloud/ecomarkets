@@ -38,7 +38,7 @@ resource "aws_iam_role" "authenticated_role" {
         }
         Condition = {
           StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = "YOUR_IDENTITY_POOL_ID"
+            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.main.id
           }
           "ForAnyValue:StringLike" = {
             "cognito-identity.amazonaws.com:amr" = "authenticated"
@@ -63,7 +63,7 @@ resource "aws_iam_role" "unauthenticated_role" {
         }
         Condition = {
           StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = "YOUR_IDENTITY_POOL_ID"
+            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.main.id
           }
           "ForAnyValue:StringLike" = {
             "cognito-identity.amazonaws.com:amr" = "unauthenticated"

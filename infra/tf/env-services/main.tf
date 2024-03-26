@@ -32,4 +32,7 @@ module "api" {
     bucket_name = var.infra_bucket_name
     db_username_param = var.db_username_param
     db_password_param = var.db_password_param
+    oidc_provider = var.oidc_provider
+    oidc_client_id = var.oidc_client_id
+    oidc_client_secret = var.oidc_client_secret
 }

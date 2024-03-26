@@ -67,6 +67,9 @@ resource "aws_lambda_function" "that_lambda" {
       QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
       QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username.value
       QUARKUS_DATASOURCE_PASSWORD = data.aws_ssm_parameter.db_password.value
+      QUARKUS_OIDC_PROVIDER = var.oidc_provider 
+      QUARKUS_OIDC_CLIENT_ID = var.oidc_client_id
+      QUARKUS_OIDC_CREDENTIALS_SECRET = var.oidc_client_secret
     }
   }
 }

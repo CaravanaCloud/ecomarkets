@@ -29,3 +29,6 @@ variable "code_package_path" {
 
 variable "db_username_param" {}
 variable "db_password_param" {}
+variable "oidc_provider" {} 
+variable "oidc_client_id" {}
+variable "oidc_client_secret" {}

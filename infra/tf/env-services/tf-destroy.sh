@@ -8,7 +8,12 @@ export TF_VAR_ecs_subnets=$(terraform -chdir=../env-base output -raw public_subn
 export TF_VAR_api_subnet_ids=$(terraform -chdir=../env-base output -raw public_subnet_ids_str)
 export TF_VAR_db_endpoint=$(terraform -chdir=../env-base output -raw db_endpoint)
 export TF_VAR_db_name=$(terraform -chdir=../env-base output -raw db_name)
-export TF_VAR_bucket_name=$(terraform -chdir=../env-base output -raw storage_bucket_name)
+export TF_VAR_infra_bucket_name=$(terraform -chdir=../env-base output -raw infra_bucket_name)
+export TF_VAR_db_username_param=$(terraform -chdir=../env-base output -raw db_username_param)
+export TF_VAR_db_password_param=$(terraform -chdir=../env-base output -raw db_password_param)
+
+export TF_VAR_bucket_name=$(terraform -chdir=../env-base output -raw infra_bucket_name)
+
 
 terraform destroy -auto-approve 
 # aws eks update-kubeconfig \
