@@ -46,6 +46,25 @@ locals {
   object_source = var.code_package_path
 }
 
+
+resource "aws_security_group" "lambda_sg" {
+  name_prefix  = "lambda_security_group"
+  description = "Allow outbound traffic from Lambda"
+  vpc_id      = aws_vpc.my_vpc.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "LambdaSG"
+  }
+}
+
+
 resource "aws_s3_object" "lambda_code" {
   bucket      = var.bucket_name
   key         = "${var.env_id}/function.zip"
@@ -53,14 +72,18 @@ resource "aws_s3_object" "lambda_code" {
   source_hash = filemd5(local.object_source)
 }
 
-resource "aws_lambda_function" "that_lambda" {
-  function_name    = "that_lambda_function"
+resource "aws_lambda_function" "api_lambda" {
+  function_name    = "${var.env_id}_api_lambda"
   handler          = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest"
   role             = aws_iam_role.lambda_role.arn
   runtime          = "java21"
   s3_bucket        = var.bucket_name
   s3_key           = aws_s3_object.lambda_code.key
 
+  vpc_config {
+    subnet_ids         = var.api_subnet_ids
+    security_group_ids = [aws_security_group.lambda_sg.id]
+  }
 
   environment {
     variables = {
@@ -76,7 +99,7 @@ resource "aws_lambda_function" "that_lambda" {
 
 
 resource "aws_cloudwatch_log_group" "api_log_group" {
-  name              = "/aws/lambda/${aws_lambda_function.that_lambda.function_name}"
+  name              = "/aws/lambda/${aws_lambda_function.api_lambda.function_name}"
   retention_in_days = 7 # Set the retention period for the log events in the log group
 }
 
@@ -88,7 +111,7 @@ resource "aws_apigatewayv2_api" "that" {
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id                 = aws_apigatewayv2_api.that.id
   integration_type       = "AWS_PROXY"
-  integration_uri        = aws_lambda_function.that_lambda.invoke_arn
+  integration_uri        = aws_lambda_function.api_lambda.invoke_arn
   payload_format_version = "2.0"
 }
 
@@ -107,7 +130,7 @@ resource "aws_apigatewayv2_stage" "that_stage" {
 resource "aws_lambda_permission" "api_gw_lambda" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.that_lambda.function_name
+  function_name = aws_lambda_function.api_lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.that.execution_arn}/*/*"
 }

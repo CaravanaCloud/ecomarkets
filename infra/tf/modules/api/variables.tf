@@ -24,7 +24,7 @@ variable "bucket_name" {
 
 variable "code_package_path" {
     type = string
-    default = "../../../ecomarkets/target/function.zip"
+    default = "../../../ecomarkets-api/target/function.zip"
 }
 
 variable "db_username_param" {}
