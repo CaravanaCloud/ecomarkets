@@ -52,7 +52,8 @@ public class DivideProductsToFarmers {
             return result;
         }
 
-        int qtToDeliverForEachFarmer = Math.ceilDiv(sumAmountProductInBaskets, qtFarmers);
+        // TODO: check int qtToDeliverForEachFarmer = Math.ceilDiv(sumAmountProductInBaskets, qtFarmers);
+        int qtToDeliverForEachFarmer = sumAmountProductInBaskets / qtFarmers;
         int totalDelivered = 0;
         int qtFarmersPendingToDeliver = 0;
         for(FarmerProductAvailableInFair item : productsInAscendingAmountOrder){
@@ -102,7 +103,9 @@ public class DivideProductsToFarmers {
 
     private int distributeRemainderBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int remainder) {
         if(qtFarmers > 0){
-            qtToDeliverForEachFarmer += Math.ceilDiv(remainder, qtFarmers);
+            qtToDeliverForEachFarmer += (remainder / qtFarmers);
+
+            //TODO: check    qtToDeliverForEachFarmer += Math.ceilDiv(remainder, qtFarmers);
         }
         return qtToDeliverForEachFarmer;
     }

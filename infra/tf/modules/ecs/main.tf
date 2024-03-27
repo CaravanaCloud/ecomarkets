@@ -95,15 +95,15 @@ resource "aws_ecs_task_definition" "that" {
   ])
 }
 
-resource "aws_security_group" "ecs_sg" {
+resource "aws_security_group" "ecs_worker_sg" {
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = var.container_port
-    to_port     = var.container_port
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # TODO 
+    cidr_blocks = ["0.0.0.0/0"] # TODO restrict to LB
   }
 
   egress {
@@ -113,14 +113,37 @@ resource "aws_security_group" "ecs_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "aurora-security-group"
+    Name = "worker_sg"
+  }
+}
+
+resource "aws_security_group" "ecs_lb_sg" {
+  description = "Allow inbound traffic from VPC"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # TODO Restrict to CDN
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "lb-sg"
   }
 }
 
 resource "aws_lb" "ecs_alb" {
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.ecs_sg.id]
+  security_groups    = [aws_security_group.ecs_lb_sg.id]
   subnets            = var.ecs_subnets
 
   enable_deletion_protection = false
@@ -156,7 +179,7 @@ resource "aws_lb_target_group" "ecs_tgtgrp" {
 
 resource "aws_lb_listener" "ecs_listener" {
   load_balancer_arn = aws_lb.ecs_alb.arn
-  port              = var.container_port
+  port              = 80
   protocol          = "HTTP"
 
   default_action {
@@ -174,7 +197,7 @@ resource "aws_ecs_service" "that" {
 
   network_configuration {
     subnets          = var.ecs_subnets
-    security_groups  = [ aws_security_group.ecs_sg.id ]
+    security_groups  = [ aws_security_group.ecs_worker_sg.id ]
     assign_public_ip = true
   }
 

@@ -36,12 +36,24 @@ public class EmailSenderScheduled {
         Basket basket = Basket.findById(basketEvent.getBasketId().id());
         Partner partner = Partner.findById(basket.getPartnerId().id());
 
+        /*TODO check 
         final String status = switch (basketEvent){
             case BasketReservedEvent r -> "Separada";
             case BasketDeliveredEvent d -> "Entregue";
             case BasketPayedEvent p -> "Paga";
             default -> throw new IllegalStateException("event not supported!");
-        };
+        };*/
+        final String status;
+        if (basketEvent instanceof BasketReservedEvent) {
+            status = "Separada";
+        } else if (basketEvent instanceof BasketDeliveredEvent) {
+            status = "Entregue";
+        } else if (basketEvent instanceof BasketPayedEvent) {
+            status = "Paga";
+        } else {
+            throw new IllegalStateException("event not supported!");
+        }
+
 
         Email email = new Email(EmailAddress.of(emailFrom),
                 partner.getEmailAddress(),
@@ -53,12 +65,24 @@ public class EmailSenderScheduled {
     }
 
     public String getSubject(BasketEvent event){
+        /* TODO
         return switch (event){
             case BasketReservedEvent r -> "REDE BEM VIVER-ES - Sua Cesta Montada e Conferida!";
             case BasketDeliveredEvent d -> "REDE BEM VIVER-ES - Sua Cesta Chegou!";
             case BasketPayedEvent p -> "REDE BEM VIVER-ES - Pagamento confirmado!";
             default -> throw new IllegalStateException("event not supported!");
         };
+         */
+        if (event instanceof BasketReservedEvent) {
+            return "REDE BEM VIVER-ES - Sua Cesta Montada e Conferida!";
+        } else if (event instanceof BasketDeliveredEvent) {
+            return "REDE BEM VIVER-ES - Sua Cesta Chegou!";
+        } else if (event instanceof BasketPayedEvent) {
+            return "REDE BEM VIVER-ES - Pagamento confirmado!";
+        } else {
+            throw new IllegalStateException("event not supported!");
+        }
+        
     }
 
 }

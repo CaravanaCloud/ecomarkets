@@ -30,13 +30,13 @@ variable "db_engine_version" {
 
 variable "db_database_name" {
     type = string
-    default = "aurora_db"
+    default = "sqldb"
 }
 
 
 variable "db_cluster_identifier" {
     type = string
-    default = "auroradb"
+    default = "dbcluster"
 }
 
 variable "publicly_accessible" {

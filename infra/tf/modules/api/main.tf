@@ -30,6 +30,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
     Statement = [
       {
         Action = [
+          "ec2:*",
           "logs:*",
           "rds-data:*",
           "rds:*",
@@ -50,7 +51,7 @@ locals {
 resource "aws_security_group" "lambda_sg" {
   name_prefix  = "lambda_security_group"
   description = "Allow outbound traffic from Lambda"
-  vpc_id      = aws_vpc.my_vpc.id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0
@@ -76,9 +77,11 @@ resource "aws_lambda_function" "api_lambda" {
   function_name    = "${var.env_id}_api_lambda"
   handler          = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest"
   role             = aws_iam_role.lambda_role.arn
-  runtime          = "java21"
+  runtime          = "java17"
   s3_bucket        = var.bucket_name
   s3_key           = aws_s3_object.lambda_code.key
+  memory_size      = var.memory_size
+  timeout          = var.timeout
 
   vpc_config {
     subnet_ids         = var.api_subnet_ids
@@ -95,6 +98,13 @@ resource "aws_lambda_function" "api_lambda" {
       QUARKUS_OIDC_CREDENTIALS_SECRET = var.oidc_client_secret
     }
   }
+
+
+}
+
+resource "aws_lambda_function_url" "function_url" {
+  function_name      = aws_lambda_function.api_lambda.function_name
+  authorization_type = "NONE"
 }
 
 
@@ -111,7 +121,7 @@ resource "aws_api_gateway_rest_api" "that" {
 resource "aws_api_gateway_resource" "that" {
   rest_api_id = aws_api_gateway_rest_api.that.id
   parent_id   = aws_api_gateway_rest_api.that.root_resource_id
-  path_part   = "proxy"
+  path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "that" {
@@ -119,6 +129,9 @@ resource "aws_api_gateway_method" "that" {
   resource_id   = aws_api_gateway_resource.that.id
   http_method   = "ANY"
   authorization = "NONE"
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
 }
 
 resource "aws_api_gateway_integration" "that" {

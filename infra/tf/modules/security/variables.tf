@@ -2,12 +2,12 @@ variable env_id {
     type = string
 }
 
-variable db_username {
+variable db_username_text {
     type = string
     default = "root"
 }
 
-variable db_password {
+variable db_password_text {
     type = string
     default = ""
 }

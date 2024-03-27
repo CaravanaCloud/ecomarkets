@@ -3,5 +3,5 @@ output api_endpoint {
 }
 
 output web_endpoint {
-    value = module.ecs.web_endpoint
+    value = "https://${module.ecs.web_endpoint}"
 }

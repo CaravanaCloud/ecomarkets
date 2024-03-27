@@ -1,3 +1,4 @@
 #!/bin/bash
 
-quarkus build -Dquarkus.profile=prod
+mvn clean
+quarkus build -Dquarkus.profile=prod -DskipTests

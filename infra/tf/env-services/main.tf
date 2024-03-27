@@ -25,7 +25,9 @@ module "ecs" {
 
 module "api" {
     source = "../modules/api"
+    aws_region = var.aws_region
     env_id = var.env_id
+    vpc_id = var.vpc_id
     api_subnet_ids = split(",", var.api_subnet_ids)
     db_endpoint = var.db_endpoint
     db_name = var.db_name
