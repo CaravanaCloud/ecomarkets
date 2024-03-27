@@ -29,7 +29,7 @@ services:
     network_mode: host
     hostname: jaeger
     container_name: jaeger
-    image: jaeger/all-in-one:latest
+    image: jaegertracing/all-in-one:latest
     restart: always
     ports:
       - "16686:16686"
