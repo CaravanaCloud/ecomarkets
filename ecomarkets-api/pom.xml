@@ -61,7 +61,7 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-amazon-lambda-rest</artifactId>
+      <artifactId>quarkus-amazon-lambda-http</artifactId>
     </dependency>
     <dependency>
       <groupId>com.twilio.sdk</groupId>
