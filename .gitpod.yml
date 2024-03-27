@@ -18,7 +18,7 @@ tasks:
       docker compose up
   - name: SHELL
     command: |
-      gp preview $(gp url 6600)
+      gp url 6600
 
 ports:
     # APP
