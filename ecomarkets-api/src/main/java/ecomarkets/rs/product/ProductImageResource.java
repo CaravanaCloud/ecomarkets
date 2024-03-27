@@ -9,10 +9,13 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("/product/{id}/image")
 public class ProductImageResource {
+
+    private static final Logger LOG = Logger.getLogger(ProductImageResource.class);
 
     @Inject
     private ImageRepository imageRepository;
@@ -33,6 +36,7 @@ public class ProductImageResource {
     @GET
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public byte[] getImage(@PathParam("id") Long productId){
+        LOG.trace(productId);
         Product product = Product.findById(productId);
         return imageRepository.find(product.productImage());
     }

@@ -8,3 +8,30 @@ services:
       - ${PWD}/default.conf:/etc/nginx/conf.d/default.conf:rw,Z
     ports:
       - 6600:6600
+
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    network_mode: host
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - 13133:13133 # health_check extension
+      - 4318:4318 # OTLP gRPC receiver
+      - "1888:1888"   # pprof extension
+      - "55679:55679" # zpages extension
+    depends_on:
+      - jaeger
+
+    # Jaeger service
+  jaeger:
+    network_mode: host
+    hostname: jaeger
+    container_name: jaeger
+    image: jaeger/all-in-one:latest
+    restart: always
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"
