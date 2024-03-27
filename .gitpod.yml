@@ -3,8 +3,8 @@ image:
 
 tasks:
   - name: API
-    init: mvn -f ecomarkets -fn install
-    command: mvn -f ecomarkets -DskipTests quarkus:dev
+    init: mvn -f ecomarkets-api -fn install
+    command: mvn -f ecomarkets-api -DskipTests quarkus:dev
   - name: APP
     init: |
       cd ecomarkets-app
