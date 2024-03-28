@@ -15,17 +15,14 @@ variable ecs_subnets {
 
 variable "container_port" {
     type = number
-    default = 443
+    default = 8080
 }
 
-variable aws_region {}
-
-variable env_id {}
-
-variable ecs_subnets {
-    description = "The subnet ids for the ECS service"
-    type        = list(string)
+variable "container_api_port" {
+    type = number
+    default = 8080
 }
+
 
 variable "container_image" {
     type = string
@@ -37,15 +34,26 @@ variable "container_cpu" {
     default = 256
 }
 
+variable "container_api_mem" {
+    type = number
+    default = 1024
+}
+
+variable "container_api_image" {
+    type = string
+    default = "nginx"
+}
+
+variable "container_api_cpu" {
+    type = number
+    default = 256
+}
+
 variable "container_mem" {
     type = number
     default = 1024
 }
 
-variable "container_port" {
-    type = number
-    default = 8080
-}
 
 variable "hosted_zone_id" {
   type = string

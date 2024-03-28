@@ -120,7 +120,7 @@ resource "aws_lb" "ecs_alb" {
   }
 }
 
-resource "aws_lb_target_group" "ecs_web_target" {
+resource "aws_lb_target_group" "web_target" {
   port     = var.container_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
@@ -138,7 +138,30 @@ resource "aws_lb_target_group" "ecs_web_target" {
   }
 
   tags = {
-    Name = "ecsTG"
+    Name = "web-target"
+    Env  = var.env_id
+  }
+}
+
+resource "aws_lb_target_group" "api_target" {
+  port     = var.container_api_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+  target_type = "ip"
+  
+  health_check {
+    enabled             = true
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    timeout             = 5
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 15
+  }
+
+  tags = {
+    Name = "web-target"
     Env  = var.env_id
   }
 }
@@ -153,12 +176,12 @@ resource "aws_lb_listener" "ecs_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.ecs_web_target.arn
+    target_group_arn = aws_lb_target_group.web_target.arn
   }
 }
 
 
-resource "aws_ecs_task_definition" "that" {
+resource "aws_ecs_task_definition" "web_task" {
   family                   = "task-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -185,7 +208,44 @@ resource "aws_ecs_task_definition" "that" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/ecs/task-logs"
+          awslogs-group         = "/ecs/web-logs"
+          awslogs-region        = "${var.aws_region}"
+          awslogs-stream-prefix = "ecs" 
+        }
+      }
+    },
+  ])
+}
+
+
+resource "aws_ecs_task_definition" "api_task" {
+  family                   = "task-family"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  cpu                      = "${var.container_api_cpu}"
+  memory                   = "${var.container_api_mem}"
+
+  container_definitions = jsonencode([
+    {
+      name      = "api_container",
+      image     = var.container_api_image,
+      cpu       = var.container_api_cpu,
+      memory    = var.container_api_mem,
+      essential = true,
+      
+      portMappings = [
+        {
+          containerPort = var.container_api_port,
+          hostPort      = var.container_api_port,
+          protocol      = "tcp"
+        },
+      ],
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/api-logs"
           awslogs-region        = "${var.aws_region}"
           awslogs-stream-prefix = "ecs" 
         }
@@ -195,10 +255,10 @@ resource "aws_ecs_task_definition" "that" {
 }
 
 # ECS Service
-resource "aws_ecs_service" "that" {
-  name            = "${var.env_id }_service"
+resource "aws_ecs_service" "web_service" {
+  name            = "${var.env_id }_service_web"
   cluster         = aws_ecs_cluster.that.id
-  task_definition = aws_ecs_task_definition.that.arn
+  task_definition = aws_ecs_task_definition.web_task.arn
   launch_type     = "FARGATE"
 
   network_configuration {
@@ -208,12 +268,66 @@ resource "aws_ecs_service" "that" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.ecs_web_target.arn
+    target_group_arn = aws_lb_target_group.web_target.arn
     container_name   = "web_container"
     container_port   = var.container_port
   }
 
   desired_count = 1
+}
+
+resource "aws_ecs_service" "api_service" {
+  name            = "${var.env_id }_service_api"
+  cluster         = aws_ecs_cluster.that.id
+  task_definition = aws_ecs_task_definition.api_task.arn
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = var.ecs_subnets
+    security_groups  = [ aws_security_group.ecs_worker_sg.id ]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.api_target.arn
+    container_name   = "api_container"
+    container_port   = var.container_api_port
+  }
+
+  desired_count = 1
+}
+
+
+resource "aws_lb_listener_rule" "api_rule" {
+  listener_arn = aws_lb_listener.ecs_listener.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.api_target.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "web_rule" {
+  listener_arn = aws_lb_listener.ecs_listener.arn
+  priority     = 101
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web_target.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
 }
 
 resource "aws_route53_record" "ecs_lb_dns" {

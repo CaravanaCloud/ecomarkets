@@ -23,23 +23,26 @@ module "ecs" {
 
     container_image = "caravanacloud/ecomarkets-app:0.0.1"
     container_port = 3000
+
+    
+
     hosted_zone_id = var.hosted_zone_id
     domain_name = var.domain_name
 }
 
 
-module "api" {
-    source = "../modules/api"
-    aws_region = var.aws_region
-    env_id = var.env_id
-    vpc_id = var.vpc_id
-    api_subnet_ids = split(",", var.api_subnet_ids)
-    db_endpoint = var.db_endpoint
-    db_name = var.db_name
-    bucket_name = var.infra_bucket_name
-    db_username_param = var.db_username_param
-    db_password_param = var.db_password_param
-    oidc_provider = var.oidc_provider
-    oidc_client_id = var.oidc_client_id
-    oidc_client_secret = var.oidc_client_secret
-}
+# module "api" {
+#    source = "../modules/api"
+#    aws_region = var.aws_region
+#    env_id = var.env_id
+#    vpc_id = var.vpc_id
+#    api_subnet_ids = split(",", var.api_subnet_ids)
+#    db_endpoint = var.db_endpoint
+#    db_name = var.db_name
+#    bucket_name = var.infra_bucket_name
+#    db_username_param = var.db_username_param
+#    db_password_param = var.db_password_param
+#    oidc_provider = var.oidc_provider
+#    oidc_client_id = var.oidc_client_id
+#    oidc_client_secret = var.oidc_client_secret
+#}
