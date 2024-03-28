@@ -12,6 +12,16 @@ variable db_password_text {
     default = ""
 }
 
+variable db_app_username_text {
+    type = string
+    default = "app_user"
+}
+
+variable db_app_password_text {
+    type = string
+    default = ""
+}
+
 variable docker_username {
     type = string
     default = "caravanacloud"

@@ -1,6 +1,27 @@
 variable aws_region {}
+
 variable env_id {}
+
 variable vpc_id {}
+
+variable "certificate_arn" {
+    type = string
+}
+
+variable ecs_subnets {
+    description = "The subnet ids for the ECS service"
+    type        = list(string)
+}
+
+variable "container_port" {
+    type = number
+    default = 443
+}
+
+variable aws_region {}
+
+variable env_id {}
+
 variable ecs_subnets {
     description = "The subnet ids for the ECS service"
     type        = list(string)
@@ -18,10 +39,19 @@ variable "container_cpu" {
 
 variable "container_mem" {
     type = number
-    default = 512
+    default = 1024
 }
 
 variable "container_port" {
     type = number
-    default = 80
+    default = 8080
+}
+
+variable "hosted_zone_id" {
+  type = string
+}
+
+
+variable "domain_name" {
+    type = string
 }

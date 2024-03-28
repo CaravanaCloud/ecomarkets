@@ -37,3 +37,9 @@ module "database" {
     db_password = module.security.db_password
     publicly_accessible = var.db_publicly_accessible
 }
+
+module "database-user" {
+    source = "../modules/database-user"
+    db_app_username = module.security.db_app_username
+    db_app_password = module.security.db_app_password
+}

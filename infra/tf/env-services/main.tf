@@ -19,9 +19,14 @@ module "ecs" {
     env_id = var.env_id
     vpc_id = var.vpc_id
     ecs_subnets = split(",", var.ecs_subnets)
+    certificate_arn = var.certificate_arn
+
     container_image = "caravanacloud/ecomarkets-app:0.0.1"
     container_port = 3000
+    hosted_zone_id = var.hosted_zone_id
+    domain_name = var.domain_name
 }
+
 
 module "api" {
     source = "../modules/api"

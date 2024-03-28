@@ -24,3 +24,6 @@ variable db_password_param {}
 variable oidc_client_id {}
 variable oidc_client_secret {}
 variable oidc_provider {}
+variable hosted_zone_id {}
+variable domain_name {}
+variable certificate_arn {}

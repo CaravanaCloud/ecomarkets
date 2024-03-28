@@ -129,9 +129,6 @@ resource "aws_api_gateway_method" "that" {
   resource_id   = aws_api_gateway_resource.that.id
   http_method   = "ANY"
   authorization = "NONE"
-  request_parameters = {
-    "method.request.path.proxy" = true
-  }
 }
 
 resource "aws_api_gateway_integration" "that" {
