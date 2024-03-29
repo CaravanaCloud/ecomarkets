@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { AppShell } from '@skeletonlabs/skeleton';
+
 	import '../app.postcss';
 	import logo from '$lib/assets/logo.png'
 
@@ -7,12 +9,14 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
-
-<nav class="flex justify-between items-center bg-orange-100">
-	<a href="/" class="block w-[196px]">
-		<img src={logo} alt="Logo da Rede Bem Viver" />
-	</a>
-
-	<a href="/produtos" class="bg-white p-2 mr-4">Produtos</a>
-</nav>
-<slot />
+<AppShell>
+	<svelte:fragment slot="header">Header</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft">Sidebar Left</svelte:fragment>
+	<!-- (sidebarRight) -->
+	<!-- (pageHeader) -->
+	<!-- Router Slot -->
+	<slot />
+	<!-- ---- / ---- -->
+	<!-- (pageFooter) -->
+	<svelte:fragment slot="footer">Footer</svelte:fragment>
+</AppShell>

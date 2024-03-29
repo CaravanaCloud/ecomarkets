@@ -4,7 +4,7 @@ import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import { skeleton } from '@skeletonlabs/tw-plugin'
 
-import { organik } from './organik-theme';
+// import { organik } from './organik-theme';
 
 
 export default {
@@ -18,9 +18,6 @@ export default {
 		typography,
 		skeleton({
 			themes: {
-				custom: [
-					organik
-				],
 				preset: [ "skeleton", "modern", "crimson" ] 
 			},
 		}),

@@ -44,7 +44,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {
-  identifier_prefix  = "aurora-"
+  # identifier_prefix  = "aurora-"
   cluster_identifier = aws_rds_cluster.aurora_cluster.id
   instance_class     = var.db_instance_class
   engine             = var.db_engine

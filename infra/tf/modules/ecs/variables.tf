@@ -15,12 +15,12 @@ variable ecs_subnets {
 
 variable "container_port" {
     type = number
-    default = 8080
+    default = 80
 }
 
 variable "container_api_port" {
     type = number
-    default = 8080
+    default = 80
 }
 
 
@@ -31,12 +31,12 @@ variable "container_image" {
 
 variable "container_cpu" {
     type = number
-    default = 256
+    default = 1024
 }
 
 variable "container_api_mem" {
     type = number
-    default = 1024
+    default = 2048
 }
 
 variable "container_api_image" {
@@ -46,12 +46,12 @@ variable "container_api_image" {
 
 variable "container_api_cpu" {
     type = number
-    default = 256
+    default = 1024
 }
 
 variable "container_mem" {
     type = number
-    default = 1024
+    default = 2048
 }
 
 
@@ -62,4 +62,19 @@ variable "hosted_zone_id" {
 
 variable "domain_name" {
     type = string
+}
+
+variable "db_username_param" {}
+variable "db_password_param" {}
+variable "oidc_provider" {} 
+variable "oidc_client_id" {}
+variable "oidc_client_secret" {}
+variable "db_endpoint" {
+    description = "The endpoint of the RDS cluster"
+    type        = string
+}
+
+variable "db_name" {
+    description = "The endpoint of the RDS cluster"
+    type        = string
 }

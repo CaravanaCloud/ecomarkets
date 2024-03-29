@@ -40,6 +40,12 @@ module "database" {
 
 module "database-user" {
     source = "../modules/database-user"
+    
+    db_host = module.database.db_host
+    db_port = module.database.db_port
+    db_name = module.database.db_name
+    db_username = module.security.db_username
+    db_password = module.security.db_password
     db_app_username = module.security.db_app_username
     db_app_password = module.security.db_app_password
 }
