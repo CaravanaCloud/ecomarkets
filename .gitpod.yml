@@ -5,6 +5,7 @@ tasks:
   - name: API
     init: mvn -f ecomarkets-api -fn install
     command: mvn -f ecomarkets-api -DskipTests quarkus:dev
+  
   - name: APP
     init: |
       cd ecomarkets-app
@@ -13,11 +14,15 @@ tasks:
     command: |
       cd ecomarkets-app
       npm run dev
+  
   - name: PROXY
     command: |
       docker compose up
+  
   - name: SHELL
     command: |
+      echo "Hello from the shell"
+      ./secrets-copy.sh
       gp url 6600
 
 ports:
@@ -56,3 +61,6 @@ vscode:
     - esbenp.prettier-vscode
     - svelte.svelte-vscode
     - ms-vscode.vscode-typescript-next
+
+additionalRepositories:
+  - url: https://github.com/CaravanaCloud/ecomarkets-secrets

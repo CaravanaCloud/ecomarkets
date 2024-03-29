@@ -14,7 +14,7 @@ public class TwillioInit {
     @ConfigProperty(name = "twilio.account_sid") 
     String twilioAccountSID;
 
-    @ConfigProperty(name = "twilio.token") 
+    @ConfigProperty(name = "twilio.auth_token") 
     String twilioToken;
     
     public void init(@Observes StartupEvent evt) {

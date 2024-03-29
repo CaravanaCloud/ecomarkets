@@ -64,8 +64,8 @@ variable "domain_name" {
     type = string
 }
 
-variable "db_username_param" {}
-variable "db_password_param" {}
+variable "db_username" {}
+variable "db_password" {}
 variable "oidc_provider" {} 
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}

@@ -32,7 +32,7 @@ public class SandboxResource {
     @GET
     @Path("send")
     @Produces("text/plain")
-    public String send(@QueryParam("to") @DefaultValue("+34663867989") String to, @QueryParam("msg") String text) {
+    public String send(@QueryParam("to") @DefaultValue("+34663867989") String to, @QueryParam("msg") @DefaultValue("uala") String text) {
         var allowed = Set.of("+34663867989");
         if (! allowed.contains(to)){
             return "Not allowed";

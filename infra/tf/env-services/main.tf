@@ -29,8 +29,8 @@ module "ecs" {
 
     db_endpoint = var.db_endpoint
     db_name = var.db_name
-    db_username_param = var.db_username_param
-    db_password_param = var.db_password_param
+    db_username = var.db_username
+    db_password = var.db_password
     oidc_provider = var.oidc_provider
     oidc_client_id = var.oidc_client_id
     oidc_client_secret = var.oidc_client_secret

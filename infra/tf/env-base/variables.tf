@@ -11,3 +11,11 @@ variable db_publicly_accessible {
   default = false
 }
 
+variable domain_name {
+  default = "alpha.ecofeiras.com"
+}
+
+variable db_app_username {}
+variable db_app_password {}
+variable db_username {}
+variable db_password {}

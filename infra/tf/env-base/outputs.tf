@@ -1,9 +1,4 @@
-output env_id {
-    value = var.env_id
-}
-output aws_region {
-    value = var.aws_region
-}
+
 output vpc_id {
     value = module.network.vpc_id
 }
@@ -36,12 +31,11 @@ output "db_name" {
     value = module.database.db_name
 }
 
-output "db_username_param" {
-    value = module.security.db_username
+
+output "certificate_arn" {
+    value = module.domain.certificate_arn
 }
 
-output "db_password_param" {
-    value = module.security.db_password
+output "name_servers" {
+    value = module.domain.name_servers
 }
-
-
