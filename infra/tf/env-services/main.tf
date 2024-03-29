@@ -19,7 +19,10 @@ module "ecs" {
     env_id = var.env_id
     vpc_id = var.vpc_id
     ecs_subnets = split(",", var.ecs_subnets)
+
     certificate_arn = var.certificate_arn
+    zone_id = var.zone_id
+    domain_name = var.domain_name
 
     container_image = "caravanacloud/ecomarkets-vdn:0.0.1"
     container_port = 9091
@@ -29,14 +32,12 @@ module "ecs" {
 
     db_endpoint = var.db_endpoint
     db_name = var.db_name
-    db_username = var.db_username
-    db_password = var.db_password
+    db_username = var.db_app_username
+    db_password = var.db_app_password
     oidc_provider = var.oidc_provider
     oidc_client_id = var.oidc_client_id
     oidc_client_secret = var.oidc_client_secret
 
-    hosted_zone_id = var.hosted_zone_id
-    domain_name = var.domain_name
 }
 
 

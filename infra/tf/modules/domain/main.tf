@@ -7,6 +7,10 @@ resource "aws_route53_zone" "primary" {
 resource "aws_acm_certificate" "cert" {
   domain_name       = "${aws_route53_zone.primary.name}"
   validation_method = "DNS"
+  
+  options {
+    certificate_transparency_logging_preference = "ENABLED"
+  }
 
   tags = {
     Environment = var.env_id
@@ -29,4 +33,9 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
   type    = each.value.type
   zone_id = aws_route53_zone.primary.zone_id
+}
+
+resource "aws_acm_certificate_validation" "primary" {
+  certificate_arn         = aws_acm_certificate.cert.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }

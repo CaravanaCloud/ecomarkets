@@ -5,3 +5,7 @@ variable aws_region {
 variable env_id {
   default = "ecomarkets_dev"
 }
+
+variable domain_name {
+  default = "omega.ecomarkets.com"
+}

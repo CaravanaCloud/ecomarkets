@@ -1,5 +1,6 @@
-package com.example.starter.base;
+package ecomarkets.ui.view;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 import com.vaadin.flow.component.Key;
@@ -10,16 +11,21 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import ecomarkets.ui.GreetService;
+import ecomarkets.ui.MainLayout;
+import ecomarkets.ui.ParentView;
+
 /**
  * The main view contains a button and a click listener.
  */
-@Route("")
-public class MainView extends VerticalLayout {
+@Route(value="", layout = MainLayout.class)
+public class MainView extends ParentView {
 
     @Inject
     GreetService greetService;
 
-    public MainView() {
+    @PostConstruct
+    void init() {
         // Use TextField for standard text input
         TextField textField = new TextField("Your name");
         textField.addThemeName("bordered");

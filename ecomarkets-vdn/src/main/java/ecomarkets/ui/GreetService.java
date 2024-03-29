@@ -1,4 +1,4 @@
-package com.example.starter.base;
+package ecomarkets.ui;
 
 import jakarta.enterprise.context.Dependent;
 

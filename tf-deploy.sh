@@ -9,7 +9,11 @@ sleep 10
 terraform -chdir="$DIR/infra/tf/tf-backend" init 
 terraform -chdir="$DIR/infra/tf/tf-backend" apply -auto-approve
 
-#Base
+pushd infra/tf/env-security
+./tf-init.sh
+./tf-apply.sh
+popd
+
 pushd infra/tf/env-base
 ./tf-init.sh
 ./tf-apply.sh

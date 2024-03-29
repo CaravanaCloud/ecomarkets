@@ -14,12 +14,6 @@ provider "aws" {
 }
 
 
-module "domain" {
-    source = "../modules/domain"
-    env_id = var.env_id
-    domain_name = var.domain_name
-}
-
 module "infra_storage" {
     source = "../modules/storage"
     bucket_prefix = "infra-"

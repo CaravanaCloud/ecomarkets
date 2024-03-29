@@ -39,3 +39,11 @@ output "certificate_arn" {
 output "name_servers" {
     value = module.domain.name_servers
 }
+
+output "zone_id" {
+    value = module.domain.zone_id
+}
+
+output "domain_name" {
+    value = module.domain.domain_name
+}

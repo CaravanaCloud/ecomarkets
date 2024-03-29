@@ -55,7 +55,7 @@ variable "container_mem" {
 }
 
 
-variable "hosted_zone_id" {
+variable "zone_id" {
   type = string
 }
 

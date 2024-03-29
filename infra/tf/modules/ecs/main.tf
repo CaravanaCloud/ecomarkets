@@ -411,7 +411,7 @@ resource "aws_ecs_service" "api_service" {
 
 
 resource "aws_route53_record" "ecs_lb_dns" {
-  zone_id = var.hosted_zone_id
+  zone_id = var.zone_id
   name    = var.env_id
   type    = "A"
 

@@ -21,11 +21,7 @@
   </properties>
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>ecomarkets</groupId>
-        <artifactId>ecomarkets-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+
       <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
@@ -43,6 +39,11 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>ecomarkets</groupId>
+      <artifactId>ecomarkets-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
