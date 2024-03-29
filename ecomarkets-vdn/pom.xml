@@ -62,7 +62,11 @@
             <artifactId>vaadin-jandex</artifactId>
         </dependency>
         -->
-
+        <dependency>
+            <groupId>ecomarkets</groupId>
+            <artifactId>ecomarkets-core</artifactId>
+            <version>${project.version}</version>
+          </dependency>
     </dependencies>
 
     <build>

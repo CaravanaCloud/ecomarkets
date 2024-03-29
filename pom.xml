@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ecomarkets</groupId>
+    <artifactId>ecomarkets</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+    <name>EcoMarkets</name>
+    <description>Don't Panic: It's Organic!</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
+    </properties>
+
+    <modules>
+        <module>ecomarkets-core</module>
+        <module>ecomarkets-api</module>
+        <module>ecomarkets-vdn</module>        
+    </modules>
+
+    <build>
+        <defaultGoal>clean verify</defaultGoal>
+    </build>
+</project>
