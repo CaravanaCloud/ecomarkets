@@ -6,19 +6,21 @@ import com.vaadin.flow.router.Route;
 import ecomarkets.i18n.I18NService;
 import ecomarkets.ui.MainLayout;
 import ecomarkets.ui.VerticalView;
+import ecomarkets.user.UserSession;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 
-@Route(value="about", layout = MainLayout.class)
-public class AboutView 
+@Route(value="sandbox", layout = MainLayout.class)
+public class SandboxView 
     extends VerticalView {
     @Inject
-    I18NService i18n;
+    UserSession user;
 
     @PostConstruct
     void init() {
-        var description = new Paragraph(i18n.format("en","about.description"));
-        addContent(description);
+        var greeting = new Paragraph(user.format("about.greeting", user.getUUID()));
+        var description = new Paragraph(user.format("about.description"));
+        addContent(greeting, description);
     }
 }

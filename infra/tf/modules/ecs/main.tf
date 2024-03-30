@@ -97,7 +97,7 @@ resource "aws_security_group" "ecs_worker_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "worker_sg"
+    Name = "worker_web_sg"
   }
 }
 
@@ -120,7 +120,7 @@ resource "aws_security_group" "ecs_worker_api_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "worker_sg"
+    Name = "worker_api_sg"
   }
 }
 
