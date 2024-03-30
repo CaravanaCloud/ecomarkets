@@ -19,16 +19,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteNotFoundError;
 
 import ecomarkets.ui.MainLayout;
-import ecomarkets.ui.ParentView;
+import ecomarkets.ui.VerticalView;
 
 
 @Route(value="error")
 public class ErrorView extends Composite<VerticalLayout> implements HasErrorParameter<AccessDeniedException> {
-    @PostConstruct
-    void init() {
-        var txt = new Paragraph("Oops ;'(");
-        getContent().add(txt);
-    }
 
     @Override
     public int setErrorParameter(BeforeEnterEvent event,

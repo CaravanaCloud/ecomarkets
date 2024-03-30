@@ -44,6 +44,10 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-agroal</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-postgresql</artifactId>
     </dependency>
     <dependency>
@@ -53,10 +57,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm-panache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -132,7 +132,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>ecomarkets-api</finalName>
+    <finalName>ecomarkets-core</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>

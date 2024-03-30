@@ -57,7 +57,7 @@ resource "aws_iam_role_policy_attachment" "ecs_secrets_policy_attach" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_api_logs" {
-  name              = "/ecs/api-logs"
+  name              = "/${var.env_id}/api"
   retention_in_days = 7
 
   # Optionally, add tags to help organize and manage your log group
@@ -67,7 +67,7 @@ resource "aws_cloudwatch_log_group" "ecs_api_logs" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_web_logs" {
-  name              = "/ecs/web-logs"
+  name              = "/${var.env_id}/web"
   retention_in_days = 7
 
   # Optionally, add tags to help organize and manage your log group
@@ -292,9 +292,9 @@ resource "aws_ecs_task_definition" "web_task" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/ecs/web-logs"
+          awslogs-group         = "/${var.env_id}/web"
           awslogs-region        = "${var.aws_region}"
-          awslogs-stream-prefix = "ecs"
+          awslogs-stream-prefix = "ecslogs"
         }
       }
     },
@@ -354,7 +354,7 @@ resource "aws_ecs_task_definition" "api_task" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/ecs/api-logs"
+          awslogs-group         = "/${var.env_id}/api"
           awslogs-region        = "${var.aws_region}"
           awslogs-stream-prefix = "ecs"
         }

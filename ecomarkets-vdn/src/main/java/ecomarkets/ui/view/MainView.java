@@ -13,13 +13,13 @@ import com.vaadin.flow.router.Route;
 
 import ecomarkets.ui.GreetService;
 import ecomarkets.ui.MainLayout;
-import ecomarkets.ui.ParentView;
+import ecomarkets.ui.VerticalView;
 
 /**
  * The main view contains a button and a click listener.
  */
 @Route(value="", layout = MainLayout.class)
-public class MainView extends ParentView {
+public class MainView extends VerticalView {
 
     @Inject
     GreetService greetService;
@@ -32,7 +32,7 @@ public class MainView extends ParentView {
 
         // Button click listeners can be defined as lambda expressions
         Button button = new Button("Say hello", e -> {
-            add(new Paragraph(greetService.greet(textField.getValue())));
+            getContent().add(new Paragraph(greetService.greet(textField.getValue())));
         });
 
         // Theme variants give you predefined extra styles for components.
@@ -44,8 +44,8 @@ public class MainView extends ParentView {
         button.addClickShortcut(Key.ENTER);
 
         // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
-        addClassName("centered-content");
+        getContent().addClassName("centered-content");
 
-        add(textField, button);
+        addContent(textField, button);
     }
 }
