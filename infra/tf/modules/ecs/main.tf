@@ -168,7 +168,7 @@ resource "aws_lb" "ecs_alb" {
 }
 
 resource "aws_lb_target_group" "web_target" {
-  name_prefix = "web_target"
+  name_prefix = "web"
   port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -192,7 +192,7 @@ resource "aws_lb_target_group" "web_target" {
 }
 
 resource "aws_lb_target_group" "api_target" {
-  name_prefix = "api_target"
+  name_prefix = "api"
   port        = var.container_api_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -374,7 +374,16 @@ resource "aws_ecs_task_definition" "api_task" {
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
           value = var.oidc_client_secret
-        }
+          }, {
+          name  = "TWILIO_ACCOUNT_SID",
+          value = var.twilio_account_sid
+          }, {
+          name  = "TWILIO_AUTH_TOKEN",
+          value = var.twilio_auth_token
+          }, {
+          name  = "TWILIO_PHONE_FROM",
+          value = var.twilio_phone_from
+          }
       ]
 
       logConfiguration = {

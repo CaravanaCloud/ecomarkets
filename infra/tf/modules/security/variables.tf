@@ -31,3 +31,15 @@ variable docker_password {
     type = string
     default = ""
 }
+
+variable "twilio_account_sid" {
+  type = string
+}
+
+variable "twilio_auth_token" {
+  type = string
+}
+
+variable "twilio_phone_from" {
+  type = string
+}

@@ -23,6 +23,24 @@ resource "aws_ssm_parameter" "db_password" {
   value = var.db_password_text != "" ? var.db_password_text : uuid()
 }
 
+resource "aws_ssm_parameter" "twilio_account_sid" {
+  name  = "/${var.env_id}/twilio_account_sid"
+  type  = "String"
+  value = var.twilio_account_sid
+}
+
+resource "aws_ssm_parameter" "twilio_auth_token" {
+  name  = "/${var.env_id}/twilio_auth_token"
+  type  = "String"
+  value = var.twilio_auth_token
+}
+
+resource "aws_ssm_parameter" "twilio_phone_from" {
+  name  = "/${var.env_id}/twilio_phone_from"
+  type  = "String"
+  value = var.twilio_phone_from
+}
+
 resource "aws_secretsmanager_secret" "docker_credentials" {
   name        = "/${var.env_id}/docker_registry_credentials"
   description = "Credentials for Docker Registry"

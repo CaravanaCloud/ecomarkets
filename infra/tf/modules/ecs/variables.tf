@@ -78,3 +78,15 @@ variable "db_name" {
     description = "The endpoint of the RDS cluster"
     type        = string
 }
+
+variable "twilio_account_sid" {
+  type = string
+}
+
+variable "twilio_auth_token" {
+  type = string
+}
+
+variable "twilio_phone_from" {
+  type = string
+}
