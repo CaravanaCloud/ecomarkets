@@ -19,8 +19,8 @@ public class SandboxView
 
     @PostConstruct
     void init() {
-        var greeting = new Paragraph(user.format("about.greeting", session.getUser().getUUID()));
-        var description = new Paragraph(user.format("about.description"));
+        var greeting = new Paragraph(session.format("about.greeting", session.getUser().getUUID()));
+        var description = new Paragraph(session.format("about.description"));
         addContent(greeting, description);
     }
 }
