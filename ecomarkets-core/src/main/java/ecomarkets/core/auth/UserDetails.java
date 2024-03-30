@@ -74,6 +74,8 @@ public class UserDetails {
         return locale.getDisplayName();
     }
 
-    
+    public String getUUID() {
+        return uuid;
+    }
 
 }

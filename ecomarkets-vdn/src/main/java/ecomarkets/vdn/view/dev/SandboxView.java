@@ -15,11 +15,11 @@ import jakarta.inject.Inject;
 public class SandboxView 
     extends VerticalView {
     @Inject
-    UserSession user;
+    UserSession session;
 
     @PostConstruct
     void init() {
-        var greeting = new Paragraph(user.format("about.greeting", user.getUUID()));
+        var greeting = new Paragraph(user.format("about.greeting", session.getUser().getUUID()));
         var description = new Paragraph(user.format("about.description"));
         addContent(greeting, description);
     }
