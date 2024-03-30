@@ -1,5 +1,5 @@
 ####
-# docker build -f ecomarkets-api/src/main/docker/Containerfile --no-cache --progress=plain -t caravanacloud/ecomarkets-api:$(cat VERSION) ecomarkets-api
+# docker build -f api.Containerfile --no-cache --progress=plain -t caravanacloud/ecomarkets-api:$(cat VERSION) .
 # docker run -i --rm -p 9090:9090 --network=host  caravanacloud/ecomarkets-api:$(cat VERSION)
 # docker login --username=caravanacloud
 # docker push caravanacloud/ecomarkets-api:$(cat VERSION)

@@ -3,7 +3,7 @@ image:
 
 tasks:
   - name: API
-    init: mvn -f ecomarkets-api -fn install
+    init: mvn -fn -DskipTests install
     command: mvn -f ecomarkets-api -DskipTests quarkus:dev
   
   - name: APP
@@ -14,6 +14,11 @@ tasks:
     command: |
       cd ecomarkets-app
       npm run dev
+
+  - name: VDN
+    command: |
+      cd ecomarkets-vdn
+      quarkus dev
   
   - name: PROXY
     command: |
