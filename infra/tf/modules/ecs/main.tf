@@ -168,6 +168,7 @@ resource "aws_lb" "ecs_alb" {
 }
 
 resource "aws_lb_target_group" "web_target" {
+  name_prefix = "web_target"
   port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -191,6 +192,7 @@ resource "aws_lb_target_group" "web_target" {
 }
 
 resource "aws_lb_target_group" "api_target" {
+  name_prefix = "api_target"
   port        = var.container_api_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id

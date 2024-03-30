@@ -1,7 +1,7 @@
 ####
 # docker build -f vdn.Containerfile --no-cache --progress=plain -t caravanacloud/ecomarkets-vdn:$(cat VERSION) .
 # docker run -i --rm -p 9091:9091 --network=host  caravanacloud/ecomarkets-vdn:$(cat VERSION)
-# docker login --username=caravanacloud
+# docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
 # docker push caravanacloud/ecomarkets-vdn:$(cat VERSION)
 ###
 
@@ -71,11 +71,6 @@ USER $USERNAME
 # Copy binary
 RUN mkdir -p "/home/$USERNAME/quarkus-app"
 WORKDIR "/home/$USERNAME/quarkus-app"
-
-ARG CP_FROM="/home/container-user/quarkus-app/"
-ARG CP_TO=$CP_FROM
-
-
 
 COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/target/jre" "/home/container-user/quarkus-app/target/jre"
 COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/ecomarkets-vdn/target/ecomarkets-vdn-runner.jar" "/home/container-user/quarkus-app/ecomarkets-vdn/target/ecomarkets-vdn-runner.jar"

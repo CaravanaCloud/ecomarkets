@@ -13,13 +13,6 @@ USER root
 ENV PATH="/usr/bin:${PATH}"
 RUN bash -c "dnf install -y zip unzip"
 
-
-# Docker
-# RUN bash -c "dnf -y install dnf-plugins-core"
-# RUN bash -c "dnf -y config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
-# RUN bash -c "dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
-# sudo systemctl start docker
-
 ## Create User
 ARG USERNAME=container-user
 ARG USER_UID=1000
@@ -59,6 +52,7 @@ ARG JAVA_MODULES="java.base,java.compiler,java.desktop,java.logging,java.managem
 RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
     && jlink --add-modules $JAVA_MODULES --compress=zip-2 --no-header-files --no-man-pages --output ./target/jre"
 
+RUN find "/home/container-user/quarkus-app/"
 
 ### RUNTIME STAGE ###
 FROM fedora:39
@@ -78,13 +72,9 @@ USER $USERNAME
 RUN mkdir -p "/home/$USERNAME/quarkus-app"
 WORKDIR "/home/$USERNAME/quarkus-app"
 
-ARG CP_FROM="/home/container-user/quarkus-app/target/"
-ARG CP_TO=$CP_FROM
-RUN mkdir -p "$CP_TO"
+COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/target/jre" "/home/container-user/quarkus-app/target/jre"
+COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar" "/home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar"
 
-COPY --from=build --chown=$USERNAME $CP_FROM $CP_TO
-
-RUN find "$CP_TO"
 
 EXPOSE 9090
 
