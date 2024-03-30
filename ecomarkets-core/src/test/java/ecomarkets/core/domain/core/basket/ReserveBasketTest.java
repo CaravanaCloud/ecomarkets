@@ -1,6 +1,6 @@
 package ecomarkets.core.domain.core.basket;
 
-import ecomarkets.FixtureFactory;
+import ecomarkets.core.FixtureFactory;
 import ecomarkets.core.domain.core.Tenant;
 import ecomarkets.core.domain.core.basket.Basket;
 import ecomarkets.core.domain.core.basket.event.BasketReservedEvent;

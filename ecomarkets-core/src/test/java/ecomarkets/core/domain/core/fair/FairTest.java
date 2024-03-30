@@ -1,6 +1,6 @@
 package ecomarkets.core.domain.core.fair;
 
-import ecomarkets.FixtureFactory;
+import ecomarkets.core.FixtureFactory;
 import ecomarkets.core.domain.core.fair.Fair;
 import ecomarkets.core.domain.core.fair.FarmerProductAvailableInFair;
 import ecomarkets.core.domain.core.fair.ShoppingPeriod;
