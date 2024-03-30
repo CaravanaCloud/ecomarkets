@@ -48,17 +48,17 @@ RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
 ## Link
 # jdeps --ignore-missing-deps --multi-release=21 --list-deps target/ecomarkets-api-runner.jar
 # JDK removed internal API/com.sun.tools.javac.code,java.base/sun.security.x509,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.scripting,java.security.jgss,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.compiler/com.sun.tools.javac.code,jdk.compiler/com.sun.tools.javac.tree,jdk.compiler/com.sun.tools.javac.util,jdk.jconsole,jdk.unsupported
-ARG JAVA_MODULES="java.base,java.compiler,java.desktop,java.logging,java.management,java.naming,java.rmi,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.compiler,jdk.compiler,jdk.unsupported,org.graalvm.nativeimage,org.graalvm.word"
-RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
-    && jlink --add-modules $JAVA_MODULES --compress=zip-2 --no-header-files --no-man-pages --output ./target/jre"
+# ARG JAVA_MODULES="java.base,java.compiler,java.desktop,java.logging,java.management,java.naming,java.rmi,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.compiler,jdk.compiler,jdk.unsupported,org.graalvm.nativeimage,org.graalvm.word"
+# RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
+#     && jlink --add-modules $JAVA_MODULES --compress=zip-2 --no-header-files --no-man-pages --output ./target/jre"
 
-RUN find "/home/container-user/quarkus-app/"
+# RUN find "/home/container-user/quarkus-app/"
 
 ### RUNTIME STAGE ###
 FROM fedora:39
 
 USER root
-# RUN bash -c "dnf install -y zip unzip"
+RUN bash -c "dnf install -y java-21-openjdk"
 
 # Create user
 ARG USERNAME=container-user
@@ -72,13 +72,14 @@ USER $USERNAME
 RUN mkdir -p "/home/$USERNAME/quarkus-app"
 WORKDIR "/home/$USERNAME/quarkus-app"
 
-COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/target/jre" "/home/container-user/quarkus-app/target/jre"
+# COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/target/jre" "/home/container-user/quarkus-app/target/jre"
 COPY --from=build --chown=$USERNAME "/home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar" "/home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar"
-
 
 EXPOSE 9090
 
 # ARG JAVA_XARGS="-XX:+UseSerialGC -XX:InitialRAMPercentage=95.0"
 # ARG JAVA_XARGS="-XX:+UseZGC -XX:InitialRAMPercentage=90.0  -XX:MaxRAMPercentage=95.0"
 ARG JAVA_XARGS=""
-ENTRYPOINT /home/container-user/quarkus-app/target/jre/bin/java $JAVA_XARGS -jar /home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar 
+# /home/container-user/quarkus-app/target/jre/bin/
+# RUN java -version
+ENTRYPOINT java $JAVA_XARGS -jar /home/container-user/quarkus-app/ecomarkets-api/target/ecomarkets-api-runner.jar

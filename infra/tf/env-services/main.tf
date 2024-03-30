@@ -36,11 +36,17 @@ module "ecs" {
 
     db_endpoint = var.db_endpoint
     db_name = var.db_name
+    
     db_username = var.db_app_username
     db_password = var.db_app_password
+
     oidc_provider = var.oidc_provider
     oidc_client_id = var.oidc_client_id
     oidc_client_secret = var.oidc_client_secret
+
+    twilio_account_sid = var.twilio_account_sid
+    twilio_auth_token = var.twilio_auth_token
+    twilio_phone_from = var.twilio_phone_from
 
 }
 

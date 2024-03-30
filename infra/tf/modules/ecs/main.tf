@@ -304,7 +304,10 @@ resource "aws_ecs_task_definition" "web_task" {
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
           value = var.oidc_client_secret
-        }
+          }, {
+          name  = "DEBUG_LINE",
+          value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_username.value}\" -p 5432 -d ${var.db_name}"
+          }
       ]
 
       portMappings = [

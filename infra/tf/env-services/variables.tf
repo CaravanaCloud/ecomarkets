@@ -30,4 +30,7 @@ variable certificate_arn {}
 variable db_app_username {}
 variable db_app_password {}
 
+variable "twilio_account_sid" {}
+variable "twilio_auth_token" {}
+variable "twilio_phone_from" {}
 
