@@ -1,0 +1,12 @@
+# docker compose -f docker-compose.nginx.yaml down; docker compose -f docker-compose.nginx.yaml up; 
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    network_mode: host
+    volumes:
+      - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:rw,Z
+    ports:
+      - 9999:9999
+
