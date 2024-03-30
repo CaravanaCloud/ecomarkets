@@ -2,8 +2,6 @@ package ecomarkets.rs.product;
 
 import java.util.List;
 
-import ecomarkets.domain.core.product.Product;
-import ecomarkets.domain.core.product.category.Category;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -18,6 +16,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.stream.*;
+
+import ecomarkets.core.domain.core.product.Product;
+import ecomarkets.core.domain.core.product.category.Category;
 
 @Path("/category")
 @Consumes(MediaType.APPLICATION_JSON)

@@ -5,8 +5,8 @@ export TF_VAR_domain_name=$(terraform -chdir=../env-security output -raw domain_
 export TF_VAR_aws_region=$(terraform -chdir=../env-security output -raw aws_region)
 export TF_VAR_env_id=$(terraform -chdir=../env-security output -raw env_id)
 
-export TF_VAR_db_app_username=$(terraform -chdir=../env-security output -raw db_username)
-export TF_VAR_db_app_password=$(terraform -chdir=../env-security output -raw db_password)
+export TF_VAR_db_app_username=$(terraform -chdir=../env-security output -raw db_app_username)
+export TF_VAR_db_app_password=$(terraform -chdir=../env-security output -raw db_app_password)
 
 export TF_VAR_twilio_account_sid=$(terraform -chdir=../env-security output -raw twilio_account_sid)
 export TF_VAR_twilio_auth_token=$(terraform -chdir=../env-security output -raw twilio_auth_token)

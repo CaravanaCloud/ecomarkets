@@ -1,9 +1,9 @@
-data "aws_ssm_parameter" "db_username" {
-  name = var.db_username
+data "aws_ssm_parameter" "db_app_username" {
+  name = var.db_app_username
 }
 
-data "aws_ssm_parameter" "db_password" {
-  name = var.db_password
+data "aws_ssm_parameter" "db_app_password" {
+  name = var.db_app_password
 }
 
 # ECS Cluster
@@ -267,7 +267,7 @@ resource "aws_lb_listener" "ecs_listener" {
 
 
 resource "aws_ecs_task_definition" "web_task" {
-  family                   = "web-tasks"
+  family                   = "${var.env_id}_web"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
@@ -291,10 +291,10 @@ resource "aws_ecs_task_definition" "web_task" {
           value = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
           }, {
           name  = "QUARKUS_DATASOURCE_USERNAME",
-          value = data.aws_ssm_parameter.db_username.value
+          value = data.aws_ssm_parameter.db_app_username.value
           }, {
           name  = "QUARKUS_DATASOURCE_PASSWORD",
-          value = data.aws_ssm_parameter.db_password.value
+          value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
           value = var.oidc_provider
@@ -306,7 +306,7 @@ resource "aws_ecs_task_definition" "web_task" {
           value = var.oidc_client_secret
           }, {
           name  = "DEBUG_LINE",
-          value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_username.value}\" -p 5432 -d ${var.db_name}"
+          value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_app_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_app_username.value}\" -p 5432 -d ${var.db_name}"
           }
       ]
 
@@ -332,7 +332,7 @@ resource "aws_ecs_task_definition" "web_task" {
 
 
 resource "aws_ecs_task_definition" "api_task" {
-  family                   = "api-tasks"
+  family                   = "${var.env_id}_api"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
@@ -364,10 +364,10 @@ resource "aws_ecs_task_definition" "api_task" {
           value = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
           }, {
           name  = "QUARKUS_DATASOURCE_USERNAME",
-          value = data.aws_ssm_parameter.db_username.value
+          value = data.aws_ssm_parameter.db_app_username.value
           }, {
           name  = "QUARKUS_DATASOURCE_PASSWORD",
-          value = data.aws_ssm_parameter.db_password.value
+          value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
           value = var.oidc_provider

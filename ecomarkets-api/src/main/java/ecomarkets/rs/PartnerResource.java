@@ -2,7 +2,7 @@ package ecomarkets.rs;
 
 import java.util.List;
 
-import ecomarkets.domain.core.partner.Partner;
+import ecomarkets.core.domain.core.partner.Partner;
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;

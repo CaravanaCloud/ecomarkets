@@ -1,6 +1,6 @@
 package ecomarkets.rs.basket.form;
 
-import ecomarkets.domain.core.product.ProductId;
+import ecomarkets.core.domain.core.product.ProductId;
 
 public record BasketItemForm(ProductId productId,
                              Integer amount){

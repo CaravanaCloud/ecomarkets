@@ -1,9 +1,9 @@
 package ecomarkets.rs.basket;
 
-import ecomarkets.domain.core.basket.Basket;
-import ecomarkets.domain.core.basket.event.BasketEvent;
-import ecomarkets.domain.core.fair.ProductStock;
-import ecomarkets.domain.core.product.Product;
+import ecomarkets.core.domain.core.basket.Basket;
+import ecomarkets.core.domain.core.basket.event.BasketEvent;
+import ecomarkets.core.domain.core.fair.ProductStock;
+import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.rs.basket.form.BasketItemForm;
 import ecomarkets.rs.basket.form.CreateBasketForm;
 import io.quarkus.panache.common.Sort;

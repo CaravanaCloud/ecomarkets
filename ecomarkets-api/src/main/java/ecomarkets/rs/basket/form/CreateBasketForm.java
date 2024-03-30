@@ -1,8 +1,8 @@
 package ecomarkets.rs.basket.form;
 
-import ecomarkets.domain.core.fair.FairId;
-import ecomarkets.domain.core.partner.PartnerId;
-
 import java.util.List;
+
+import ecomarkets.core.domain.core.fair.FairId;
+import ecomarkets.core.domain.core.partner.PartnerId;
 
 public record CreateBasketForm (FairId fairId, PartnerId partnerId, List<BasketItemForm> items){}

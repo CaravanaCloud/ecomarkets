@@ -1,8 +1,8 @@
 package ecomarkets.rs.fair;
 
-import ecomarkets.domain.core.fair.*;
-import ecomarkets.domain.core.product.Product;
-import ecomarkets.domain.core.product.ProductId;
+import ecomarkets.core.domain.core.fair.*;
+import ecomarkets.core.domain.core.product.Product;
+import ecomarkets.core.domain.core.product.ProductId;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;

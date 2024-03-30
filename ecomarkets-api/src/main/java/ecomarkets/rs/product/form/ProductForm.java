@@ -1,8 +1,8 @@
 package ecomarkets.rs.product.form;
 
 
-import ecomarkets.domain.core.product.*;
-import ecomarkets.domain.core.product.category.Category;
+import ecomarkets.core.domain.core.product.*;
+import ecomarkets.core.domain.core.product.category.Category;
 
 public record ProductForm(String name,
                           String description,
