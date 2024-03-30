@@ -2,11 +2,14 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: API
+  - name: CORE
     init: mvn -fn -DskipTests install
     command: mvn -f ecomarkets-api -DskipTests quarkus:dev
+
+  - name: API
+    command: mvn -f ecomarkets-core -DskipTests quarkus:dev
   
-  - name: APP
+  - name: SKN
     init: |
       cd ecomarkets-app
       npm install
@@ -27,8 +30,6 @@ tasks:
   - name: SHELL
     command: |
       echo "Hello from the shell"
-      ./secrets-copy.sh
-      gp url 6600
 
 ports:
     # APP

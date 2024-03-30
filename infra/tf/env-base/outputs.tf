@@ -31,11 +31,6 @@ output "db_name" {
     value = module.database.db_name
 }
 
-
-output "certificate_arn" {
-    value = module.domain.certificate_arn
-}
-
 output "domain_name" {
     value = var.domain_name
 }

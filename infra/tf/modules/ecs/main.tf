@@ -78,14 +78,37 @@ resource "aws_cloudwatch_log_group" "ecs_web_logs" {
 
 # Task Definition
 
-
-resource "aws_security_group" "ecs_worker_sg" {
+resource "aws_security_group" "ecs_worker_web_sg" {
+  name_prefix = "ecs_worker_web_sg"
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = var.container_port
+    to_port     = var.container_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # TODO restrict to LB
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "worker_sg"
+  }
+}
+
+resource "aws_security_group" "ecs_worker_api_sg" {
+  name_prefix = "ecs_worker_api_sg"
+  description = "Allow inbound traffic from VPC"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = var.container_api_port
+    to_port     = var.container_api_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # TODO restrict to LB
   }
@@ -102,6 +125,7 @@ resource "aws_security_group" "ecs_worker_sg" {
 }
 
 resource "aws_security_group" "ecs_lb_sg" {
+  name_prefix = "ecs_lb_sg"
   description = "Allow inbound traffic from VPC"
   vpc_id      = var.vpc_id
 
@@ -373,7 +397,7 @@ resource "aws_ecs_service" "web_service" {
 
   network_configuration {
     subnets          = var.ecs_subnets
-    security_groups  = [aws_security_group.ecs_worker_sg.id]
+    security_groups  = [aws_security_group.ecs_worker_web_sg.id]
     assign_public_ip = true
   }
 
@@ -396,7 +420,7 @@ resource "aws_ecs_service" "api_service" {
 
   network_configuration {
     subnets          = var.ecs_subnets
-    security_groups  = [aws_security_group.ecs_worker_sg.id]
+    security_groups  = [aws_security_group.ecs_worker_api_sg.id]
     assign_public_ip = true
   }
 
