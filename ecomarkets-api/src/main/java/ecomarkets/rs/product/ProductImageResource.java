@@ -17,7 +17,7 @@ public class ProductImageResource {
 
     private static final Logger LOG = Logger.getLogger(ProductImageResource.class);
 
-    //TODO: Fix Inejction @Inject
+    @Inject
     ImageRepository imageRepository;
 
     @PUT
