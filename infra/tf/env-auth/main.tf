@@ -14,11 +14,11 @@ provider "aws" {
 }
 
 resource "aws_cognito_identity_pool" "main" {
-  identity_pool_name        = "${var.env_id}_identity_pool"
+  identity_pool_name        = "${replace(var.env_id, "/[^a-zA-Z0-9_]/", "")}_identity_pool"
   allow_unauthenticated_identities = true
 
   cognito_identity_providers {
-    client_id               = var.google_client_id
+    client_id               = aws_cognito_user_pool_client.app_client.id
     provider_name           = "accounts.google.com"
     server_side_token_check = true
   }
@@ -116,11 +116,11 @@ resource "aws_cognito_identity_pool_roles_attachment" "main_roles_attachment" {
 }
 
 resource "aws_cognito_user_pool" "main" {
-  name = "${var.env_id}_user_pool"
+  name = "${replace(var.env_id, "/[^a-zA-Z0-9_]/", "")}_user_pool"
 }
 
 resource "aws_cognito_user_pool_client" "app_client" {
-  name         = "app_client"
+  name         = "${replace(var.env_id, "/[^a-zA-Z0-9_]/", "")}_client"
   user_pool_id = aws_cognito_user_pool.main.id
 
   # Additional configurations can be added here based on your requirements

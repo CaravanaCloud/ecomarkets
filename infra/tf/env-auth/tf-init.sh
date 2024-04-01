@@ -2,7 +2,7 @@
 set -x 
 
 TFSTATE_BUCKET=$(terraform -chdir=../tf-backend output -raw bucket_name)
-TFSTATE_KEY="env-base"
+TFSTATE_KEY="env-auth"
 TFSTATE_REGION=$(aws configure get region)
 terraform init -reconfigure \
     -backend-config="bucket=${TFSTATE_BUCKET}" \
