@@ -6,11 +6,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 import ecomarkets.vdn.user.UserSession;
+import ecomarkets.vdn.view.MainLayout;
+import ecomarkets.vdn.view.VerticalView;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
-@Route("user/whoami")
-public class WhoAmIView extends VerticalLayout {
+@Route(value = "user/whoami", layout = MainLayout.class)
+public class WhoAmIView extends VerticalView {
     
     @Inject
     UserSession session;

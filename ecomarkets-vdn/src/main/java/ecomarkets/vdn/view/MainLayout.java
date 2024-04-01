@@ -15,6 +15,7 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import ecomarkets.vdn.view.user.WhoAmIView;
 import jakarta.annotation.PostConstruct;
 
 public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver { 
@@ -60,6 +61,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         var drawer = new VerticalLayout();
         drawer.add(new RouterLink("Home", MainView.class));
         drawer.add(new RouterLink("About", AboutView.class));
+        drawer.add(new RouterLink("Settings", WhoAmIView.class));
         addToDrawer(drawer);
     }
 

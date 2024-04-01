@@ -7,8 +7,17 @@ tasks:
     command: mvn -f ecomarkets-api -DskipTests quarkus:dev
 
   - name: API
-    command: mvn -f ecomarkets-core -DskipTests quarkus:dev
-  
+    command: |
+      sleep 15
+      cd ecomarkets-api 
+      quarkus dev
+
+  - name: VDN
+    command: |
+      sleep 15
+      cd ecomarkets-vdn
+      quarkus dev
+
   - name: SKN
     init: |
       cd ecomarkets-app
@@ -18,13 +27,9 @@ tasks:
       cd ecomarkets-app
       npm run dev
 
-  - name: VDN
-    command: |
-      cd ecomarkets-vdn
-      quarkus dev
-  
   - name: PROXY
     command: |
+      sleep 15
       docker compose up
   
   - name: SHELL

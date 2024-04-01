@@ -22,7 +22,9 @@ public class UserDetails {
     I18NService i18n;
     
     public boolean isAnonymous() {
-        return id.isAnonymous();
+        var result = id.isAnonymous();
+        var email = getEmail();
+        return result;
     }
 
     public String getEmail() {
