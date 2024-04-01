@@ -14,8 +14,8 @@ import ecomarkets.core.domain.notification.email.EmailTemplate;
 
 @ApplicationScoped
 public class EmailTemplateImp implements EmailTemplate {
-
-    @Location("email/basket-notification.html")
+    // TODO: Fix template resolution
+    // @Location("email/basket-notification.html")
     Template basketTemplate;
 
     @Override
@@ -30,7 +30,7 @@ public class EmailTemplateImp implements EmailTemplate {
     //TODO add internationalization
     public String formatPayment(BigDecimal value){
         DecimalFormat nf =  new DecimalFormat("#,###,##0.00");;
-        nf.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt", "BR")));
+        nf.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.getDefault()));
         return nf.format(value);
     }
 }

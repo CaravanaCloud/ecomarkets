@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.Response;
 @Transactional
 public class FairResource {
 
-    @Inject
+    //TODO: Fix injection @Inject
     ProductStock productStockService;
 
     @Path("/{fairId}/product/{productId}")

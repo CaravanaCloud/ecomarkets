@@ -1,0 +1,4 @@
+#!/bin/bash
+set -x
+
+PGPASSWORD="$QUARKUS_DATASOURCE_PASSWORD" psql -h "127.0.0.1" -U "$QUARKUS_DATASOURCE_USERNAME" -p 65432 -d ecomarkets

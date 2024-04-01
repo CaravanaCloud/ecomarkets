@@ -1,14 +1,11 @@
 package ecomarkets.core.user;
 
-package tdc.core.auth;
-
 import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.security.runtime.QuarkusSecurityIdentity;
 import io.smallrye.jwt.auth.principal.DefaultJWTCallerPrincipal;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
-import tdc.core.service.AuthService;
 
 import java.util.function.Supplier;
 

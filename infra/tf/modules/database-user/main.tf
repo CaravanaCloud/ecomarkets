@@ -1,6 +1,6 @@
 resource "null_resource" "db_query" {
   provisioner "local-exec" {
-    command = "python3 query.py"
+    command = "pip3 install psycopg2 && python3 query.py"
   
     environment = {
       DB_HOST = var.db_host

@@ -23,7 +23,7 @@ public class BasketResource {
     @Inject
     Event<BasketEvent> basketEvent;
 
-    @Inject
+    //TODO: Fix injection @Inject
     ProductStock productStock;
 
     @GET

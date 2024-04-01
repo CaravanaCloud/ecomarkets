@@ -1,7 +1,5 @@
 package ecomarkets.core.user;
 
-package tdc.core.orm;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

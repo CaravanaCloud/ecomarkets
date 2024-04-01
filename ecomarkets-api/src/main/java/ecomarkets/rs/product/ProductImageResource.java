@@ -17,8 +17,8 @@ public class ProductImageResource {
 
     private static final Logger LOG = Logger.getLogger(ProductImageResource.class);
 
-    @Inject
-    private ImageRepository imageRepository;
+    //TODO: Fix Inejction @Inject
+    ImageRepository imageRepository;
 
     @PUT
     @ResponseStatus(HttpStatus.SC_OK)

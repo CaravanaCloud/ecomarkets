@@ -35,6 +35,7 @@ module "database" {
 
 module "database-user" {
     source = "../modules/database-user"
+    depends_on = [ module.database ]
     
     db_host = module.database.db_host
     db_port = module.database.db_port

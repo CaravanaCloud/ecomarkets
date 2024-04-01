@@ -16,7 +16,6 @@ public class UserDetails {
     String uuid = UUID.randomUUID().toString();
     Locale locale = Locale.getDefault();
 
-
     @Inject
     SecurityIdentity id;
 
