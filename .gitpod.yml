@@ -4,7 +4,9 @@ image:
 tasks:
   - name: CORE
     init: mvn -fn -DskipTests install
-    command: mvn -f ecomarkets-api -DskipTests quarkus:dev
+    command: |
+      cd ecomarkets-core
+      quarkus dev
 
   - name: API
     command: |
