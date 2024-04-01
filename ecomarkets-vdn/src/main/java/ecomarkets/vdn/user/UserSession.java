@@ -8,19 +8,20 @@ import com.vaadin.quarkus.annotation.VaadinSessionScoped;
 
 import ecomarkets.core.auth.UserDetails;
 import ecomarkets.core.i18n.I18NService;
+import io.quarkus.security.identity.SecurityIdentity;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 
-@VaadinSessionScoped
+@Dependent
+//VaadinSession?
 public class UserSession {
     @Inject
-    UserDetails user;
+    UserDetails userDetails;
 
-    public String format(String key, Object... args) {
-        return user.format(key, args);
-    }
 
-    public UserDetails getUser() {
-        return user;
+
+    public UserDetails getUserDetails() {
+        return userDetails;
     }
     
 }

@@ -5,38 +5,33 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
+import ecomarkets.core.auth.UserDetails;
 import ecomarkets.vdn.user.UserSession;
 import ecomarkets.vdn.view.MainLayout;
 import ecomarkets.vdn.view.VerticalView;
+import io.quarkus.oidc.UserInfo;
+import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 @Route(value = "user/whoami", layout = MainLayout.class)
 public class WhoAmIView extends VerticalView {
     
+
     @Inject
-    UserSession session;
+    UserSession user;
+
 
     @PostConstruct
     public void init() {
         addDebug("Who Am I?");
-        if (session == null || session.getUser().isAnonymous()) {
+        if (user == null) {
             addDebug("Anonymous");
             return; 
-        } 
-        addDebug("Authenticated");
-        //addDebug("Name: "  + ud.getName());
-        //addDebug("Email: " + ud.getEmail());
-        //addDebug("Roles: " + ud.getRoleNames());
-        //
-        //ud.ifAdmin(() -> {
-        //    addDebug("MENSAGEM APENAS PARA O ADMIN");
-        //},
-        //() -> {
-        //    throw new RuntimeException("YOU SHOULD NOT BE ON THIS PAGE");
-        //}
-        // );
-        //
+        }
+        addDebug("Info OK");
+        addDebug("User Details:" + user.getUserDetails().getName());
+        
     }
 
     private void addDebug(String msg) {
