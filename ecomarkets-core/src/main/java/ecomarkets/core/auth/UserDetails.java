@@ -24,6 +24,8 @@ public class UserDetails {
     public boolean isAnonymous() {
         var result = id.isAnonymous();
         var email = getEmail();
+        var principal = id.getPrincipal();
+        var name = principal.getName();
         return result;
     }
 

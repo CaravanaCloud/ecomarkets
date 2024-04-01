@@ -1,4 +1,4 @@
-package ecomarkets.infra.aws;
+package ecomarkets.core.infra.aws;
 
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
