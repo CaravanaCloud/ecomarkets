@@ -20,7 +20,7 @@ public class EmailSenderScheduled {
     @Inject
     EmailTemplate emailTemplate;
     @ConfigProperty(name = "email.from.notification")
-    private String emailFrom;
+    String emailFrom;
 
     @Scheduled(every="2m")
     public void sendPendingEmails() {

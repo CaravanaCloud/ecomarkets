@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$SDIR/.."
 
 aws sts get-caller-identity
 sleep 10

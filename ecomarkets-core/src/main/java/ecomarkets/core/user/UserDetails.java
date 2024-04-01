@@ -1,4 +1,4 @@
-package ecomarkets.core.auth;
+package ecomarkets.core.user;
 
 import java.util.Locale;
 import java.util.Set;
@@ -9,24 +9,33 @@ import io.quarkus.security.identity.SecurityIdentity;
 import io.smallrye.jwt.auth.principal.DefaultJWTCallerPrincipal;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import java.util.List;
 
 @Dependent
 public class UserDetails {
-    @Inject
-    SecurityIdentity id;
-
     String uuid = UUID.randomUUID().toString();
     Locale locale = Locale.getDefault();
+
+
+    @Inject
+    SecurityIdentity id;
 
     @Inject
     I18NService i18n;
     
+    @Inject
+    UserService users;
+
     public boolean isAnonymous() {
         var result = id.isAnonymous();
         var email = getEmail();
         var principal = id.getPrincipal();
         var name = principal.getName();
         return result;
+    }
+
+    public List<UserRole> getUserRoles(){
+        return users.listRolesByEmail(getEmail());
     }
 
     public String getEmail() {
@@ -46,28 +55,6 @@ public class UserDetails {
 
     public String getName() {
         return id.getPrincipal().getName();
-    }
-
-    public boolean hasRole(UserRole userRole) {
-        if (isAnonymous()) return false;
-        var roles = getRoleNames();
-        boolean result = roles.contains(userRole.name());
-        return result;
-    }
-
-    public void ifRole(String roleName, 
-        Runnable ifRun,
-        Runnable elseRun) {
-        if ( getRoleNames().contains(roleName) ) {
-            ifRun.run();
-        }else {
-            elseRun.run();
-        }
-    }
-
-    public void ifAdmin(Runnable ifRun,
-        Runnable elseRun) {
-        ifRole("admin", ifRun, elseRun);
     }
 
     public String format(String key, Object... args) {

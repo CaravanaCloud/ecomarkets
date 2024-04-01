@@ -1,6 +1,6 @@
 resource "null_resource" "db_query" {
   provisioner "local-exec" {
-    command = "python query.py"
+    command = "python3 query.py"
   
     environment = {
       DB_HOST = var.db_host

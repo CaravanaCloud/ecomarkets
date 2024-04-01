@@ -6,8 +6,8 @@ import java.util.UUID;
 import com.vaadin.flow.component.Component;
 import com.vaadin.quarkus.annotation.VaadinSessionScoped;
 
-import ecomarkets.core.auth.UserDetails;
 import ecomarkets.core.i18n.I18NService;
+import ecomarkets.core.user.UserDetails;
 import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;

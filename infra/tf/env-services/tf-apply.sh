@@ -16,8 +16,10 @@ export TF_VAR_twilio_phone_from=$(terraform -chdir=../env-security output -raw t
 export TF_VAR_vpc_id=$(terraform -chdir=../env-base output -raw vpc_id)
 export TF_VAR_ecs_subnets=$(terraform -chdir=../env-base output -raw public_subnet_ids_str)
 export TF_VAR_api_subnet_ids=$(terraform -chdir=../env-base output -raw public_subnet_ids_str)
+
 export TF_VAR_db_endpoint=$(terraform -chdir=../env-base output -raw db_endpoint)
 export TF_VAR_db_name=$(terraform -chdir=../env-base output -raw db_name)
+
 export TF_VAR_infra_bucket_name=$(terraform -chdir=../env-base output -raw infra_bucket_name)
 
 
