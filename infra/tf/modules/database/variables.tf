@@ -1,9 +1,5 @@
 variable "vpc_id" {}
 
-variable "db_username" {}
-
-variable "db_password" {}
-
 variable "allow_cidrs" {
     type = list(string)
     default = ["0.0.0.0/0"]

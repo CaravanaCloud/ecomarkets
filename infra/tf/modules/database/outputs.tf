@@ -1,8 +1,12 @@
-output db_endpoint {
-  value = aws_rds_cluster.aurora_cluster.endpoint
+output db_master_user_secret {
+  value = aws_rds_cluster.aurora_cluster.master_user_secret[0].secret_arn
 }
 
-output db_host {
+output db_master_user_kms {
+  value = aws_rds_cluster.aurora_cluster.master_user_secret[0].kms_key_id
+}
+
+output db_endpoint {
   value = aws_rds_cluster.aurora_cluster.endpoint
 }
 
