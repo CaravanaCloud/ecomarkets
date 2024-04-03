@@ -1,10 +1,9 @@
-package ecomarkets.core.domain.core;
-
-import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.Test;
+package ecomarkets.rs;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;

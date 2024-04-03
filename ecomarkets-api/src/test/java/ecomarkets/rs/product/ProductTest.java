@@ -1,12 +1,11 @@
-package ecomarkets.core.domain.core.product;
+package ecomarkets.rs.product;
 
+import ecomarkets.core.domain.core.Tenant;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import ecomarkets.core.domain.core.Tenant;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;

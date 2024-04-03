@@ -1,15 +1,14 @@
-package ecomarkets.core.domain.core.product.image;
+package ecomarkets.rs.product.image;
 
+import ecomarkets.core.domain.core.product.MeasureUnit;
+import ecomarkets.core.domain.core.product.ProductBuilder;
+import ecomarkets.core.domain.core.product.image.ProductImage;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import ecomarkets.core.domain.core.product.MeasureUnit;
-import ecomarkets.core.domain.core.product.ProductBuilder;
-import ecomarkets.core.domain.core.product.image.ProductImage;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.FileOutputStream;

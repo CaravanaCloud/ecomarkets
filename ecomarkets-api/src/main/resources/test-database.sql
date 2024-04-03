@@ -31,46 +31,29 @@ VALUES
   (0, 3, 4, 10, 15, '500g. Palmito da Variedade Pupunha, produzido pela Família Schulz Tonoli participante da OCS SABORES E SABERES da REDE BEM VIVER, a família reside na comunidade camponesa da Barra do Tijuco Preto, Domingos Martins - ES', 'Palmito Pupunha', null, null),
   (71, 0, 2, 11, 16, null, 'Batata Inglesa', null, null);
 
--- Product stock test data
-INSERT INTO ProductStock (amount, farmer_id, id, product_id)
+INSERT INTO FAIR (creationDate, startdate, enddate, id)
 VALUES
-  (10, 1, 1, 2),
-  (6, 3, 2, 3),
-  (2, 1, 3, 4), (4, 2, 4, 4),
-  (20, 1, 5, 5),
-  (2, 2, 6, 6),
-  (12, 2, 7, 7), (9, 3, 8, 7),
-  (5, 1, 9, 8), (9, 2, 10, 8), (13, 3, 11, 8),
-  (5, 3, 12, 9),
-  (2, 1, 13, 10), (4, 3, 14, 10),
-  (4, 2, 15, 11),
-  (14, 1, 16, 12),
-  (10, 3, 17, 13),
-  (20, 2, 18, 14), (22, 1, 19, 14),
-  (27, 2, 20, 15),
-  (30, 3, 21, 16), (33, 1, 22, 16);
+  ('2024-01-06 13:00:00', '2024-01-07 13:00:00', '2024-01-13 13:00:00', 1),
+  ('2024-01-25 18:45:25', '2024-01-28 13:35:00', '2024-02-03 13:22:10', 2);
 
 -- Basket test data
-INSERT INTO Basket (creationDate, deliveredDate, id, partner_id, reservedDate)
+INSERT INTO Basket (fair_id, creationDate, id, partner_id)
 VALUES 
-  ('2024-01-29 14:00:00', '2024-02-01 10:00:00', 1, 4, '2024-01-30 11:00:00'),
-  ('2024-01-28 16:00:00', NULL, 2, 5, '2024-01-29 18:00:00'),
-  ('2024-01-27 18:00:00', NULL, 3, 6, '2024-01-29 13:32:00'),
-  ('2024-02-01 10:00:00', '2024-02-01 15:00:00', 4, 1, '2024-02-01 09:00:00'),
-  ('2024-01-31 18:00:00', '2024-02-02 12:00:00', 5, 2, '2024-02-01 10:00:00'),
-  ('2024-01-30 20:00:00', NULL, 6, 3, '2024-01-31 15:00:00'),
-  ('2024-01-31 12:00:00', NULL, 7, 9, '2024-01-31 22:00:00');
+  (1, '2024-01-29 14:00:00', 1, 4),
+  (2, '2024-01-28 16:00:00', 2, 5),
+  (2, '2024-01-27 18:00:00', 3, 6),
+  (1, '2024-02-01 10:00:00', 4, 1),
+  (2, '2024-01-31 18:00:00', 5, 2),
+  (2, '2024-01-30 20:00:00', 6, 3),
+  (2, '2024-01-31 12:00:00', 7, 9);
 
 --Basket items test data
-INSERT INTO Basket_items (amount, Basket_id, creationDate, product_id)
+INSERT INTO Basket_items (amount, totalpayment, Basket_id, creationDate, product_id)
 VALUES
-  (2, 1, '2024-01-12 13:32:03', 2), (12, 1, '2024-01-15: 09:01:43', 9),
-  (30, 2, '2023-04-03 13:24:36', 8), (19, 2, '2023-01-01 12:53:50', 3),
-  (6, 3, '2023-12-09 20:13:05', 14),
-  (10, 4, '2024-01-18 11:12:12', 7),
-  (7, 5, '2023-07-15 12:04:04', 10), (23, 5, '2023-11-22 12:14:01', 15), (1, 5, '2023-09-14 07:47:01', 5),
-  (14, 6, '2023-08-09 08:40:36', 4),
-  (30, 7, '2023-09-23 18:27:55', 6), (3, 7, '2023-11-08 14:15:57', 11);
+  (2,  2 * (select price_unit + (cents / 100)  from Product where id = 2 ), 1, '2024-01-12 13:32:03',  2),
+  (12, 12 * (select price_unit + (cents / 100) from Product where id = 9 ), 1, '2024-01-15: 09:01:43', 9),
+  (30, 30 * (select price_unit + (cents / 100) from Product where id = 8 ), 2, '2023-04-03 13:24:36',  8),
+  (3,  3 * (select price_unit + (cents / 100)  from Product where id = 11), 2, '2023-11-08 14:15:57',  11);
 
 -- Farmer test data
 INSERT INTO Farmer (houseNumber, postCode, id, addOn, areaCode, city, country, email, name, number, reference, state)

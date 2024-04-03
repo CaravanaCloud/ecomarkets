@@ -1,11 +1,11 @@
-package ecomarkets.core.domain.core.fair;
+package ecomarkets.rs.fair;
 
-import ecomarkets.core.FixtureFactory;
 import ecomarkets.core.domain.core.fair.Fair;
 import ecomarkets.core.domain.core.fair.FarmerProductAvailableInFair;
 import ecomarkets.core.domain.core.fair.ShoppingPeriod;
 import ecomarkets.core.domain.core.farmer.Farmer;
 import ecomarkets.core.domain.core.product.Product;
+import ecomarkets.rs.FixtureFactory;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.transaction.Transactional;

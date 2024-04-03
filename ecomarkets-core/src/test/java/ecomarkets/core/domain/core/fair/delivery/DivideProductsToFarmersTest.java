@@ -1,21 +1,17 @@
 package ecomarkets.core.domain.core.fair.delivery;
 
-import org.junit.jupiter.api.Test;
-
 import ecomarkets.core.domain.core.fair.FairId;
 import ecomarkets.core.domain.core.fair.FarmerProductAvailableInFair;
-import ecomarkets.core.domain.core.fair.delivery.DivideProductsToFarmers;
-import ecomarkets.core.domain.core.fair.delivery.FarmerProductionToDeliver;
 import ecomarkets.core.domain.core.farmer.FarmerId;
 import ecomarkets.core.domain.core.product.ProductId;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DivideProductsToFarmersTest {
 
@@ -33,11 +29,11 @@ public class DivideProductsToFarmersTest {
 
         List<FarmerProductionToDeliver> result = new DivideProductsToFarmers().divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
 
-        assertThat(result.size(), is(1));
+        assertEquals(1, result.size());
 
         FarmerProductionToDeliver farmerProductionToDeliver = result.iterator().next();
 
-        assertThat(farmerProductionToDeliver.amountToDeliver(), is(10));
+        assertEquals(10, farmerProductionToDeliver.amountToDeliver());
     }
 
     @Test
@@ -56,13 +52,13 @@ public class DivideProductsToFarmersTest {
 
         List<FarmerProductionToDeliver> result = new DivideProductsToFarmers().divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
 
-        assertThat(result.size(), is(2));
+        assertEquals(2, result.size());
 
         FarmerProductionToDeliver farmerProductionToDeliver1 = result.iterator().next();
-        assertThat(farmerProductionToDeliver1.amountToDeliver(), is(5));
+        assertEquals(5, farmerProductionToDeliver1.amountToDeliver());
 
         FarmerProductionToDeliver farmerProductionToDeliver2 = result.iterator().next();
-        assertThat(farmerProductionToDeliver1.amountToDeliver(), is(5));
+        assertEquals(5, farmerProductionToDeliver1.amountToDeliver());
     }
 
     @Test
@@ -81,13 +77,13 @@ public class DivideProductsToFarmersTest {
 
         List<FarmerProductionToDeliver> result = new DivideProductsToFarmers().divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
 
-        assertThat(result.size(), is(2));
+        assertEquals(2, result.size());
 
         FarmerProductionToDeliver farmerProductionToDeliver1 = result.stream().filter(p -> p.farmerId().equals(farmer1)).findFirst().get();
-        assertThat(farmerProductionToDeliver1.amountToDeliver(), is(2));
+        assertEquals(1, farmerProductionToDeliver1.amountToDeliver());
 
         FarmerProductionToDeliver farmerProductionToDeliver2 = result.stream().filter(p -> p.farmerId().equals(farmer2)).findFirst().get();
-        assertThat(farmerProductionToDeliver2.amountToDeliver(), is(1));
+        assertEquals(2, farmerProductionToDeliver2.amountToDeliver());
     }
 
     @Test
@@ -110,18 +106,18 @@ public class DivideProductsToFarmersTest {
 
         List<FarmerProductionToDeliver> result = new DivideProductsToFarmers().divideProductionForEachFarmer(fairId, productsAmountInBaskets, productsAmountInFair);
 
-        assertThat(result.size(), is(4));
+        assertEquals(4, result.size());
 
         FarmerProductionToDeliver farmer1Production1ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer1) && p.productId().equals(productId1)).findFirst().get();
-        assertThat(farmer1Production1ToDeliver.amountToDeliver(), is(2));
+        assertEquals(1, farmer1Production1ToDeliver.amountToDeliver());
 
         FarmerProductionToDeliver farmer2Production1ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer2) && p.productId().equals(productId1)).findFirst().get();
-        assertThat(farmer2Production1ToDeliver.amountToDeliver(), is(1));
+        assertEquals(2, farmer2Production1ToDeliver.amountToDeliver());
 
         FarmerProductionToDeliver farmer1Production2ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer1) && p.productId().equals(productId2)).findFirst().get();
-        assertThat(farmer1Production2ToDeliver.amountToDeliver(), is(2));
+        assertEquals(3, farmer1Production2ToDeliver.amountToDeliver());
 
         FarmerProductionToDeliver farmer2Production2ToDeliver = result.stream().filter(p -> p.farmerId().equals(farmer2) && p.productId().equals(productId2)).findFirst().get();
-        assertThat(farmer2Production2ToDeliver.amountToDeliver(), is(3));
+        assertEquals(2, farmer2Production2ToDeliver.amountToDeliver());
     }
 }

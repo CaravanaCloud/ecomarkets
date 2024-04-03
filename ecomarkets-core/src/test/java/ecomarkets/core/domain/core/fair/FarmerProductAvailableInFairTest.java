@@ -2,9 +2,6 @@ package ecomarkets.core.domain.core.fair;
 
 import ecomarkets.core.FixtureFactory;
 import ecomarkets.core.domain.core.basket.Basket;
-import ecomarkets.core.domain.core.fair.Fair;
-import ecomarkets.core.domain.core.fair.FarmerProductAvailableInFair;
-import ecomarkets.core.domain.core.fair.ProductStock;
 import ecomarkets.core.domain.core.farmer.Farmer;
 import ecomarkets.core.domain.core.partner.Partner;
 import ecomarkets.core.domain.core.product.Product;

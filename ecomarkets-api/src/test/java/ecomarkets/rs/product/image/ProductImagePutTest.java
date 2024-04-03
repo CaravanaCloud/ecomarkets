@@ -1,15 +1,14 @@
-package ecomarkets.core.domain.core.product.image;
-
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.transaction.Transactional;
-import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+package ecomarkets.rs.product.image;
 
 import ecomarkets.core.domain.core.product.MeasureUnit;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.ProductBuilder;
 import ecomarkets.core.domain.core.product.image.ProductImage;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.transaction.Transactional;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;

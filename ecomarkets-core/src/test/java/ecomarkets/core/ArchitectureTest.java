@@ -17,11 +17,9 @@ public class ArchitectureTest {
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringOnlyDependenciesInLayers()
 
-            .layer("Domain").definedBy("ecomarkets.domain..")
-            .layer("Infra").definedBy("ecomarkets.infra..")
-            .layer("RestServices").definedBy("ecomarkets.rs..")
+            .layer("Domain").definedBy("ecomarkets.core.domain..")
+            .layer("Infra").definedBy("ecomarkets.core.infra..")
 
-            .whereLayer("RestServices").mayNotBeAccessedByAnyLayer()
             .whereLayer("Domain").mayNotAccessAnyLayer();
 
 

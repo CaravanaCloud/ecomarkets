@@ -1,10 +1,9 @@
-package ecomarkets.core.domain.core.product.image;
-
-import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+package ecomarkets.rs.product.image;
 
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

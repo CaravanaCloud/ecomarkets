@@ -1,6 +1,5 @@
-package ecomarkets.core.domain.core.basket;
+package ecomarkets.rs.basket;
 
-import ecomarkets.core.FixtureFactory;
 import ecomarkets.core.domain.core.Tenant;
 import ecomarkets.core.domain.core.basket.Basket;
 import ecomarkets.core.domain.core.basket.event.BasketReservedEvent;
@@ -9,6 +8,7 @@ import ecomarkets.core.domain.core.fair.ProductStock;
 import ecomarkets.core.domain.core.partner.Partner;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.notification.email.EmailPendingToSend;
+import ecomarkets.rs.FixtureFactory;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.ValidatableResponse;
