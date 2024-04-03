@@ -1,3 +1,7 @@
+output db_master_user_secret {
+  value = aws_rds_cluster.aurora_cluster.master_user_secret
+}
+
 output db_endpoint {
   value = aws_rds_cluster.aurora_cluster.endpoint
 }

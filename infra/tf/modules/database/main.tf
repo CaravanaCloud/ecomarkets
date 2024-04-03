@@ -36,11 +36,12 @@ resource "aws_rds_cluster" "aurora_cluster" {
   engine                  = var.db_engine
   engine_version          = var.db_engine_version
   database_name           = var.db_database_name
-  master_username         = data.aws_ssm_parameter.db_username_param.value
-  master_password         = data.aws_ssm_parameter.db_password_param.value
   skip_final_snapshot     = true
   db_subnet_group_name    = aws_db_subnet_group.that.name
   vpc_security_group_ids  = [aws_security_group.db_sg.id]
+  master_username         = data.aws_ssm_parameter.db_username_param.value
+  # master_password         = data.aws_ssm_parameter.db_password_param.value
+  manage_master_user_password = true
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {

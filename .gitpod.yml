@@ -16,7 +16,7 @@ tasks:
 
   - name: VDN
     command: |
-      sleep 15
+      sleep 20
       cd ecomarkets-vdn
       quarkus dev
 
@@ -26,12 +26,13 @@ tasks:
       npm install
       npm run build
     command: |
+      sleep 25
       cd ecomarkets-app
       npm run dev
 
   - name: PROXY
     command: |
-      sleep 15
+      sleep 30
       docker compose up
   
   - name: SHELL

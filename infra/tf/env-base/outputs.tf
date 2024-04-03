@@ -31,6 +31,10 @@ output "db_name" {
     value = module.database.db_name
 }
 
+output "db_master_user_secret" {
+    value = module.database.db_master_user_secret
+}
+
 output "domain_name" {
     value = var.domain_name
 }
