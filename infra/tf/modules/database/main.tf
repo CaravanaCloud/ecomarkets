@@ -1,11 +1,3 @@
-data "aws_ssm_parameter" "db_username_param" {
-  name = var.db_username
-}
-
-data "aws_ssm_parameter" "db_password_param" {
-  name = var.db_password
-}
-
 resource "aws_security_group" "db_sg" {
   name_prefix        = "aurorasg"
   description = "Allow inbound traffic from VPC"
@@ -39,8 +31,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   skip_final_snapshot     = true
   db_subnet_group_name    = aws_db_subnet_group.that.name
   vpc_security_group_ids  = [aws_security_group.db_sg.id]
-  master_username         = data.aws_ssm_parameter.db_username_param.value
-  # master_password         = data.aws_ssm_parameter.db_password_param.value
+  master_username         = "root"
   manage_master_user_password = true
 }
 

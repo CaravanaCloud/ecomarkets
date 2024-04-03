@@ -27,6 +27,10 @@ output "db_endpoint" {
     value = module.database.db_endpoint
 }
 
+output "db_port" {
+    value = module.database.db_port
+}
+
 output "db_name" {
     value = module.database.db_name
 }
@@ -34,6 +38,11 @@ output "db_name" {
 output "db_master_user_secret" {
     value = module.database.db_master_user_secret
 }
+
+output "db_master_user_kms" {
+    value = module.database.db_master_user_kms
+}
+
 
 output "domain_name" {
     value = var.domain_name
