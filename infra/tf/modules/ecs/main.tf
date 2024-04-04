@@ -6,6 +6,18 @@ data "aws_ssm_parameter" "db_app_password" {
   name = var.db_app_password
 }
 
+data "aws_ssm_parameter" "twilio_account_sid" {
+  name = var.twilio_account_sid
+}
+
+data "aws_ssm_parameter" "twilio_auth_token" {
+  name = var.twilio_auth_token
+}
+
+data "aws_ssm_parameter" "twilio_phone_from" {
+  name = var.twilio_phone_from
+}
+
 # ECS Cluster
 resource "aws_ecs_cluster" "that" {
   name = "${var.env_id}-ecs"
@@ -379,22 +391,22 @@ resource "aws_ecs_task_definition" "api_task" {
           value = var.oidc_client_secret
           }, {
           name  = "TWILIO_ACCOUNT_SID",
-          value = var.twilio_account_sid
+          value = data.aws_ssm_parameter.twilio_account_sid
           }, {
           name  = "TWILIO_AUTH_TOKEN",
-          value = var.twilio_auth_token
+          value = data.aws_ssm_parameter.twilio_auth_token
           }, {
           name  = "TWILIO_PHONE_FROM",
-          value = var.twilio_phone_from
+          value = data.aws_ssm_parameter.twilio_phone_from
           }
       ]
 
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/${var.env_id}/api"
+          awslogs-group         = "/${var.env_id}/"
           awslogs-region        = "${var.aws_region}"
-          awslogs-stream-prefix = "ecs"
+          awslogs-stream-prefix = "api"
         }
       }
     },
