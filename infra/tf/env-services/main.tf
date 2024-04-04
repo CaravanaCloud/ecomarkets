@@ -24,15 +24,15 @@ module "ecs" {
     zone_id = var.zone_id
     domain_name = var.domain_name
 
-    container_image = "caravanacloud/ecomarkets-vdn:0.0.1"
-    container_port = 9091
+    container_image = "caravanacloud/ecomarkets-web:0.0.1"
+    container_port = 9090
     container_cpu = 1024
-    container_mem = 4096
+    container_mem = 2048
 
     container_api_image = "caravanacloud/ecomarkets-api:0.0.1"
-    container_api_port = 9090
+    container_api_port = 9091
     container_api_cpu = 1024
-    container_api_mem = 4096
+    container_api_mem = 2048
 
     db_endpoint = var.db_endpoint
     db_name = var.db_name

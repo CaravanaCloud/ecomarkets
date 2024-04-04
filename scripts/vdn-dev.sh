@@ -1,8 +1,12 @@
 #!/bin/bash
 set -x
 
-DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ))"
+SDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$(dirname $SDIR)"
 
-sleep 30
+source $SDIR/utils.sh
+
+awaitTCP 65432
+
 cd  $DIR/vdn
 quarkus dev
