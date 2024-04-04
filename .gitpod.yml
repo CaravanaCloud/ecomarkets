@@ -4,42 +4,26 @@ image:
 tasks:
   - name: CORE
     init: mvn -fn -DskipTests install
-    command: |
-      cd core
-      quarkus dev
+    command: ./scripts/core-dev.sh
 
   - name: WEB
-    command: |
-      sleep 30
-      cd web
-      quarkus dev
+    command: ./scripts/web-dev.sh
 
   - name: API
-    command: |
-      sleep 30
-      cd api 
-      quarkus dev
+    command: ./scripts/api-dev.sh
 
   - name: VDN
-    command: |
-      sleep 30
-      cd vdn
-      quarkus dev
+    command: ./scripts/vdn-dev.sh
 
   - name: SKN
     init: |
       cd app
       npm install
       npm run build
-    command: |
-      sleep 30
-      cd app
-      npm run dev
+    command: ./scripts/app-dev.sh
 
   - name: PROXY
-    command: |
-      sleep 45
-      docker compose up
+    command: ./scripts/proxy-start.sh
   
   - name: SHELL
     command: |
