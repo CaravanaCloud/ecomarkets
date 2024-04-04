@@ -2,11 +2,11 @@
 services:
 
   nginx:
-    image: nginx:latest
+    image: nginx
     container_name: nginx
     network_mode: host
     volumes:
-      - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:rw,Z
+      - ${PWD}/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 9999:9999
 
