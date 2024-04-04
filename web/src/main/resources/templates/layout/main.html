@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{#include layout/head}{/include}
+{#include layout/header/head}{/include}
 
 <body>
     <div class="preloader">
@@ -10,7 +10,7 @@
     <!-- /.preloader -->
     <div class="page-wrapper">
 
-        {#include layout/header}{/include}
+        {#include layout/header/header}{/include}
 
         <div class="stricky-header stricked-menu main-menu">
             <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
@@ -20,6 +20,8 @@
         {#insert body}No body!{/}
 
     <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+        {#include layout/footer}{/include}
 
         {#include layout/script}{/include}
 
