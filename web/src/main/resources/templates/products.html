@@ -28,29 +28,11 @@
                                 </form>
                             </div><!-- /.product-sidebar__single -->
                             <div class="product-sidebar__single">
-                                <h3>Price</h3>
-                                <div class="product-sidebar__price-range">
-                                    <div class="range-slider-price" id="range-slider-price"></div>
-                                    <div class="form-group">
-                                        <div class="left">
-                                            <p>$<span id="min-value-rangeslider"></span></p>
-                                            <span>-</span>
-                                            <p>$<span id="max-value-rangeslider"></span></p>
-                                        </div><!-- /.left -->
-                                        <div class="right">
-                                            <input type="submit" class="thm-btn" value="Filter">
-                                        </div><!-- /.right -->
-                                    </div>
-                                </div><!-- /.product-sidebar__price-range -->
-                            </div><!-- /.product-sidebar__single -->
-                            <div class="product-sidebar__single">
-                                <h3>Categories</h3>
+                                <h3>Categorias</h3>
                                 <ul class="list-unstyled product-sidebar__links">
-                                    <li><a href="#">Vegetables <i class="fa fa-angle-right"></i></a></li>
-                                    <li><a href="#">Fresh Fruits <i class="fa fa-angle-right"></i></a></li>
-                                    <li><a href="#">Dairy Products <i class="fa fa-angle-right"></i></a></li>
-                                    <li><a href="#">Tomatos <i class="fa fa-angle-right"></i></a></li>
-                                    <li><a href="#">Oranges <i class="fa fa-angle-right"></i></a></li>
+                                    {#for cat in categories}
+                                        <li><a href="#">{cat.name} <i class="fa fa-angle-right"></i></a></li>
+                                    {/for}
                                 </ul><!-- /.list-unstyled product-sidebar__links -->
                             </div><!-- /.product-sidebar__single -->
                         </div><!-- /.product-sidebar -->

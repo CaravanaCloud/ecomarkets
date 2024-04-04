@@ -1,6 +1,7 @@
 package ecomarkets.resources;
 
 import ecomarkets.core.domain.core.product.Product;
+import ecomarkets.core.domain.core.product.category.Category;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -22,8 +23,9 @@ public class ProductResource {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance get() {
-        List<Product> result = Product.findAll().list();
-        return products.data("products", result);
+        List<Product> productList = Product.findAll().list();
+        List<Category> categories = Category.findAll().list();
+        return products.data("products", productList, "categories", categories);
     }
 
 
