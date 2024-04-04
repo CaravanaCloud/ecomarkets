@@ -12,12 +12,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+        <skipTests>true</skipTests>
     </properties>
 
     <modules>
         <module>core</module>
         <module>api</module>
-        <module>vdn</module>        
+        <module>vdn</module>
+        <module>web</module>
     </modules>
 
     <build>

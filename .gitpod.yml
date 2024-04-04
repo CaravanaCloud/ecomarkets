@@ -8,6 +8,12 @@ tasks:
       cd core
       quarkus dev
 
+  - name: WEB
+    command: |
+      sleep 10
+      cd web
+      quarkus dev
+
   - name: API
     command: |
       sleep 15
