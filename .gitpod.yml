@@ -28,12 +28,12 @@ tasks:
 
   - name: SKN
     init: |
-      cd ecomarkets-app
+      cd app
       npm install
       npm run build
     command: |
       sleep 25
-      cd ecomarkets-app
+      cd app
       npm run dev
 
   - name: PROXY
