@@ -11,7 +11,6 @@ jobs:
 
     env:
       ENV_ID: qa
-      ENV_ALIAS: latest
       AWS_REGION: us-east-1
 
     steps:
@@ -25,6 +24,5 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Delete infrastructure
-      run: ./infrastructure.delete.sh
-      working-directory: ecomarkets-cfn
+    - name: Build Distribution
+      run: ./scripts/build-dist.sh

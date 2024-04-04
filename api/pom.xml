@@ -119,7 +119,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>api</finalName>
+    <finalName>ecomarkets-api</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>

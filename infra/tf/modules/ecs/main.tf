@@ -391,22 +391,22 @@ resource "aws_ecs_task_definition" "api_task" {
           value = var.oidc_client_secret
           }, {
           name  = "TWILIO_ACCOUNT_SID",
-          value = data.aws_ssm_parameter.twilio_account_sid
+          value = data.aws_ssm_parameter.twilio_account_sid.value
           }, {
           name  = "TWILIO_AUTH_TOKEN",
-          value = data.aws_ssm_parameter.twilio_auth_token
+          value = data.aws_ssm_parameter.twilio_auth_token.value
           }, {
           name  = "TWILIO_PHONE_FROM",
-          value = data.aws_ssm_parameter.twilio_phone_from
+          value = data.aws_ssm_parameter.twilio_phone_from.value
           }
       ]
 
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/${var.env_id}/"
+          awslogs-group         = "/${var.env_id}/api"
           awslogs-region        = "${var.aws_region}"
-          awslogs-stream-prefix = "api"
+          awslogs-stream-prefix = "ecslogs"
         }
       }
     },

@@ -1,22 +1,36 @@
 # docker build -f Containerfile --no-cache  -t "caravanacloud/ecomarkets-app:0.0.1" .
 # docker run -ti -p 3000:3000 "caravanacloud/ecomarkets-app:0.0.1"
 # docker push "caravanacloud/ecomarkets-app:0.0.1"
-FROM fedora:latest as build
+FROM fedora:39 as build
 RUN dnf -y install nodejs npm
-WORKDIR /usr/src/svelte-app
-COPY . .
+
+## Create User
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID "container-user" 
+RUN useradd --uid $USER_UID --gid $USER_GID -m container-user -d "/home/container-user"
+
+
+## Copy source code
+RUN mkdir -p "/home/container-user/ecomarkets"
+WORKDIR "/home/container-user/ecomarkets"
+COPY --chown=container-user .. .
+
+WORKDIR "/home/container-user/ecomarkets/app"
 RUN npm install
 RUN npm run build
 
-FROM fedora:latest as runtime
+FROM fedora:39 as runtime
 #RUN dnf -y --refresh update
+
 RUN dnf -y install nodejs npm
 RUN npm install -g serve
-COPY --from=build /usr/src/svelte-app/build /opt/svelte-app/build
-COPY --from=build /usr/src/svelte-app/package.json /opt/svelte-app/package.json
-COPY --from=build /usr/src/svelte-app/node_modules /opt/svelte-app/node_modules
 
-EXPOSE 3000
-WORKDIR /opt/svelte-app/
-# RUN find .
+COPY --from=build /home/container-user/ecomarkets/app /opt/ecomarkets-app/build
+COPY --from=build /home/container-user/ecomarkets/app /opt/ecomarkets-app/package.json
+COPY --from=build /home/container-user/ecomarkets/app /opt/ecomarkets-app/node_modules
+
+EXPOSE 9093
+WORKDIR /opt/ecomarkets-app/
+
 CMD ["node","build"]

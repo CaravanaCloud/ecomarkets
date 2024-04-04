@@ -82,7 +82,7 @@
     </dependencies>
 
     <build>
-        <finalName>vdn</finalName>
+        <finalName>ecomarkets-vdn</finalName>
         <defaultGoal>package quarkus:dev</defaultGoal>
         <plugins>
             <plugin>

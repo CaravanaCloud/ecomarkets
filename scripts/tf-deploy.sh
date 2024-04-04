@@ -21,6 +21,11 @@ pushd infra/tf/env-base
 ./tf-apply.sh
 popd
 
+pushd infra/tf/env-integration
+./tf-init.sh
+./tf-apply.sh
+popd
+
 pushd infra/tf/env-services
 ./tf-init.sh
 ./tf-apply.sh
