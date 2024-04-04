@@ -15,9 +15,9 @@
     </properties>
 
     <modules>
-        <module>ecomarkets-core</module>
-        <module>ecomarkets-api</module>
-        <module>ecomarkets-vdn</module>        
+        <module>core</module>
+        <module>api</module>
+        <module>vdn</module>        
     </modules>
 
     <build>

@@ -5,19 +5,19 @@ tasks:
   - name: CORE
     init: mvn -fn -DskipTests install
     command: |
-      cd ecomarkets-core
+      cd core
       quarkus dev
 
   - name: API
     command: |
       sleep 15
-      cd ecomarkets-api 
+      cd api 
       quarkus dev
 
   - name: VDN
     command: |
       sleep 20
-      cd ecomarkets-vdn
+      cd vdn
       quarkus dev
 
   - name: SKN
