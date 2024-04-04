@@ -15,10 +15,8 @@ import java.util.List;
 
 @Path("/products")
 public class ProductResource {
-
     @Inject
     Template products;
-
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional

@@ -8,14 +8,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/")
-public class HomeResource {
+@Path("/about")
+public class AboutResource {
+
     @Inject
-    Template index;
+    Template about;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get() {
-        return index.instance();
+        return about.instance();
     }
 }
