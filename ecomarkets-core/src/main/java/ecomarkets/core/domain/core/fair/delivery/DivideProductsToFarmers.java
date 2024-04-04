@@ -14,6 +14,7 @@ import ecomarkets.core.domain.core.fair.FairId;
 import ecomarkets.core.domain.core.fair.FarmerProductAvailableInFair;
 import ecomarkets.core.domain.core.product.ProductId;
 
+
 @ApplicationScoped
 public class DivideProductsToFarmers {
 
@@ -30,15 +31,15 @@ public class DivideProductsToFarmers {
     }
 
     List<FarmerProductionToDeliver> divideProductionForEachFarmer(FairId fairId, Map<ProductId, Integer> productByTotalAmountInBaskets,
-                                               List<FarmerProductAvailableInFair> productsAmountInFair) {
+                                                                  List<FarmerProductAvailableInFair> productsAmountInFair) {
         List<FarmerProductionToDeliver> result = new ArrayList<>();
 
         for(Map.Entry<ProductId, Integer> productByTotalAmount : productByTotalAmountInBaskets.entrySet()){
             final ProductId productId = productByTotalAmount.getKey();
             final int sumAmountProductInBaskets = productByTotalAmount.getValue();
 
-            List<FarmerProductAvailableInFair> farmersProductSupplyInAscendingAmountOrder = filterByProductInAscendingAmount(productId, productsAmountInFair);
-            result.addAll(divideProductFromSmallerToGreaterFarmerStock(farmersProductSupplyInAscendingAmountOrder, sumAmountProductInBaskets));
+            List<FarmerProductAvailableInFair> farmersProductSupplyInDescendingAmountOrder = filterByProductInDescendingAmount(productId, productsAmountInFair);
+            result.addAll(divideProductFromSmallerToGreaterFarmerStock(farmersProductSupplyInDescendingAmountOrder, sumAmountProductInBaskets));
         }
 
         return result;
@@ -53,8 +54,7 @@ public class DivideProductsToFarmers {
             return result;
         }
 
-        // TODO: check int qtToDeliverForEachFarmer = Math.ceilDiv(sumAmountProductInBaskets, qtFarmers);
-        int qtToDeliverForEachFarmer = sumAmountProductInBaskets / qtFarmers;
+        int qtToDeliverForEachFarmer = Math.ceilDiv(sumAmountProductInBaskets, qtFarmers);
         int totalDelivered = 0;
         int qtFarmersPendingToDeliver = 0;
         for(FarmerProductAvailableInFair item : productsInAscendingAmountOrder){
@@ -104,9 +104,7 @@ public class DivideProductsToFarmers {
 
     private int distributeRemainderBetweenPendingFarmers(int qtFarmers, int qtToDeliverForEachFarmer, int remainder) {
         if(qtFarmers > 0){
-            qtToDeliverForEachFarmer += (remainder / qtFarmers);
-
-            //TODO: check    qtToDeliverForEachFarmer += Math.ceilDiv(remainder, qtFarmers);
+            qtToDeliverForEachFarmer += Math.ceilDiv(remainder, qtFarmers);
         }
         return qtToDeliverForEachFarmer;
     }
@@ -159,8 +157,8 @@ public class DivideProductsToFarmers {
         return result;
     }
 
-    private List<FarmerProductAvailableInFair> filterByProductInAscendingAmount(ProductId productId, List<FarmerProductAvailableInFair> productsAvailableInFair){
-        return productsAvailableInFair.stream().filter(p -> p.getProductId().equals(productId)).sorted(Comparator.comparing(FarmerProductAvailableInFair::getAmount)).toList();
+    private List<FarmerProductAvailableInFair> filterByProductInDescendingAmount(ProductId productId, List<FarmerProductAvailableInFair> productsAvailableInFair){
+        return productsAvailableInFair.stream().filter(p -> p.getProductId().equals(productId)).sorted(Comparator.comparing(FarmerProductAvailableInFair::getAmount).reversed()).toList();
     }
 
 }

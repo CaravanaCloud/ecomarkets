@@ -111,7 +111,7 @@ public class Basket extends PanacheEntity {
 
     //TODO WIP - it is necessary refactor for a better solution
     private BigDecimal totalPayment(Price price, Integer amount){
-        return new BigDecimal(price.total()).multiply(new BigDecimal(amount));
+        return price.total().multiply(new BigDecimal(amount));
     }
 
     public BigDecimal totalPayment(){
