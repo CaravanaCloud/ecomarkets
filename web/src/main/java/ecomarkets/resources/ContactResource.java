@@ -8,21 +8,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/")
-public class HomeResource {
+@Path("/contact")
+public class ContactResource {
     @Inject
-    Template index;
+    Template contact;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get() {
-        return index.instance();
-    }
-
-    @GET
-    @Path("/index")
-    @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getIndex() {
-        return index.instance();
+        return contact.instance();
     }
 }
