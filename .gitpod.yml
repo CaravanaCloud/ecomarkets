@@ -10,19 +10,19 @@ tasks:
 
   - name: WEB
     command: |
-      sleep 10
+      sleep 30
       cd web
       quarkus dev
 
   - name: API
     command: |
-      sleep 15
+      sleep 30
       cd api 
       quarkus dev
 
   - name: VDN
     command: |
-      sleep 20
+      sleep 30
       cd vdn
       quarkus dev
 
@@ -32,41 +32,59 @@ tasks:
       npm install
       npm run build
     command: |
-      sleep 25
+      sleep 30
       cd app
       npm run dev
 
   - name: PROXY
     command: |
-      sleep 30
+      sleep 45
       docker compose up
   
   - name: SHELL
     command: |
-      echo "Hello from the shell"
+      echo "Hello from the shell, wait a minute for preview..."
+      sleep 60
+      gp preview http://localhost:9999
 
 ports:
-    # APP
-  - port: 5173
+  # DB
+  - port: 65432
     onOpen: ignore
     visibility: public
-  - port: 3000
+    
+  # PROXY
+  - port: 9999
     onOpen: ignore
     visibility: public
-    # API
+  
+  # WEB
   - port: 9090
+    onOpen: ignore
+    visibility: public
+
+  # API
+  - port: 9091
     onOpen: ignore
     visibility: public
 
   - port: 5005
     onOpen: ignore
     visibility: private
-    # DB
-  - port: 3336
+
+  # VDN
+  - port: 9092
     onOpen: ignore
     visibility: public
-    # PROXY
-  - port: 6600
+
+  # APP
+  - port: 9093
+    onOpen: ignore
+    visibility: public
+
+
+  # OTHERS
+  - port: 24000
     onOpen: ignore
     visibility: public
 
