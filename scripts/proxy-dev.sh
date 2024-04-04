@@ -1,9 +1,9 @@
 #!/bin/bash
-set -x
+SDIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+source $SDIR/utils.sh
 
-DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ))"
+awaitTCP 9090
 
-sleep 45
 docker compose down
 docker compose up
 

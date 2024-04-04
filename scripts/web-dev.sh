@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 SDIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
 source $SDIR/utils.sh

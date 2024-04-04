@@ -2,8 +2,10 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
+  - name: BUILD
+    init: ./scripts/build-dev.sh
+
   - name: CORE
-    init: mvn -fn -DskipTests install
     command: ./scripts/core-dev.sh
 
   - name: WEB
@@ -16,10 +18,6 @@ tasks:
     command: ./scripts/vdn-dev.sh
 
   - name: SKN
-    init: |
-      cd app
-      npm install
-      npm run build
     command: ./scripts/app-dev.sh
 
   - name: PROXY
@@ -28,7 +26,8 @@ tasks:
   - name: SHELL
     command: |
       echo "Hello from the shell, wait a minute for preview..."
-      sleep 60
+      source ./scripts/utils.sh
+      awaitTCP 9999
       gp preview http://localhost:9999
 
 ports:
