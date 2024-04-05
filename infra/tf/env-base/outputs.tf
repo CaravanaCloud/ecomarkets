@@ -43,7 +43,3 @@ output "db_master_user_kms" {
     value = module.database.db_master_user_kms
 }
 
-
-output "domain_name" {
-    value = var.domain_name
-}

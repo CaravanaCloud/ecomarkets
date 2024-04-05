@@ -1,9 +1,9 @@
-data "aws_ssm_parameter" "db_username" {
-  name = var.db_username_param
+data "aws_ssm_parameter" "db_app_username" {
+  name = var.db_app_username_param
 }
 
-data "aws_ssm_parameter" "db_password" {
-  name = var.db_password_param
+data "aws_ssm_parameter" "db_app_password" {
+  name = var.db_app_password_param
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -90,9 +90,9 @@ resource "aws_lambda_function" "api_lambda" {
 
   environment {
     variables = {
-      QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_endpoint}/${var.db_name}"
-      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_username.value
-      QUARKUS_DATASOURCE_PASSWORD = data.aws_ssm_parameter.db_password.value
+      QUARKUS_DATASOURCE_JDBC_URL = "jdbc:postgresql://${var.db_app_endpoint}/${var.db_app_name}"
+      QUARKUS_DATASOURCE_USERNAME = data.aws_ssm_parameter.db_app_username.value
+      QUARKUS_DATASOURCE_PASSWORD = data.aws_ssm_parameter.db_app_password.value
       QUARKUS_OIDC_PROVIDER = var.oidc_provider 
       QUARKUS_OIDC_CLIENT_ID = var.oidc_client_id
       QUARKUS_OIDC_CREDENTIALS_SECRET = var.oidc_client_secret

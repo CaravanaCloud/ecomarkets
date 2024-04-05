@@ -67,11 +67,7 @@ def any_empty(**kwargs):
     - True if all arguments are not None and not empty strings, otherwise returns a list of keys that are None or empty.
     """
     empty_keys = [key for key, value in kwargs.items() if value is None or value == ""]
-    if empty_keys:
-        return True
-    else:
-        print(f"Empty or None values for keys: {', '.join(empty_keys)}")
-        return False
+    return len(empty_keys) > 0
 
 # Fetching database connection details and new user details from environment variables
 DB_HOST = get_env('DB_HOST')
@@ -83,7 +79,7 @@ SECRET_ARN = get_env('DB_SECRET_ARN')
  
 # Connect to the PostgreSQL database
 try:
-    print("*** create application user ***")
+    print("*** Creating application user ***")
     db_secret = get_secret(SECRET_ARN)
     username = db_secret['username']
     password = db_secret['password']
@@ -94,31 +90,47 @@ try:
     
     if any_empty(username=username, password=password, app_username=app_username, app_password=app_password):
         print("Credentials not found, exiting...")
-        # print(" username - " + username)
-        # print(" password - " + password)
-        # print(" app_username - " + app_username)
-        # print(" app_password - " + app_password)
         sys.exit(1)
 
         
     connection = psycopg2.connect(host=DB_HOST, port=DB_PORT, dbname=DB_NAME, user=username, password=password)
     connection.autocommit = True  # To ensure that commands are committed without having to call connection.commit()
 
+
     with connection.cursor() as cursor:
-        # Check if the user (role) already exists
-        cursor.execute("SELECT 1 FROM pg_roles WHERE rolname=%s", (DB_APP_USERNAME,))
+        print(f"** Verifying if the user {app_username} already exists")
+        # Correctly passing a single parameter in a tuple
+        cursor.execute("SELECT 1 FROM pg_roles WHERE rolname=%s", (app_username,))
         user_exists = cursor.fetchone() is not None
+        print(f"** User {app_username} exists: {user_exists}")
 
-        if not user_exists:
-            # Create a new user (role) with the provided credentials if it does not exist
-            cursor.execute(sql.SQL("CREATE USER {} WITH PASSWORD %s").format(sql.Identifier(app_username)), [app_password])
+        if user_exists:
+            print(f"** Role '{app_username}' already exists. Dropping existing user.")
+            # Using sql.SQL() with .format() for identifiers and keeping parameterized placeholders separate
+            cursor.execute(sql.SQL("REVOKE ALL PRIVILEGES ON DATABASE {} FROM {}").format(
+                sql.Identifier(DB_NAME), 
+                sql.Identifier(app_username)
+            ))
+            cursor.execute(sql.SQL("DROP ROLE {}").format(
+                sql.Identifier(app_username)
+            ))
+            print(f"** Role '{app_username}' dropped.")
 
-            # Grant all privileges on the database to the new user
-            cursor.execute(sql.SQL("GRANT ALL PRIVILEGES ON DATABASE {} TO {}").format(sql.Identifier(DB_NAME), sql.Identifier(app_username)))
+        print(f"** Creating user '{app_username}' ")
+        cursor.execute(sql.SQL("CREATE USER {} WITH PASSWORD %s").format(
+            sql.Identifier(app_username)), 
+            [app_password]
+        )
+        cursor.execute(sql.SQL("GRANT ALL PRIVILEGES ON DATABASE {} TO {}").format(
+            sql.Identifier(DB_NAME), 
+            sql.Identifier(app_username)
+        ))
+        cursor.execute(sql.SQL("GRANT ALL PRIVILEGES ON SCHEMA public TO {}").format(
+            sql.Identifier(app_username)
+        ))
+        print(f"** User '{app_username}' created and granted all privileges on database '{DB_NAME}'.")
 
-            print(f"** User '{app_username}' created and granted all privileges on database '{DB_NAME}'.")
-        else:
-            print(f"** User '{app_username}' already exists. No action taken.")
+            
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
