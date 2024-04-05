@@ -90,6 +90,23 @@ resource "aws_lb" "external" {
   }
 }
 
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.external.arn
+  port              = 443
+  protocol          = "HTTPS"
+  certificate_arn   = var.certificate_arn
+
+  default_action {
+    type             = "fixed-response"
+    
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not available yet, please retry."
+      status_code  = "503"
+    }
+  }
+}
+
 resource "aws_route53_record" "ecs_lb_dns" {
   zone_id = var.zone_id
   name    = var.env_id

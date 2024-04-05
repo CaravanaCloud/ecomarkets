@@ -24,10 +24,11 @@ module "web_task" {
     container_cpu = 1024
     container_mem = 2048
 
+    env_id = var.env_id
     aws_region = var.aws_region
     vpc_id = var.vpc_id
     ecs_subnets = split(",", var.ecs_subnets)
-    env_id = var.env_id
+    listener_arn = var.listener_arn
 
     cluster_id = var.cluster_id
     task_execution_role = var.task_execution_role

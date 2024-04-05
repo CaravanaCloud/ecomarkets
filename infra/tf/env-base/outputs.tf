@@ -58,3 +58,7 @@ output alb_dns_name {
 output ecs_endpoint {
     value = "https://${var.env_id}.${var.domain_name}"
 }
+
+output "listener_arn" {
+  value = module.ecs-cluster.listener_arn
+}

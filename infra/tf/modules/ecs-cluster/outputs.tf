@@ -9,3 +9,7 @@ output task_execution_role {
 output alb_dns_name {
     value = aws_lb.external.dns_name
 }
+
+output listener_arn {
+    value = aws_lb_listener.https.arn
+}

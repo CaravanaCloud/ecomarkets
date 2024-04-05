@@ -95,7 +95,7 @@ resource "aws_lb_target_group" "task_target_group" {
 
 resource "aws_lb_listener_rule" "task_rule" {
   depends_on   = [aws_lb_target_group.task_target_group]
-  listener_arn = aws_lb_listener.ecs_listener.arn
+  listener_arn = var.listener_arn
   priority     = 100
 
   action {
@@ -175,7 +175,7 @@ resource "aws_ecs_task_definition" "task_def" {
 
 
 resource "aws_ecs_service" "task_service" {
-  depends_on      = [aws_lb_listener_rule.web_rule]
+  depends_on      = [aws_lb_listener_rule.task_rule]
   name            = "${var.env_id}_${task_id}"
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.web_task.arn
