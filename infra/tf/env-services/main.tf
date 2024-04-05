@@ -24,6 +24,8 @@ module "ecs" {
     zone_id = var.zone_id
     domain_name = var.domain_name
 
+    cluster_id = var.cluster_id
+
     container_image = "caravanacloud/ecomarkets-web:0.0.1"
     container_port = 9090
     container_cpu = 1024
