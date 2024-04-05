@@ -18,6 +18,18 @@ data "aws_ssm_parameter" "twilio_phone_from" {
   name = var.twilio_phone_from
 }
 
+data "aws_ssm_parameter" "oidc_client_id" {
+  name = var.oidc_client_id
+}
+
+data "aws_ssm_parameter" "oidc_client_secret" {
+  name = var.oidc_client_secret
+}
+
+data "aws_ssm_parameter" "oidc_provider" {
+  name = var.oidc_provider
+}
+
 # ECS Cluster
 resource "aws_ecs_cluster" "that" {
   name = "${var.env_id}-ecs"
@@ -309,13 +321,13 @@ resource "aws_ecs_task_definition" "web_task" {
           value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
-          value = var.oidc_provider
+          value = data.aws_ssm_parameter.oidc_provider.value
           }, {
           name  = "QUARKUS_OIDC_CLIENT_ID",
-          value = var.oidc_client_id
+          value = data.aws_ssm_parameter.oidc_client_id.value
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
-          value = var.oidc_client_secret
+          value = data.aws_ssm_parameter.oidc_client_secret.value
           }, {
           name  = "DEBUG_LINE",
           value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_app_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_app_username.value}\" -p 5432 -d ${var.db_name}"
@@ -382,13 +394,13 @@ resource "aws_ecs_task_definition" "api_task" {
           value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
-          value = var.oidc_provider
+          value = data.aws_ssm_parameter.oidc_provider.value
           }, {
           name  = "QUARKUS_OIDC_CLIENT_ID",
-          value = var.oidc_client_id
+          value = data.aws_ssm_parameter.oidc_client_id.value
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
-          value = var.oidc_client_secret
+          value = data.aws_ssm_parameter.oidc_client_secret.value
           }, {
           name  = "TWILIO_ACCOUNT_SID",
           value = data.aws_ssm_parameter.twilio_account_sid.value

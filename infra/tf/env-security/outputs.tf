@@ -29,3 +29,14 @@ output "domain_name" {
     value = var.domain_name
 }
 
+output "oidc_client_id" {
+  value = module.security.oidc_client_id
+}
+
+output "oidc_client_secret" {
+  value = module.security.oidc_client_secret
+}
+
+output "oidc_provider" {
+  value = module.security.oidc_provider
+}

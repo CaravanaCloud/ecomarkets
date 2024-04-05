@@ -55,38 +55,19 @@ variable "container_mem" {
 }
 
 
-variable "zone_id" {
-  type = string
-}
+variable "zone_id" {}
+variable "domain_name" {}
 
 
-variable "domain_name" {
-    type = string
-}
-
+variable "db_endpoint" {}
+variable "db_name" {}
 variable "db_app_username" {}
 variable "db_app_password" {}
+
 variable "oidc_provider" {} 
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}
-variable "db_endpoint" {
-    description = "The endpoint of the RDS cluster"
-    type        = string
-}
 
-variable "db_name" {
-    description = "The endpoint of the RDS cluster"
-    type        = string
-}
-
-variable "twilio_account_sid" {
-  type = string
-}
-
-variable "twilio_auth_token" {
-  type = string
-}
-
-variable "twilio_phone_from" {
-  type = string
-}
+variable "twilio_account_sid" {}
+variable "twilio_auth_token" {}
+variable "twilio_phone_from" {}

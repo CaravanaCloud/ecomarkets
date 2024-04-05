@@ -12,6 +12,10 @@ export TF_VAR_twilio_account_sid=$(terraform -chdir=../env-security output -raw 
 export TF_VAR_twilio_auth_token=$(terraform -chdir=../env-security output -raw twilio_auth_token)
 export TF_VAR_twilio_phone_from=$(terraform -chdir=../env-security output -raw twilio_phone_from)
 
+export TF_VAR_oidc_client_id=$(terraform -chdir=../env-security output -raw oidc_client_id)
+export TF_VAR_oidc_client_secret=$(terraform -chdir=../env-security output -raw oidc_client_secret)
+export TF_VAR_oidc_provider=$(terraform -chdir=../env-security output -raw oidc_provider)
+
 export TF_VAR_vpc_id=$(terraform -chdir=../env-base output -raw vpc_id)
 export TF_VAR_ecs_subnets=$(terraform -chdir=../env-base output -raw public_subnet_ids_str)
 export TF_VAR_api_subnet_ids=$(terraform -chdir=../env-base output -raw public_subnet_ids_str)
