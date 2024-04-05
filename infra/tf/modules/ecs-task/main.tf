@@ -96,7 +96,6 @@ resource "aws_lb_target_group" "task_target_group" {
 resource "aws_lb_listener_rule" "task_rule" {
   depends_on   = [aws_lb_target_group.task_target_group]
   listener_arn = var.listener_arn
-  priority     = 100
 
   action {
     type             = "forward"
@@ -122,7 +121,7 @@ resource "aws_ecs_task_definition" "task_def" {
 
   container_definitions = jsonencode([
     {
-      name      = "${var.env_id}_container",
+      name      = "${var.task_id}_container",
       image     = var.container_image,
       cpu       = var.container_cpu,
       memory    = var.container_mem,
@@ -150,6 +149,15 @@ resource "aws_ecs_task_definition" "task_def" {
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
           value = data.aws_ssm_parameter.oidc_client_secret.value
+          }, {
+          name  = "TWILIO_ACCOUNT_SID",
+          value = data.aws_ssm_parameter.twilio_account_sid.value
+          }, {
+          name  = "TWILIO_AUTH_TOKEN",
+          value = data.aws_ssm_parameter.twilio_auth_token.value
+          }, {
+          name  = "TWILIO_PHONE_FROM",
+          value = data.aws_ssm_parameter.twilio_phone_from.value
           }
       ]
 
@@ -173,24 +181,22 @@ resource "aws_ecs_task_definition" "task_def" {
   ])
 }
 
-
 resource "aws_ecs_service" "task_service" {
   depends_on      = [aws_lb_listener_rule.task_rule]
-  name            = "${var.env_id}_${task_id}"
+  name            = "${var.env_id}_${var.task_id}"
   cluster         = var.cluster_id
-  task_definition = aws_ecs_task_definition.web_task.arn
+  task_definition = aws_ecs_task_definition.task_def.arn
   launch_type     = "FARGATE"
 
   network_configuration {
     subnets          = var.ecs_subnets
-    security_groups  = [aws_security_group.ecs_worker_web_sg.id]
+    security_groups  = [aws_security_group.task_sg.id]
     assign_public_ip = true
   }
 
   load_balancer {
-
-    target_group_arn = aws_lb_target_group.web_target.arn
-    container_name   = "web_container"
+    target_group_arn = aws_lb_target_group.task_target_group.arn
+    container_name   = "${var.task_id}_container"
     container_port   = var.container_port
   }
 
