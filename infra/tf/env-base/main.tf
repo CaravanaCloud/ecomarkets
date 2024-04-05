@@ -34,4 +34,8 @@ module "database" {
 module "ecs-cluster"{
   source = "../modules/ecs-cluster"
   env_id = var.env_id
+  vpc_id = var.vpc_id
+  ecs_subnets = split(",", var.ecs_subnets)
+  certificate_arn = var.certificate_arn
+  zone_id = var.zone_id
 }

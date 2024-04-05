@@ -26,6 +26,8 @@ export TF_VAR_db_name=$(terraform -chdir=../env-base output -raw db_name)
 
 export TF_VAR_infra_bucket_name=$(terraform -chdir=../env-base output -raw infra_bucket_name)
 export TF_VAR_cluster_id=$(terraform -chdir=../env-base output -raw cluster_id)
+export TF_VAR_task_execution_role=$(terraform -chdir=../env-base output -raw task_execution_role)
+
 
 
 terraform apply -auto-approve 
