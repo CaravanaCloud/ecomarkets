@@ -94,13 +94,13 @@ resource "aws_lb_target_group" "task_target_group" {
 
 
 resource "aws_lb_listener_rule" "task_rule" {
-  depends_on   = [aws_lb_target_group.api_target]
+  depends_on   = [aws_lb_target_group.task_target_group]
   listener_arn = aws_lb_listener.ecs_listener.arn
   priority     = 100
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.api_target.arn
+    target_group_arn = aws_lb_target_group.task_target_group.arn
   }
 
   condition {
@@ -150,9 +150,6 @@ resource "aws_ecs_task_definition" "task_def" {
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
           value = data.aws_ssm_parameter.oidc_client_secret.value
-          }, {
-          name  = "DEBUG_LINE",
-          value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_app_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_app_username.value}\" -p 5432 -d ${var.db_name}"
           }
       ]
 

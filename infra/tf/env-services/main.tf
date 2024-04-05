@@ -45,8 +45,5 @@ module "web_task" {
     twilio_account_sid = var.twilio_account_sid
     twilio_auth_token = var.twilio_auth_token
     twilio_phone_from = var.twilio_phone_from
-
-
-
 }
 
