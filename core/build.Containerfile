@@ -3,7 +3,7 @@ FROM fedora:39 as build
 # Root level
 USER root
 ENV PATH="/usr/bin:${PATH}"
-RUN bash -c "dnf install -y zip unzip"
+RUN bash -c "dnf install -y zip unzip nodejs npm"
 
 ## Create User
 ARG USERNAME=container-user
@@ -29,10 +29,16 @@ RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
 ## Copy source code
 RUN mkdir -p "/home/$USERNAME/ecomarkets"
 WORKDIR "/home/$USERNAME/ecomarkets"
-COPY --chown=$USERNAME .. .
+COPY --chown=$USERNAME . .
 
-## Build
+## Build MVN
 ARG MVN_XOPTS="-DskipTests -Pproduction -Dquarkus.profile=prod -fn -B -ntp -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
 ENV QUARKUS_OIDC_PROVIDER="google"
 RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
     && mvn $MVN_XOPTS install"
+
+## Build NPM
+WORKDIR "/home/container-user/ecomarkets/app"
+RUN npm install
+RUN npm run build
+

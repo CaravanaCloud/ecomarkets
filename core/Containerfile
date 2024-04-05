@@ -3,8 +3,11 @@ ARG FEDORA_VERSION=39
 FROM fedora:${FEDORA_VERSION}
 
 USER root
-# Install JRE
-RUN dnf install -y "java-21-openjdk-headless"
+#RUN dnf -y --refresh update
+
+# Install Java and NodeJS
+RUN dnf install -y "java-21-openjdk-headless" "nodejs" "npm"
+RUN npm install -g serve
 
 # Create user
 ARG USER_UID=1000

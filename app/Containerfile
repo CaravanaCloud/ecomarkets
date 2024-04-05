@@ -1,36 +1,13 @@
-# docker build -f Containerfile --no-cache  -t "caravanacloud/ecomarkets-app:0.0.1" .
-# docker run -ti -p 9093:9093 "caravanacloud/ecomarkets-app:0.0.1"
-# docker push "caravanacloud/ecomarkets-app:0.0.1"
-FROM fedora:39 as build
-RUN dnf -y install nodejs npm
+ARG VERSION=latest
+FROM caravanacloud/ecomarkets-core-build:${VERSION} as build
 
-## Create User
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN groupadd --gid $USER_GID "container-user" 
-RUN useradd --uid $USER_UID --gid $USER_GID -m container-user -d "/home/container-user"
+RUN find "/home/container-user/"
 
+FROM caravanacloud/ecomarkets-core-runtime:${VERSION}
 
-## Copy source code
-RUN mkdir -p "/home/container-user/ecomarkets"
-WORKDIR "/home/container-user/ecomarkets"
-COPY --chown=container-user . .
-
-WORKDIR "/home/container-user/ecomarkets/app"
-RUN npm install
-RUN npm run build
-
-FROM fedora:39 as runtime
-#RUN dnf -y --refresh update
-
-RUN dnf -y install nodejs npm
-RUN npm install -g serve
-
-COPY --from=build /home/container-user/ecomarkets/app/build /opt/ecomarkets/app/build
-COPY --from=build /home/container-user/ecomarkets/app/package.json /opt/ecomarkets/app/package.json
-COPY --from=build /home/container-user/ecomarkets/app/node_modules /opt/ecomarkets/app/node_modules
+COPY --from=build /home/container-user/ecomarkets/app /opt/ecomarkets/app
 
 EXPOSE 9093
 WORKDIR /opt/ecomarkets/app/
 
-CMD ["serve","-s","build","-l","9093"]
+CMD ["serve","-s","build","-l","tcp://0.0.0.0:9093"]
