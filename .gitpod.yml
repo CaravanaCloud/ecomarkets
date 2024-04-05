@@ -21,7 +21,7 @@ tasks:
     command: ./scripts/app-dev.sh
 
   - name: PROXY
-    command: ./scripts/proxy-start.sh
+    command: ./scripts/proxy-dev.sh
   
   - name: SHELL
     command: |

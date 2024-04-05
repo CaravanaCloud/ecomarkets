@@ -1,11 +1,13 @@
 receivers:
   otlp:
     protocols:
-      grpc: "http://localhost:4337"
+      grpc:
 
         
 
 exporters:
+  debug:
+
   otlp:
     endpoint: jaeger:4317
     tls:
@@ -33,7 +35,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp]
+      exporters: [otlp]
     logs:
       receivers: [otlp]
       processors: [batch]

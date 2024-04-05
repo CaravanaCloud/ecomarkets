@@ -105,12 +105,12 @@
       <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
-    <!--
+    
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-opentelemetry</artifactId>
     </dependency>
-    -->
+   
   </dependencies>
   <build>
     <resources>
