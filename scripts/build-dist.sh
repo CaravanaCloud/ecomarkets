@@ -39,8 +39,8 @@ info "Checking docker login"
 docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
 
 info "Pushing core docker images"
-docker push caravanacloud/ecomarkets-core-build:$VERSION .
-docker push caravanacloud/ecomarkets-core-runtime:$VERSION .
+docker push caravanacloud/ecomarkets-core-build:$VERSION
+docker push caravanacloud/ecomarkets-core-runtime:$VERSION
 
 info "Pushing web docker image"
 docker push caravanacloud/ecomarkets-web:$VERSION
