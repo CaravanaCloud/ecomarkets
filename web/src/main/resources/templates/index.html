@@ -125,168 +125,44 @@
         <div class="new-products__top">
             <div class="block-title ">
                 <div class="block-title__decor"></div><!-- /.block-title__decor -->
-                <p>Recently Added</p>
-                <h3>New Products</h3>
+                <p>Adicionados Recentemente</p>
+                <h3>Novos Produtos</h3>
             </div><!-- /.block-title -->
 
             <ul class="post-filter filters list-unstyled">
                 <li class="active filter" data-filter=".filter-item">All</li>
-                <li class="filter" data-filter=".dairy">Dairy</li>
-                <li class="filter" data-filter=".pantry">Pantry
-                </li>
-                <li class="filter" data-filter=".meat">Meat
-                </li>
-                <li class="filter" data-filter=".fruits">Fruits
-                </li>
-                <li class="filter" data-filter=".veg">Vagetables
-                </li>
+                {#for cat in categories}
+                    <li class="filter" data-filter=".{cat.id}">{cat.name}</li>
+                {/for}
             </ul>
         </div><!-- /.new-products__top -->
         <div class="row filter-layout">
-            <div class="col-lg-4 col-md-6 filter-item dairy">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-                        <span class="product-card__two-sale">sale</span>
-                        <img src="assets/images/products/product-2-1.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Banana</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$1.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 col-md-6 filter-item pantry">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-
-                        <img src="assets/images/products/product-2-2.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Olive Oil</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$9.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 col-md-6 filter-item meat">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-
-                        <img src="assets/images/products/product-2-3.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Eggs</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$3.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 col-md-6 filter-item dairy">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-
-                        <img src="assets/images/products/product-2-4.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Tamatos</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$1.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 col-md-6 filter-item fruits">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-
-                        <img src="assets/images/products/product-2-5.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Bread</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$2.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4 col-md-6 filter-item veg">
-                <div class="product-card__two">
-                    <div class="product-card__two-image">
-                        <span class="product-card__two-sale">sale</span>
-                        <img src="assets/images/products/product-2-6.jpg" alt="">
-                        <div class="product-card__two-image-content">
-                            <a href="#"><i class="organik-icon-visibility"></i></a>
-                            <a href="#"><i class="organik-icon-heart"></i></a>
-                            <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
-                        </div><!-- /.product-card__two-image-content -->
-                    </div><!-- /.product-card__two-image -->
-                    <div class="product-card__two-content">
-                        <h3><a href="product-details.html">Apples</a></h3>
-                        <div class="product-card__two-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div><!-- /.product-card__two-stars -->
-                        <p>$2.00</p>
-                    </div><!-- /.product-card__two-content -->
-                </div><!-- /.product-card__two -->
-            </div><!-- /.col-lg-4 -->
+            {#for prd in products}
+                <div class="col-lg-4 col-md-6 filter-item {prd.category}">
+                    <div class="product-card__two">
+                        <div class="product-card__two-image">
+                        <!--    <span class="product-card__two-sale">sale</span> -->
+                            <img src="assets/images/products/product-2-1.jpg" alt="">
+                            <div class="product-card__two-image-content">
+                                <a href="#"><i class="organik-icon-visibility"></i></a>
+                                <a href="#"><i class="organik-icon-heart"></i></a>
+                                <a href="cart.html"><i class="organik-icon-shopping-cart"></i></a>
+                            </div><!-- /.product-card__two-image-content -->
+                        </div><!-- /.product-card__two-image -->
+                        <div class="product-card__two-content">
+                            <h3><a href="product-details.html">{prd.name}</a></h3>
+                            <div class="product-card__two-stars">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div><!-- /.product-card__two-stars -->
+                            <p>${prd.price.total}</p>
+                        </div><!-- /.product-card__two-content -->
+                    </div><!-- /.product-card__two -->
+                </div><!-- /.col-lg-4 -->
+            {/for}
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section><!-- /.new-products -->
@@ -297,18 +173,18 @@
             <div class="col-md-6 wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
                 <div class="offer-banner__box" style="background-image: url(assets/images/resources/offer-banner-1-1.jpg);">
                     <div class="offer-banner__content">
-                        <h3><span>100%</span> <br>Organic</h3>
-                        <p>Quality Organic Food Store</p>
-                        <a href="products" class="thm-btn">Order Now</a><!-- /.thm-btn -->
+                        <h3><span>100%</span> <br>Orgânico</h3>
+                        <p>Agricultura familiar</p>
+                        <a href="products" class="thm-btn">Pedir Agora</a><!-- /.thm-btn -->
                     </div><!-- /.offer-banner__content -->
                 </div><!-- /.offer-banner__box -->
             </div><!-- /.col-md-6 -->
             <div class="col-md-6 wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="100ms">
                 <div class="offer-banner__box" style="background-image: url(assets/images/resources/offer-banner-1-2.jpg);">
                     <div class="offer-banner__content">
-                        <h3><span>100%</span> <br>Organic</h3>
-                        <p>Quality Organic Food Store</p>
-                        <a href="products" class="thm-btn">Order Now</a><!-- /.thm-btn -->
+                        <h3><span>100%</span> <br>Orgânico</h3>
+                        <p>Agricultura familiar</p>
+                        <a href="products" class="thm-btn">Pedir Agora</a><!-- /.thm-btn -->
                     </div><!-- /.offer-banner__content -->
                 </div><!-- /.offer-banner__box -->
             </div><!-- /.col-md-6 -->
@@ -322,26 +198,20 @@
         <div class="row no-gutters">
             <div class="col-md-6 col-lg-3  wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
                 <div class="funfact-one__single">
-                    <h3 class="odometer" data-count="8080">00</h3>
-                    <p>Organic Products Available</p>
+                    <h3 class="odometer" data-count="{products.size()}">00</h3>
+                    <p>Produtos Orgânicos Disponíveis</p>
                 </div><!-- /.funfact-one__single -->
             </div><!-- /.col-md-6 col-lg-3 -->
             <div class="col-md-6 col-lg-3  wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="100ms">
                 <div class="funfact-one__single">
-                    <h3 class="odometer" data-count="697">00</h3>
-                    <p>Healthy Recipes</p>
-                </div><!-- /.funfact-one__single -->
-            </div><!-- /.col-md-6 col-lg-3 -->
-            <div class="col-md-6 col-lg-3  wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="200ms">
-                <div class="funfact-one__single">
-                    <h3 class="odometer" data-count="440">00</h3>
-                    <p>Expert Team Mebers</p>
+                    <h3 class="odometer" data-count="10">00</h3>
+                    <p>Famílias de pequenos agricultores</p>
                 </div><!-- /.funfact-one__single -->
             </div><!-- /.col-md-6 col-lg-3 -->
             <div class="col-md-6 col-lg-3  wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="300ms">
                 <div class="funfact-one__single">
                     <h3 class="odometer" data-count="2870">00</h3>
-                    <p>Satisfied Customers</p>
+                    <p>Clientes Satisfeitos</p>
                 </div><!-- /.funfact-one__single -->
             </div><!-- /.col-md-6 col-lg-3 -->
         </div><!-- /.row -->
