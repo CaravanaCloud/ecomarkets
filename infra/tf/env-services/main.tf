@@ -19,6 +19,7 @@ module "web_task" {
     
     task_id = "web"
     path_pattern = "/*"
+    priority = 10
     container_image = "caravanacloud/ecomarkets-web:0.0.1"
     container_port = 9090
     container_cpu = 1024
@@ -53,6 +54,7 @@ module "api_task" {
     
     task_id = "api"
     path_pattern = "/api/*"
+    priority = 50
     container_image = "caravanacloud/ecomarkets-api:0.0.1"
     container_port = 9091
     container_cpu = 1024
@@ -87,6 +89,7 @@ module "vdn_task" {
     
     task_id = "vdn"
     path_pattern = "/vdn/*"
+    priority = 40
     container_image = "caravanacloud/ecomarkets-vdn:0.0.1"
     container_port = 9092
     container_cpu = 1024
@@ -121,6 +124,7 @@ module "app_task" {
     
     task_id = "app"
     path_pattern = "/app/*"
+    priority = 30
     container_image = "caravanacloud/ecomarkets-app:0.0.1"
     container_port = 9093
     container_cpu = 1024

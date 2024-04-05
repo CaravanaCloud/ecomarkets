@@ -48,3 +48,6 @@ variable "twilio_phone_from" {}
 variable "task_execution_role" {}
 variable "path_pattern" {}
 variable "listener_arn" {}
+variable "priority" {
+    type = number
+}

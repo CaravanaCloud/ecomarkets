@@ -96,6 +96,7 @@ resource "aws_lb_target_group" "task_target_group" {
 resource "aws_lb_listener_rule" "task_rule" {
   depends_on   = [aws_lb_target_group.task_target_group]
   listener_arn = var.listener_arn
+  priority = var.priority
 
   action {
     type             = "forward"
@@ -187,6 +188,7 @@ resource "aws_ecs_service" "task_service" {
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.task_def.arn
   launch_type     = "FARGATE"
+  
 
   network_configuration {
     subnets          = var.ecs_subnets
