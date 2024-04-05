@@ -19,7 +19,7 @@ module "web_task" {
     
     task_id = "web"
     path_pattern = "/*"
-    priority = 10
+    priority = 95
     container_image = "caravanacloud/ecomarkets-web:0.0.1"
     container_port = 9090
     container_cpu = 1024

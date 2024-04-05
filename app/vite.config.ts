@@ -6,5 +6,6 @@ export default defineConfig({
 	preview: {
 		port: 9093
 	},
+	base: '/app/',
 	plugins: [sveltekit(), purgeCss()]
 });
