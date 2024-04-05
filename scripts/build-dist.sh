@@ -16,6 +16,7 @@ cd ..
 
 export VERSION=$(cat VERSION)
 info "Building docker images for version $VERSION"
+docker system prune -f
 
 export DOCKER_XARGS="--no-cache --progress=plain --build-arg VERSION=$VERSION"
 
