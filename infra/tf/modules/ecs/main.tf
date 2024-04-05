@@ -30,11 +30,6 @@ data "aws_ssm_parameter" "oidc_provider" {
   name = var.oidc_provider
 }
 
-# ECS Cluster
-resource "aws_ecs_cluster" "that" {
-  name = "${var.env_id}-ecs"
-}
-
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_task_execution_role" {
   assume_role_policy = jsonencode({
@@ -428,8 +423,8 @@ resource "aws_ecs_task_definition" "api_task" {
 # ECS Service
 resource "aws_ecs_service" "web_service" {
   depends_on      = [aws_lb_listener_rule.web_rule]
-  name            = "${var.env_id}_service_web"
-  cluster         = aws_ecs_cluster.that.id
+  name            = "${var.env_id}_web"
+  cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.web_task.arn
   launch_type     = "FARGATE"
 
@@ -451,8 +446,8 @@ resource "aws_ecs_service" "web_service" {
 
 resource "aws_ecs_service" "api_service" {
   depends_on      = [aws_lb_listener_rule.api_rule]
-  name            = "${var.env_id}_service_api"
-  cluster         = aws_ecs_cluster.that.id
+  name            = "${var.env_id}_api"
+  cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.api_task.arn
   launch_type     = "FARGATE"
 

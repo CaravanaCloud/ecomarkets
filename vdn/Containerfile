@@ -2,7 +2,7 @@
 ARG VERSION=latest
 FROM caravanacloud/ecomarkets-core-build:${VERSION} as build
 
-RUN find "/home/container-user/ecomarkets/"
+RUN find "/home/container-user/"
 
 # Runtime stage
 FROM caravanacloud/ecomarkets-core-runtime:${VERSION}

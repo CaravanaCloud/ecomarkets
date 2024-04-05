@@ -27,12 +27,12 @@ RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
     "
 
 ## Copy source code
-RUN mkdir -p "/home/$USERNAME/quarkus-app"
-WORKDIR "/home/$USERNAME/quarkus-app"
+RUN mkdir -p "/home/$USERNAME/ecomarkets"
+WORKDIR "/home/$USERNAME/ecomarkets"
 COPY --chown=$USERNAME .. .
 
 ## Build
-ARG MVN_XOPTS="-DskipTests -fn -B -ntp -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+ARG MVN_XOPTS="-DskipTests -Pproduction -Dquarkus.profile=prod -fn -B -ntp -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
 ENV QUARKUS_OIDC_PROVIDER="google"
 RUN bash -c ". $HOME/.sdkman/bin/sdkman-init.sh \
     && mvn $MVN_XOPTS install"

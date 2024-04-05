@@ -4,6 +4,8 @@ variable env_id {}
 
 variable vpc_id {}
 
+variable cluster_id {}
+
 variable "certificate_arn" {
     type = string
 }

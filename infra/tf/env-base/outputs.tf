@@ -43,3 +43,6 @@ output "db_master_user_kms" {
     value = module.database.db_master_user_kms
 }
 
+output "cluster_id" {
+  value = module.ecs-cluster.cluster_id
+}

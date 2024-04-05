@@ -31,3 +31,7 @@ module "database" {
     publicly_accessible = var.db_publicly_accessible
 }
 
+module "ecs-cluster"{
+  source = "../modules/ecs-cluster"
+  env_id = var.env_id
+}
