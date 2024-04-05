@@ -80,7 +80,7 @@ resource "aws_lb_target_group" "task_target_group" {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5
-    path                = "/"
+    path                = "/${var.task_id}/"
     protocol            = "HTTP"
     matcher             = "200"
     interval            = 15
