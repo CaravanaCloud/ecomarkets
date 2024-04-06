@@ -2,6 +2,8 @@ package ecomarkets.lex;
 
 import static ecomarkets.lex.StackUtils.resourceId;
 
+import ecomarkets.lex.bot.Bots;
+import ecomarkets.lex.bot.BotsConfig;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
@@ -13,7 +15,7 @@ import software.amazon.awscdk.StackProps;
 @ApplicationScoped
 public class Producers {
     @Inject
-    LexConfig cfg;
+    Bots bots;
 
     @Produces
     @ApplicationScoped
@@ -33,9 +35,10 @@ public class Producers {
 
     @Produces
     @ApplicationScoped
+    @Default
     public LexStack newLexStack(App app, StackProps props){
         Log.info("Creating CDK Lex Stack");
-        var stack = new LexStack(app, resourceId("LexStack"), props, cfg);
+        var stack = LexStack.of(app, resourceId("LexStack"), props, bots);
         return stack;
     }
 
