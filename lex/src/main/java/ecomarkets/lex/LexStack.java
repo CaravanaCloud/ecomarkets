@@ -22,12 +22,6 @@ import software.constructs.Construct;
 @ApplicationScoped
 public class LexStack extends Stack {
 
- 
-    // TODO: Delete this?
-    public LexStack(final Construct scope, final String id) {
-        this(scope, id, null, null );
-    }
-
     public LexStack(final Construct scope, final String id, final StackProps props, final LexConfig cfg) {
         super(scope, id, props);
 
