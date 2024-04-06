@@ -20,6 +20,7 @@
         <module>api</module>
         <module>vdn</module>
         <module>web</module>
+        <module>lex</module>
     </modules>
 
     <build>
