@@ -1,0 +1,19 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "d289183f7fe63064cdcda861b8d3239868b8f552de970548d26ea294119c4d51": {
+      "source": {
+        "path": "EcomarketsLexStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "d289183f7fe63064cdcda861b8d3239868b8f552de970548d26ea294119c4d51.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

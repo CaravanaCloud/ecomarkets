@@ -1,0 +1,19 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "e0bcbfff0c8832b229c3f0fe2f92a4a67aee4e8bec52af1032b836214cbdf177": {
+      "source": {
+        "path": "LexStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "e0bcbfff0c8832b229c3f0fe2f92a4a67aee4e8bec52af1032b836214cbdf177.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
