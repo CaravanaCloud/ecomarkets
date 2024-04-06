@@ -5,6 +5,7 @@ import static ecomarkets.lex.StackUtils.resourceName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import ecomarkets.lex.LexStack;
 import ecomarkets.lex.StackUtils;
@@ -24,7 +25,7 @@ public class Bots {
     @Inject
     BotsConfig cfg;
 
-    public BotLocaleProperty getLocale(String localeId) {
+    public BotLocaleProperty buildLocale(String localeId) {
             var intents = new ArrayList<>();
             var fallbackIntent = CfnBot.IntentProperty.builder()
                     .name("FallbackIntent")
@@ -58,12 +59,9 @@ public class Bots {
           Log.info("********** Initializing Stack ***********");
         var role = buildRole(stack, getConfig());
         var privacy = buildPrivacy(stack);
-
-        BotLocaleProperty retailerEN = null; //getLocale("en");
-        
-        List<BotLocaleProperty> locales = List.of();
+        var localeCodes = Stream.of("en_US");
+        var locales = localeCodes.map(this::buildLocale).toList();
         var sessionTtl = getConfig().getSessionTTL();
-
         buildBot(stack, getConfig(), locales, role, privacy, sessionTtl);
     }
 
