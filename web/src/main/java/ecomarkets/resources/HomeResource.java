@@ -13,18 +13,30 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
-@Path("/products")
-public class ProductResource {
+@Path("/")
+public class HomeResource {
     @Inject
-    Template products;
+    Template index;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance get() {
-        List<Product> productList = Product.findAll().list();
-        List<Category> categories = Category.findAll().list();
-        return products.data("products", productList, "categories", categories);
+        return fillData();
+    }
+
+    @GET
+    @Path("/index")
+    @Produces(MediaType.TEXT_HTML)
+    @Transactional
+    public TemplateInstance getIndex() {
+        return fillData();
     }
 
 
+    private TemplateInstance fillData(){
+        List<Product> productList = Product.findAll().list();
+        List<Category> categories = Category.findAll().list();
+        return index.data("products", productList, "categories", categories);
+    }
 }

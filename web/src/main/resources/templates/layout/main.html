@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{#include layout/header/head}{/include}
+
+<body>
+    <div class="preloader">
+        <img class="preloader__image" width="55" src="assets/images/loader.png" alt="" />
+    </div>
+    <!-- /.preloader -->
+    <div class="page-wrapper">
+
+        {#include layout/header/header}{/include}
+
+        <div class="stricky-header stricked-menu main-menu">
+            <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
+        </div><!-- /.stricky-header -->
+
+
+        {#insert body}No body!{/}
+
+        {#include layout/header/minicart}{/include}
+        {#include layout/header/searchpopup}{/include}
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+        {#include layout/footer}{/include}
+
+        {#include layout/script}{/include}
+
+</body>
+
+</html>
