@@ -1,0 +1,15 @@
+# Build stage
+ARG VERSION=latest
+FROM caravanacloud/ecomarkets-core-build:${VERSION} as build
+
+RUN find "/home/container-user/"
+
+# Runtime stage
+FROM caravanacloud/ecomarkets-core-runtime:${VERSION}
+
+COPY --from=build --chown=$USERNAME "/home/container-user/ecomarkets/vdn/target/ecomarkets-vdn-runner.jar" "/home/container-user/ecomarkets/vdn/target/ecomarkets-vdn-runner.jar"
+
+EXPOSE 9091
+
+ARG JAVA_XARGS="-XX:InitialRAMPercentage=90.0"
+ENTRYPOINT java $JAVA_XARGS -jar /home/container-user/ecomarkets/vdn/target/ecomarkets-vdn-runner.jar

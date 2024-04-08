@@ -1,0 +1,20 @@
+ARG FEDORA_VERSION=39
+
+FROM fedora:${FEDORA_VERSION}
+
+USER root
+#RUN dnf -y --refresh update
+
+# Install Java and NodeJS
+RUN dnf install -y "java-21-openjdk-headless" "nodejs" "npm"
+RUN npm install -g serve
+
+# Create user
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID container-user
+RUN useradd --uid $USER_UID --gid $USER_GID -m container-user -d "/home/container-user"
+
+USER container-user
+RUN mkdir -p "/home/container-user/ecomarkets"
+WORKDIR "/home/container-user/ecomarkets"

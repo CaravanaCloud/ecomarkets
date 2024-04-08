@@ -11,6 +11,10 @@ pushd infra/tf/env-services
 ./tf-destroy.sh
 popd
 
+pushd infra/tf/env-integration
+./tf-destroy.sh
+popd
+
 pushd infra/tf/env-base
 ./tf-destroy.sh
 popd

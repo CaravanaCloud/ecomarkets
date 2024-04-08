@@ -1,6 +1,6 @@
-resource "terraform_data" "db_query" {
+resource "terraform_data" "create_user" {
   provisioner "local-exec" {
-    command = "pip3 install --force-reinstall psycopg2 boto3 && python3 query.py"
+    command = "pip3 install --force-reinstall psycopg2 boto3 && python3 create-app-user.py"
   
     environment = {
       DB_HOST = var.db_endpoint

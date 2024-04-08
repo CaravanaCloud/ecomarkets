@@ -13,26 +13,26 @@ provider "aws" {
   region = var.aws_region
 }
 
-module "ecs" {
-    source = "../modules/ecs"
-    aws_region = var.aws_region
-    env_id = var.env_id
-    vpc_id = var.vpc_id
-    ecs_subnets = split(",", var.ecs_subnets)
 
-    certificate_arn = var.certificate_arn
-    zone_id = var.zone_id
-    domain_name = var.domain_name
-
+module "web_task" {
+    source = "../modules/ecs-task"
+    
+    task_id = "web"
+    path_pattern = "/*"
+    priority = 95
     container_image = "caravanacloud/ecomarkets-web:0.0.1"
     container_port = 9090
     container_cpu = 1024
     container_mem = 2048
 
-    container_api_image = "caravanacloud/ecomarkets-api:0.0.1"
-    container_api_port = 9091
-    container_api_cpu = 1024
-    container_api_mem = 2048
+    env_id = var.env_id
+    aws_region = var.aws_region
+    vpc_id = var.vpc_id
+    ecs_subnets = split(",", var.ecs_subnets)
+    listener_arn = var.listener_arn
+
+    cluster_id = var.cluster_id
+    task_execution_role = var.task_execution_role
 
     db_endpoint = var.db_endpoint
     db_name = var.db_name
@@ -47,22 +47,109 @@ module "ecs" {
     twilio_account_sid = var.twilio_account_sid
     twilio_auth_token = var.twilio_auth_token
     twilio_phone_from = var.twilio_phone_from
-
 }
 
+module "api_task" {
+    source = "../modules/ecs-task"
+    
+    task_id = "api"
+    path_pattern = "/api/*"
+    priority = 50
+    container_image = "caravanacloud/ecomarkets-api:0.0.1"
+    container_port = 9091
+    container_cpu = 1024
+    container_mem = 2048
 
-# module "api" {
-#    source = "../modules/api"
-#    aws_region = var.aws_region
-#    env_id = var.env_id
-#    vpc_id = var.vpc_id
-#    api_subnet_ids = split(",", var.api_subnet_ids)
-#    db_endpoint = var.db_endpoint
-#    db_name = var.db_name
-#    bucket_name = var.infra_bucket_name
-#    db_username_param = var.db_username_param
-#    db_password_param = var.db_password_param
-#    oidc_provider = var.oidc_provider
-#    oidc_client_id = var.oidc_client_id
-#    oidc_client_secret = var.oidc_client_secret
-#}
+    env_id = var.env_id
+    aws_region = var.aws_region
+    vpc_id = var.vpc_id
+    ecs_subnets = split(",", var.ecs_subnets)
+    listener_arn = var.listener_arn
+
+    cluster_id = var.cluster_id
+    task_execution_role = var.task_execution_role
+
+    db_endpoint = var.db_endpoint
+    db_name = var.db_name
+    
+    db_app_username = var.db_app_username
+    db_app_password = var.db_app_password
+
+    oidc_provider = var.oidc_provider
+    oidc_client_id = var.oidc_client_id
+    oidc_client_secret = var.oidc_client_secret
+
+    twilio_account_sid = var.twilio_account_sid
+    twilio_auth_token = var.twilio_auth_token
+    twilio_phone_from = var.twilio_phone_from
+}
+
+module "vdn_task" {
+    source = "../modules/ecs-task"
+    
+    task_id = "vdn"
+    path_pattern = "/vdn/*"
+    priority = 40
+    container_image = "caravanacloud/ecomarkets-vdn:0.0.1"
+    container_port = 9092
+    container_cpu = 1024
+    container_mem = 2048
+
+    env_id = var.env_id
+    aws_region = var.aws_region
+    vpc_id = var.vpc_id
+    ecs_subnets = split(",", var.ecs_subnets)
+    listener_arn = var.listener_arn
+
+    cluster_id = var.cluster_id
+    task_execution_role = var.task_execution_role
+
+    db_endpoint = var.db_endpoint
+    db_name = var.db_name
+    
+    db_app_username = var.db_app_username
+    db_app_password = var.db_app_password
+
+    oidc_provider = var.oidc_provider
+    oidc_client_id = var.oidc_client_id
+    oidc_client_secret = var.oidc_client_secret
+
+    twilio_account_sid = var.twilio_account_sid
+    twilio_auth_token = var.twilio_auth_token
+    twilio_phone_from = var.twilio_phone_from
+}
+
+module "app_task" {
+    source = "../modules/ecs-task"
+    
+    task_id = "app"
+    path_pattern = "/app/*"
+    priority = 30
+    container_image = "caravanacloud/ecomarkets-app:0.0.1"
+    container_port = 9093
+    container_cpu = 1024
+    container_mem = 2048
+
+    env_id = var.env_id
+    aws_region = var.aws_region
+    vpc_id = var.vpc_id
+    ecs_subnets = split(",", var.ecs_subnets)
+    listener_arn = var.listener_arn
+
+    cluster_id = var.cluster_id
+    task_execution_role = var.task_execution_role
+
+    db_endpoint = var.db_endpoint
+    db_name = var.db_name
+    
+    db_app_username = var.db_app_username
+    db_app_password = var.db_app_password
+
+    oidc_provider = var.oidc_provider
+    oidc_client_id = var.oidc_client_id
+    oidc_client_secret = var.oidc_client_secret
+
+    twilio_account_sid = var.twilio_account_sid
+    twilio_auth_token = var.twilio_auth_token
+    twilio_phone_from = var.twilio_phone_from
+}

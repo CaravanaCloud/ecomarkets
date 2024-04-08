@@ -17,3 +17,15 @@ output "twilio_auth_token" {
 output "twilio_phone_from" {
   value = aws_ssm_parameter.twilio_phone_from.name
 }
+
+output "oidc_client_id" {
+  value = aws_ssm_parameter.oidc_client_id.name
+}
+
+output "oidc_client_secret" {
+  value = aws_ssm_parameter.oidc_client_secret.name
+}
+
+output "oidc_provider" {
+  value = aws_ssm_parameter.oidc_provider.name
+}

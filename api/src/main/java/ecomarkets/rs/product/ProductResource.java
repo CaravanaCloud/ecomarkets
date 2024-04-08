@@ -2,12 +2,12 @@ package ecomarkets.rs.product;
 
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.rs.product.form.ProductForm;
+
 import io.quarkus.panache.common.Sort;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.jboss.logging.Logger;
 
 import java.util.List;
 
@@ -16,11 +16,8 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductResource {
 
-    private static final Logger LOG = Logger.getLogger(ProductResource.class);
-
     @GET
     public List<Product> getProducts() {
-        LOG.info("hoy");
         return Product.listAll(Sort.ascending("name"));
     }
     

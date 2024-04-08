@@ -105,12 +105,12 @@
       <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
-    <!--
+    
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-opentelemetry</artifactId>
     </dependency>
-    -->
+   
   </dependencies>
   <build>
     <resources>
@@ -119,7 +119,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>api</finalName>
+    <finalName>ecomarkets-api</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>

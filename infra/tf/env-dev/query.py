@@ -115,7 +115,8 @@ try:
 
             # Grant all privileges on the database to the new user
             cursor.execute(sql.SQL("GRANT ALL PRIVILEGES ON DATABASE {} TO {}").format(sql.Identifier(DB_NAME), sql.Identifier(app_username)))
-
+            cursor.execute(sql.SQL("GRANT ALL PRIVILEGES ON SCHEMA public TO {}").format(sql.Identifier(DB_NAME), sql.Identifier(app_username)))
+            
             print(f"** User '{app_username}' created and granted all privileges on database '{DB_NAME}'.")
         else:
             print(f"** User '{app_username}' already exists. No action taken.")

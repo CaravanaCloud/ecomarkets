@@ -27,8 +27,8 @@ variable "code_package_path" {
     default = "../../../api/target/function.zip"
 }
 
-variable "db_username_param" {}
-variable "db_password_param" {}
+variable "db_app_username_param" {}
+variable "db_app_password_param" {}
 variable "oidc_provider" {} 
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}

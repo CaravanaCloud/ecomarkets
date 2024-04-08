@@ -6,55 +6,30 @@ data "aws_ssm_parameter" "db_app_password" {
   name = var.db_app_password
 }
 
-# ECS Cluster
-resource "aws_ecs_cluster" "that" {
-  name = "${var.env_id}-ecs"
+data "aws_ssm_parameter" "twilio_account_sid" {
+  name = var.twilio_account_sid
 }
 
-# IAM Role for ECS Task Execution
-resource "aws_iam_role" "ecs_task_execution_role" {
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = "sts:AssumeRole",
-        Effect = "Allow",
-        Principal = {
-          Service = "ecs-tasks.amazonaws.com"
-        },
-      },
-    ],
-  })
+data "aws_ssm_parameter" "twilio_auth_token" {
+  name = var.twilio_auth_token
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+data "aws_ssm_parameter" "twilio_phone_from" {
+  name = var.twilio_phone_from
 }
 
-resource "aws_iam_policy" "ecs_secrets_policy" {
-  description = "Allow ECS Task Execution Role to retrieve secrets"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = [
-          "secretsmanager:GetSecretValue",
-        ],
-        Resource = [
-          "arn:aws:secretsmanager:us-west-2:123456789012:secret:DockerRegistryCredentials", # The ARN of your secret
-        ],
-        Effect = "Allow",
-      },
-    ],
-  })
+data "aws_ssm_parameter" "oidc_client_id" {
+  name = var.oidc_client_id
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_secrets_policy_attach" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.ecs_secrets_policy.arn
+data "aws_ssm_parameter" "oidc_client_secret" {
+  name = var.oidc_client_secret
 }
+
+data "aws_ssm_parameter" "oidc_provider" {
+  name = var.oidc_provider
+}
+
 
 resource "aws_cloudwatch_log_group" "ecs_api_logs" {
   name              = "/${var.env_id}/api"
@@ -270,7 +245,7 @@ resource "aws_ecs_task_definition" "web_task" {
   family                   = "${var.env_id}_web"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = var.task_execution_role
   cpu                      = var.container_cpu
   memory                   = var.container_mem
 
@@ -297,13 +272,13 @@ resource "aws_ecs_task_definition" "web_task" {
           value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
-          value = var.oidc_provider
+          value = data.aws_ssm_parameter.oidc_provider.value
           }, {
           name  = "QUARKUS_OIDC_CLIENT_ID",
-          value = var.oidc_client_id
+          value = data.aws_ssm_parameter.oidc_client_id.value
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
-          value = var.oidc_client_secret
+          value = data.aws_ssm_parameter.oidc_client_secret.value
           }, {
           name  = "DEBUG_LINE",
           value = "PGPASSWORD=\"${data.aws_ssm_parameter.db_app_password.value}\" psql -h \"${var.db_endpoint}\" -U \"${data.aws_ssm_parameter.db_app_username.value}\" -p 5432 -d ${var.db_name}"
@@ -335,7 +310,7 @@ resource "aws_ecs_task_definition" "api_task" {
   family                   = "${var.env_id}_api"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = var.task_execution_role
   cpu                      = var.container_api_cpu
   memory                   = var.container_api_mem
 
@@ -370,22 +345,22 @@ resource "aws_ecs_task_definition" "api_task" {
           value = data.aws_ssm_parameter.db_app_password.value
           }, {
           name  = "QUARKUS_OIDC_PROVIDER",
-          value = var.oidc_provider
+          value = data.aws_ssm_parameter.oidc_provider.value
           }, {
           name  = "QUARKUS_OIDC_CLIENT_ID",
-          value = var.oidc_client_id
+          value = data.aws_ssm_parameter.oidc_client_id.value
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
-          value = var.oidc_client_secret
+          value = data.aws_ssm_parameter.oidc_client_secret.value
           }, {
           name  = "TWILIO_ACCOUNT_SID",
-          value = var.twilio_account_sid
+          value = data.aws_ssm_parameter.twilio_account_sid.value
           }, {
           name  = "TWILIO_AUTH_TOKEN",
-          value = var.twilio_auth_token
+          value = data.aws_ssm_parameter.twilio_auth_token.value
           }, {
           name  = "TWILIO_PHONE_FROM",
-          value = var.twilio_phone_from
+          value = data.aws_ssm_parameter.twilio_phone_from.value
           }
       ]
 
@@ -394,7 +369,7 @@ resource "aws_ecs_task_definition" "api_task" {
         options = {
           awslogs-group         = "/${var.env_id}/api"
           awslogs-region        = "${var.aws_region}"
-          awslogs-stream-prefix = "ecs"
+          awslogs-stream-prefix = "ecslogs"
         }
       }
     },
@@ -404,8 +379,8 @@ resource "aws_ecs_task_definition" "api_task" {
 # ECS Service
 resource "aws_ecs_service" "web_service" {
   depends_on      = [aws_lb_listener_rule.web_rule]
-  name            = "${var.env_id}_service_web"
-  cluster         = aws_ecs_cluster.that.id
+  name            = "${var.env_id}_web"
+  cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.web_task.arn
   launch_type     = "FARGATE"
 
@@ -427,8 +402,8 @@ resource "aws_ecs_service" "web_service" {
 
 resource "aws_ecs_service" "api_service" {
   depends_on      = [aws_lb_listener_rule.api_rule]
-  name            = "${var.env_id}_service_api"
-  cluster         = aws_ecs_cluster.that.id
+  name            = "${var.env_id}_api"
+  cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.api_task.arn
   launch_type     = "FARGATE"
 

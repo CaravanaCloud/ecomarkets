@@ -1,22 +1,13 @@
-# docker build -f Containerfile --no-cache  -t "caravanacloud/ecomarkets-app:0.0.1" .
-# docker run -ti -p 3000:3000 "caravanacloud/ecomarkets-app:0.0.1"
-# docker push "caravanacloud/ecomarkets-app:0.0.1"
-FROM fedora:latest as build
-RUN dnf -y install nodejs npm
-WORKDIR /usr/src/svelte-app
-COPY . .
-RUN npm install
-RUN npm run build
+ARG VERSION=latest
+FROM caravanacloud/ecomarkets-core-build:${VERSION} as build
 
-FROM fedora:latest as runtime
-#RUN dnf -y --refresh update
-RUN dnf -y install nodejs npm
-RUN npm install -g serve
-COPY --from=build /usr/src/svelte-app/build /opt/svelte-app/build
-COPY --from=build /usr/src/svelte-app/package.json /opt/svelte-app/package.json
-COPY --from=build /usr/src/svelte-app/node_modules /opt/svelte-app/node_modules
+RUN find "/home/container-user/"
 
-EXPOSE 3000
-WORKDIR /opt/svelte-app/
-# RUN find .
-CMD ["node","build"]
+FROM caravanacloud/ecomarkets-core-runtime:${VERSION}
+
+COPY --from=build /home/container-user/ecomarkets/app /opt/ecomarkets/app
+
+EXPOSE 9093
+WORKDIR /opt/ecomarkets/app/
+
+CMD ["serve","-s","build","-l","tcp://0.0.0.0:9093"]

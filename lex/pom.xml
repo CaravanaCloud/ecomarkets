@@ -9,34 +9,59 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cdk.version>2.117.0</cdk.version>
+        <cdk.version>2.135.0</cdk.version>
         <constructs.version>[10.0.0,11.0.0)</constructs.version>
         <junit.version>5.7.1</junit.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <compiler-plugin.version>3.13.0</compiler-plugin.version>
+        <resources-plugin.version>3.3.1</resources-plugin.version>
+        <exec-plugin.version>3.2.0</exec-plugin.version>
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.9.2</quarkus.platform.version>
+        <skipITs>true</skipITs>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>${quarkus.platform.group-id}</groupId>
+            <artifactId>${quarkus.platform.artifact-id}</artifactId>
+            <version>${quarkus.platform.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+          </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <release>17</release>
-                </configuration>
+                <version>${compiler-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${exec-plugin.version}</version>
                 <configuration>
-                    <mainClass>ecomarkets.lex.EcomarketsLexApp</mainClass>
+                    <mainClass>ecomarkets.lex.MainLex</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+
         <!-- AWS Cloud Development Kit -->
         <dependency>
             <groupId>software.amazon.awscdk</groupId>

@@ -1,28 +1,58 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-if [ -z "$VERSION" ]
-then
-    export VERSION=$(./VERSION.sh)
-    echo "No version informed, using $VERSION"
-fi
+SDIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+source $SDIR/utils.sh
+DIR=$(dirname $SDIR)
 
-# Build API (Quarkus for AWS Lambda)
-mvn -fn -B -ntp -f ecomarkets clean package
+info "Building mvn modules"
+cd $DIR
+mvn -fn -DskipTests install
 
-IMAGE_TAG="caravanacloud/ecomarkets-app:$VERSION"
-# Build App (Skeleton)
-podman build \
-    -f ecomarkets-app/Containerfile \
-    --no-cache ecomarkets-app \
-    -t "$IMAGE_TAG"
+info "Building npm modules"
+cd app
+npm install
+npm run build
+cd ..
 
+export VERSION=$(cat VERSION)
+info "Building docker images for version $VERSION"
+docker system prune -f
 
-# Build Infrastructure as Code (AWS CloudFormation)
-mkdir dist
-cp -a ecomarkets-cfn dist/
-mkdir -p dist/ecomarkets/target
-cp -a ecomarkets/target/function.zip dist/ecomarkets/target/
+export DOCKER_XARGS="--no-cache --progress=plain --build-arg VERSION=$VERSION"
 
-zip -r ecomarkets.zip dist/
+info "Building core docker images"
+docker build -f core/build.Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-core-build:$VERSION .
+docker build -f core/Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-core-runtime:$VERSION .
 
+info "Building web docker image"
+docker build -f web/Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-web:$VERSION .
+
+info "Building api docker image"
+docker build -f api/Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-api:$VERSION .
+
+info "Building vdn docker image"
+docker build -f vdn/Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-vdn:$VERSION .
+
+info "Building app docker image"
+docker build -f app/Containerfile $DOCKER_XARGS -t caravanacloud/ecomarkets-app:$VERSION .
+
+info "Checking docker login"
+docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+
+info "Pushing core docker images"
+docker push caravanacloud/ecomarkets-core-build:$VERSION
+docker push caravanacloud/ecomarkets-core-runtime:$VERSION
+
+info "Pushing web docker image"
+docker push caravanacloud/ecomarkets-web:$VERSION
+
+info "Pushing api docker image"
+docker push caravanacloud/ecomarkets-api:$VERSION
+
+info "Pushing vdn docker image"
+docker push caravanacloud/ecomarkets-vdn:$VERSION
+
+info "Pushing app docker image"
+docker push caravanacloud/ecomarkets-app:$VERSION
+
+info done
