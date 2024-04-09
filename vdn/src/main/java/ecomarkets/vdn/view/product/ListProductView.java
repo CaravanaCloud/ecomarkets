@@ -73,8 +73,14 @@ public class ListProductView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassNames("contact-grid");
         grid.setSizeFull();
-        grid.setColumns("name", "category", "price", "measureUnit", "description");
+        grid.setColumns();
+        grid.addColumn(Product::getName).setHeader("Nome");
+        grid.addColumn(prd -> prd.getCategory().name).setHeader("Categoria");
+        grid.addColumn(Product::getPrice).setHeader("Preço");
+        grid.addColumn(Product::getMeasureUnit).setHeader("Unidade");
+
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+
 
         grid.asSingleSelect().addValueChangeListener(event ->
                 editProduct(event.getValue()));
