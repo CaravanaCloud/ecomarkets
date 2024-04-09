@@ -15,6 +15,8 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import ecomarkets.vdn.view.product.ListProductView;
+import ecomarkets.vdn.view.product.ProductForm;
 import ecomarkets.vdn.view.user.WhoAmIView;
 import jakarta.annotation.PostConstruct;
 
@@ -62,6 +64,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         drawer.add(new RouterLink("Home", MainView.class));
         drawer.add(new RouterLink("About", AboutView.class));
         drawer.add(new RouterLink("Settings", WhoAmIView.class));
+        drawer.add(new RouterLink("Products", ListProductView.class));
         addToDrawer(drawer);
     }
 
