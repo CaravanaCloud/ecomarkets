@@ -1,4 +1,18 @@
-# TODO
+# EcoMarkets
 
-- Add readme with proper info/instructions
-- Add network/secrets/database to infrastructre
+Why?
+* Sustainable Commerce
+* Healthier & Affordable Nutrition
+* Fair Workplace
+* Carreer Development
+
+What?
+* Platform for markets, farmers and consumers
+* Web & Chat
+* Educational Content (nutritional, technical & more)
+* OSS project
+
+How?
+* Open Business Model (Cooperative/Foundation)
+* No upfront fee (per-transaction cost)
+* Open Agile Development
