@@ -9,7 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Input;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -19,9 +19,7 @@ import com.vaadin.flow.shared.Registration;
 import ecomarkets.core.domain.core.product.MeasureUnit;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.category.Category;
-import ecomarkets.core.i18n.I18NService;
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
+import ecomarkets.core.domain.core.product.image.ImageRepository;
 
 public class ProductForm extends FormLayout {
 
@@ -31,16 +29,20 @@ public class ProductForm extends FormLayout {
     ComboBox<MeasureUnit> measureUnit = new ComboBox<>("Unidade");
     ComboBox<Category> category = new ComboBox<>("Categoria");
     TextField price = new TextField("Preço");
+
+    Image productImage = new Image();
+
     Button save = new Button("Salvar");
     Button delete = new Button("Deletar");
     Button close = new Button("Cancelar");
 
+    ImageRepository imageRepository;
+
     Binder<ProductDTO> binder = new BeanValidationBinder<>(ProductDTO.class);
 
-    @Inject
-    I18NService i18n;
+    public ProductForm(ImageRepository imageRepository){
+        this.imageRepository = imageRepository;
 
-    public ProductForm(){
         addClassName("contact-form");
         binder.bindInstanceFields(this);
 
@@ -50,16 +52,19 @@ public class ProductForm extends FormLayout {
         measureUnit.setItems(MeasureUnit.values());
         measureUnit.setItemLabelGenerator(MeasureUnit::name);
 
-        add(name, description, recipeIngredients, price, measureUnit, category, createButtonsLayout());
-    }
+//        MemoryBuffer memoryBuffer = new MemoryBuffer();
+//        Upload imageFileUpload = new Upload(memoryBuffer);
+//        imageFileUpload.addSucceededListener(event -> {
+//            // Get information about the uploaded file
+//            InputStream fileData = memoryBuffer.getInputStream();
+//            String fileName = event.getFileName();
+//            long contentLength = event.getContentLength();
+//            String mimeType = event.getMIMEType();
+//
+//
+//        });
 
-    @PostConstruct
-    void init() {
-        Input nameInput = new Input();
-        nameInput.setPlaceholder("Name");
-        add(nameInput);
-
-
+        add(name, description, recipeIngredients, price, measureUnit, category, productImage, createButtonsLayout());
     }
 
     private Component createButtonsLayout() {
@@ -93,7 +98,13 @@ public class ProductForm extends FormLayout {
             dto.setMeasureUnit(product.getMeasureUnit());
             dto.setPrice(product.getPrice().total().doubleValue());
             dto.setRecipeIngredients(product.getRecipeIngredients() != null ? product.getRecipeIngredients().description() : null);
+
+            if(product.productImage() != null){
+                productImage.setSrc(imageRepository.createPresignedGetUrl(product.productImage()));
+            }
+
         }
+
 
         binder.setBean(dto);
     }

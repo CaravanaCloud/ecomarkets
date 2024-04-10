@@ -5,13 +5,15 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import ecomarkets.core.domain.core.product.Price;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.RecipeIngredients;
+import ecomarkets.core.domain.core.product.image.ImageRepository;
 import ecomarkets.vdn.view.MainLayout;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 @PageTitle("Produtos")
 @Route(value="products", layout = MainLayout.class)
@@ -21,7 +23,15 @@ public class ListProductView extends VerticalLayout {
 
     ProductForm form;
 
+    @Inject
+    ImageRepository imageRepository;
+
     public ListProductView(){
+
+    }
+
+    @PostConstruct
+    public void init(){
         addClassName("list-view");
         setSizeFull();
         configureGrid();
@@ -42,7 +52,7 @@ public class ListProductView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new ProductForm();
+        form = new ProductForm(imageRepository);
         form.setWidth("25em");
         form.addSaveListener(this::saveProduct); // <1>
         form.addDeleteListener(this::deleteProduct); // <2>
