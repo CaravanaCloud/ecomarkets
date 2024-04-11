@@ -11,11 +11,14 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.component.upload.receivers.FileBuffer;
+import com.vaadin.flow.component.upload.receivers.FileData;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.server.StreamResource;
@@ -24,10 +27,8 @@ import ecomarkets.core.domain.core.product.MeasureUnit;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.category.Category;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 
-import java.io.InputStream;
+import java.io.File;
 
 public class ProductForm extends FormLayout {
 
@@ -52,6 +53,8 @@ public class ProductForm extends FormLayout {
 
     Binder<ProductDTO> binder = new BeanValidationBinder<>(ProductDTO.class);
 
+    FileBuffer fileBuffer;
+
     public ProductForm(ImageRepository imageRepository){
         this.imageRepository = imageRepository;
 
@@ -70,8 +73,8 @@ public class ProductForm extends FormLayout {
     }
 
     private void processImageComponent() {
-        MemoryBuffer memoryBuffer = new MemoryBuffer();
-        imageFileUpload = new Upload(memoryBuffer);
+        fileBuffer = new FileBuffer();
+        imageFileUpload = new Upload(fileBuffer);
 
         Button uploadButton = new Button("Upload Imagem...");
         imageFileUpload.setUploadButton(uploadButton);
@@ -82,10 +85,14 @@ public class ProductForm extends FormLayout {
 
         imageFileUpload.setDropLabel(dropLabel);
         imageFileUpload.addSucceededListener(event -> {
-            InputStream fileData = memoryBuffer.getInputStream();
+            FileData savedFileData = fileBuffer.getFileData();
+
+            File fileData = savedFileData.getFile();
             long contentLength = event.getContentLength();
             String fileName = event.getFileName();
             String mimeType = event.getMIMEType();
+
+            System.out.println("Passei!");
 
             ProductDTO productDTO = binder.getBean();
             imageFormData = new ImageFormData();
@@ -96,7 +103,7 @@ public class ProductForm extends FormLayout {
 
             productDTO.setImageFormData(imageFormData);
 
-            StreamResource streamResource = new StreamResource(fileName, () -> fileData);
+            StreamResource streamResource = new StreamResource(fileName, () -> fileBuffer.getInputStream());
             productImage.setSrc(streamResource);
         });
     }

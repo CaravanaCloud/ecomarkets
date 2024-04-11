@@ -139,10 +139,4 @@ public class ListProductView extends VerticalLayout {
         grid.setItems(Product.findAll().list());
     }
 
-
-
-
-
-
-
 }

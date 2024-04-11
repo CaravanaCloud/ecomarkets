@@ -2,20 +2,20 @@ package ecomarkets.vdn.view.product;
 
 import ecomarkets.core.domain.usecase.ImageData;
 
-import java.io.InputStream;
+import java.io.File;
 
 public class ImageFormData implements ImageData {
-    private InputStream file;
+    private File file;
     private String fileName;
     private String mimeType;
 
     private long contentLength;
 
-    public InputStream getFile() {
+    public File getFile() {
         return file;
     }
 
-    public void setFile(InputStream file) {
+    public void setFile(File file) {
         this.file = file;
     }
 

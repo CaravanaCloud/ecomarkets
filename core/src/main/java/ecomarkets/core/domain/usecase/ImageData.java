@@ -1,9 +1,10 @@
 package ecomarkets.core.domain.usecase;
 
+import java.io.File;
 import java.io.InputStream;
 
 public interface ImageData {
-    InputStream getFile();
+    File getFile();
 
     long getContentLength();
 

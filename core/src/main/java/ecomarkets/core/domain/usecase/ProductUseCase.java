@@ -35,7 +35,7 @@ public class ProductUseCase {
         ProductImage pm = product.newImage(imageRepository.getBucketName(),
                 imageData.getFileName(),
                 imageData.getMimeType());
-        imageRepository.save(imageData.getFile(), imageData.getContentLength(), pm);
+        imageRepository.save(imageData.getFile().toPath(), pm);
     }
 
 
