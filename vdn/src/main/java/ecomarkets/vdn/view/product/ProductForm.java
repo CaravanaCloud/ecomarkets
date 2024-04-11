@@ -83,6 +83,7 @@ public class ProductForm extends FormLayout {
         imageFileUpload.setDropLabel(dropLabel);
         imageFileUpload.addSucceededListener(event -> {
             InputStream fileData = memoryBuffer.getInputStream();
+            long contentLength = event.getContentLength();
             String fileName = event.getFileName();
             String mimeType = event.getMIMEType();
 
@@ -91,6 +92,8 @@ public class ProductForm extends FormLayout {
             imageFormData.setFile(fileData);
             imageFormData.setFileName(fileName);
             imageFormData.setMimeType(mimeType);
+            imageFormData.setContentLength(contentLength);
+
             productDTO.setImageFormData(imageFormData);
 
             StreamResource streamResource = new StreamResource(fileName, () -> fileData);

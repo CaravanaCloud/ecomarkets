@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import ecomarkets.core.domain.core.product.Product;
+import ecomarkets.core.domain.core.product.ProductId;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
 import ecomarkets.core.domain.usecase.ProductUseCase;
 import ecomarkets.vdn.view.MainLayout;
@@ -64,10 +65,16 @@ public class ListProductView extends VerticalLayout {
     private void saveProduct(ProductForm.SaveEvent event) {
         ProductDTO dto = event.getProduct();
 
+        ProductId productId;
         if(dto.getId() == null){
-            productUseCase.newProduct(dto);
+            productId = productUseCase.newProduct(dto);
         }else{
-            productUseCase.changeProduct(dto.getId(), dto);
+            productId = ProductId.of(dto.getId());
+            productUseCase.changeProduct(productId, dto);
+        }
+
+        if(dto.getImageFormData() != null){
+            productUseCase.newImage(productId, dto.getImageFormData());
         }
 
         updateList();
