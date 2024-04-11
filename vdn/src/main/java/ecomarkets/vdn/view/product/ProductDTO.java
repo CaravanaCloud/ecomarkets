@@ -4,16 +4,26 @@ import ecomarkets.core.domain.core.product.MeasureUnit;
 import ecomarkets.core.domain.core.product.Price;
 import ecomarkets.core.domain.core.product.ProductCommand;
 import ecomarkets.core.domain.core.product.category.Category;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class ProductDTO implements ProductCommand {
 
     private Long id;
+
+    @NotEmpty
     private String name;
+
+    @NotEmpty
     private String description;
+
+    @NotNull
     private MeasureUnit measureUnit;
 
+    @NotNull
     private Double priceValue;
 
+    @NotNull
     private Category category;
 
     private String recipeIngredients;
