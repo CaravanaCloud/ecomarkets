@@ -1,16 +1,18 @@
 package ecomarkets.vdn.view.product;
 
 import ecomarkets.core.domain.core.product.MeasureUnit;
+import ecomarkets.core.domain.core.product.Price;
+import ecomarkets.core.domain.core.product.ProductCommand;
 import ecomarkets.core.domain.core.product.category.Category;
 
-public class ProductDTO{
+public class ProductDTO implements ProductCommand {
 
     private Long id;
     private String name;
     private String description;
     private MeasureUnit measureUnit;
 
-    private Double price;
+    private Double priceValue;
 
     private Category category;
 
@@ -33,6 +35,11 @@ public class ProductDTO{
         return description;
     }
 
+    @Override
+    public String getIngredients() {
+        return this.recipeIngredients;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -41,16 +48,23 @@ public class ProductDTO{
         return measureUnit;
     }
 
+    @Override
+    public Price getPrice() {
+        Double integerPart = Math.floor(getPriceValue());
+        Double decimalPart = getPriceValue() - integerPart;
+        return new Price(integerPart.intValue(), decimalPart.intValue());
+    }
+
     public void setMeasureUnit(MeasureUnit measureUnit) {
         this.measureUnit = measureUnit;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPriceValue() {
+        return priceValue;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceValue(Double priceValue) {
+        this.priceValue = priceValue;
     }
 
     public Category getCategory() {

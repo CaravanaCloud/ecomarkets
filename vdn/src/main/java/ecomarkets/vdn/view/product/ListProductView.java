@@ -7,10 +7,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import ecomarkets.core.domain.core.product.Price;
 import ecomarkets.core.domain.core.product.Product;
-import ecomarkets.core.domain.core.product.RecipeIngredients;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
+import ecomarkets.core.domain.usecase.ProductUseCase;
 import ecomarkets.vdn.view.MainLayout;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
@@ -25,6 +24,9 @@ public class ListProductView extends VerticalLayout {
 
     @Inject
     ImageRepository imageRepository;
+
+    @Inject
+    ProductUseCase productUseCase;
 
     public ListProductView(){
 
@@ -62,13 +64,11 @@ public class ListProductView extends VerticalLayout {
     private void saveProduct(ProductForm.SaveEvent event) {
         ProductDTO dto = event.getProduct();
 
-        Double integerPart = Math.floor(dto.getPrice());
-        Double decimalPart = dto.getPrice() - integerPart;
-        Price price = new Price(integerPart.intValue(), decimalPart.intValue());
-        Product product = Product.of(dto.getName(), dto.getDescription(),
-                RecipeIngredients.of(dto.getRecipeIngredients()),dto.getMeasureUnit(), price, dto.getCategory());
-
-        product.persist();
+        if(dto.getId() == null){
+            productUseCase.newProduct(dto);
+        }else{
+            productUseCase.changeProduct(dto.getId(), dto);
+        }
 
         updateList();
         closeEditor();

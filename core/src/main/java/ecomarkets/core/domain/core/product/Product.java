@@ -84,6 +84,15 @@ public class Product extends PanacheEntity {
         return this.category;
     }
 
+    public void changeProduct(ProductCommand productCommand){
+        this.name = productCommand.getName();
+        this.category = productCommand.getCategory();
+        this.price = productCommand.getPrice();
+        this.measureUnit = productCommand.getMeasureUnit();
+        this.description = productCommand.getDescription();
+        this.recipeIngredients = RecipeIngredients.of(productCommand.getIngredients());
+    }
+
     public ProductImage productImage(){
         return this.productImage;
     }

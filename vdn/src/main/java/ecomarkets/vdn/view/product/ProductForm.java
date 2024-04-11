@@ -36,7 +36,7 @@ public class ProductForm extends FormLayout {
     TextArea recipeIngredients = new TextArea("Ingredientes (Receita)");
     ComboBox<MeasureUnit> measureUnit = new ComboBox<>("Unidade");
     ComboBox<Category> category = new ComboBox<>("Categoria");
-    TextField price = new TextField("Preço");
+    TextField priceValue = new TextField("Preço");
 
     Upload imageFileUpload;
 
@@ -66,7 +66,7 @@ public class ProductForm extends FormLayout {
 
         processImageComponent();
 
-        add(name, description, recipeIngredients, price, measureUnit, category, productImage, imageFileUpload, createButtonsLayout());
+        add(name, description, recipeIngredients, priceValue, measureUnit, category, productImage, imageFileUpload, createButtonsLayout());
     }
 
     private void processImageComponent() {
@@ -124,11 +124,12 @@ public class ProductForm extends FormLayout {
         ProductDTO dto = new ProductDTO();
         productImage.setSrc("");
         if(product != null){
+            dto.setId(product.id);
             dto.setCategory(product.getCategory());
             dto.setDescription(product.getDescription());
             dto.setName(product.getName());
             dto.setMeasureUnit(product.getMeasureUnit());
-            dto.setPrice(product.getPrice().total().doubleValue());
+            dto.setPriceValue(product.getPrice().total().doubleValue());
             dto.setRecipeIngredients(product.getRecipeIngredients() != null ? product.getRecipeIngredients().description() : null);
 
             if(product.productImage() != null){
