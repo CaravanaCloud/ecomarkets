@@ -6,9 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import ecomarkets.core.domain.core.product.category.Category;
@@ -76,11 +73,24 @@ public class Product extends PanacheEntity {
         return ProductId.of(id);
     }
     
-    public String getCategory(){
+    public String getCategoryName(){
         if(this.category == null){
             return "OUTROS";
         }
         return this.category.name;
+    }
+
+    public Category getCategory(){
+        return this.category;
+    }
+
+    public void changeProduct(ProductCommand productCommand){
+        this.name = productCommand.getName();
+        this.category = productCommand.getCategory();
+        this.price = productCommand.getPrice();
+        this.measureUnit = productCommand.getMeasureUnit();
+        this.description = productCommand.getDescription();
+        this.recipeIngredients = RecipeIngredients.of(productCommand.getIngredients());
     }
 
     public ProductImage productImage(){
@@ -113,6 +123,10 @@ public class Product extends PanacheEntity {
                 .build();
 
         return productImage;
+    }
+
+    public static Product findById(ProductId productId){
+        return Product.findById(productId.id());
     }
 
 }

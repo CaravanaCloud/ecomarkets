@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignReques
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
@@ -37,15 +38,24 @@ public class S3BucketProductImage implements ImageRepository {
     public void save(Path file,
                      ProductImage productImage) {
 
+        save(productImage, RequestBody.fromFile(file));
+    }
+
+    @Override
+    public void save(InputStream file, long contentLength, ProductImage productImage) {
+        save(productImage, RequestBody.fromInputStream(file, contentLength));
+    }
+
+    private void save(ProductImage productImage, RequestBody file) {
         List<Tag> tagsS3 = getTags(productImage);
         s3.putObject(
-        PutObjectRequest.builder()
-                .bucket(productImage.bucket())
-                .key(productImage.key())
-                .contentType(productImage.mimeType())
-                .tagging(Tagging.builder().tagSet(tagsS3).build())
-                .build(),
-                RequestBody.fromFile(file));
+                PutObjectRequest.builder()
+                        .bucket(productImage.bucket())
+                        .key(productImage.key())
+                        .contentType(productImage.mimeType())
+                        .tagging(Tagging.builder().tagSet(tagsS3).build())
+                        .build(),
+                file);
     }
 
     public void delete(ProductImage productImage) {
