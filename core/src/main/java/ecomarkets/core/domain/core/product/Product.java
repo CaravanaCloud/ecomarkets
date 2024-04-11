@@ -125,4 +125,8 @@ public class Product extends PanacheEntity {
         return productImage;
     }
 
+    public static Product findById(ProductId productId){
+        return Product.findById(productId.id());
+    }
+
 }

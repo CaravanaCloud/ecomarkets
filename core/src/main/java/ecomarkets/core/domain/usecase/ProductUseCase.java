@@ -1,5 +1,6 @@
 package ecomarkets.core.domain.usecase;
 
+import ecomarkets.core.domain.core.basket.Basket;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.ProductCommand;
 import ecomarkets.core.domain.core.product.ProductId;
@@ -36,6 +37,15 @@ public class ProductUseCase {
                 imageData.getFileName(),
                 imageData.getMimeType());
         imageRepository.save(imageData.getFile().toPath(), pm);
+    }
+
+    @Transactional
+    public void deleteProduct(ProductId productId){
+
+        //TODO Add validation before delete product
+
+        Product.deleteById(productId.id());
+
     }
 
 
