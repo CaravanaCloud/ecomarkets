@@ -133,6 +133,7 @@ public class ProductForm extends FormLayout {
     public void setProduct(Product product){
         ProductDTO dto = new ProductDTO();
         productImage.setSrc("");
+        imageFileUpload.clearFileList();
         if(product != null){
             dto.setId(product.id);
             dto.setCategory(product.getCategory());
