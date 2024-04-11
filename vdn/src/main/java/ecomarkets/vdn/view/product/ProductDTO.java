@@ -16,6 +16,8 @@ public class ProductDTO{
 
     private String recipeIngredients;
 
+    private ImageFormData imageFormData;
+
     public ProductDTO() {
     }
 
@@ -73,5 +75,13 @@ public class ProductDTO{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ImageFormData getImageFormData() {
+        return imageFormData;
+    }
+
+    public void setImageFormData(ImageFormData imageFormData) {
+        this.imageFormData = imageFormData;
     }
 }

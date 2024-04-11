@@ -10,16 +10,24 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
 import ecomarkets.core.domain.core.product.MeasureUnit;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.category.Category;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+
+import java.io.InputStream;
 
 public class ProductForm extends FormLayout {
 
@@ -30,11 +38,15 @@ public class ProductForm extends FormLayout {
     ComboBox<Category> category = new ComboBox<>("Categoria");
     TextField price = new TextField("Preço");
 
+    Upload imageFileUpload;
+
     Image productImage = new Image();
 
     Button save = new Button("Salvar");
     Button delete = new Button("Deletar");
     Button close = new Button("Cancelar");
+
+    ImageFormData imageFormData;
 
     ImageRepository imageRepository;
 
@@ -52,19 +64,38 @@ public class ProductForm extends FormLayout {
         measureUnit.setItems(MeasureUnit.values());
         measureUnit.setItemLabelGenerator(MeasureUnit::name);
 
-//        MemoryBuffer memoryBuffer = new MemoryBuffer();
-//        Upload imageFileUpload = new Upload(memoryBuffer);
-//        imageFileUpload.addSucceededListener(event -> {
-//            // Get information about the uploaded file
-//            InputStream fileData = memoryBuffer.getInputStream();
-//            String fileName = event.getFileName();
-//            long contentLength = event.getContentLength();
-//            String mimeType = event.getMIMEType();
-//
-//
-//        });
+        processImageComponent();
 
-        add(name, description, recipeIngredients, price, measureUnit, category, productImage, createButtonsLayout());
+        add(name, description, recipeIngredients, price, measureUnit, category, productImage, imageFileUpload, createButtonsLayout());
+    }
+
+    private void processImageComponent() {
+        MemoryBuffer memoryBuffer = new MemoryBuffer();
+        imageFileUpload = new Upload(memoryBuffer);
+
+        Button uploadButton = new Button("Upload Imagem...");
+        imageFileUpload.setUploadButton(uploadButton);
+
+        Span dropLabel = new Span("Arrastar e soltar imagem");
+        Icon dropIcon = VaadinIcon.CLOUD_UPLOAD_O.create();
+        imageFileUpload.setDropLabelIcon(dropIcon);
+
+        imageFileUpload.setDropLabel(dropLabel);
+        imageFileUpload.addSucceededListener(event -> {
+            InputStream fileData = memoryBuffer.getInputStream();
+            String fileName = event.getFileName();
+            String mimeType = event.getMIMEType();
+
+            ProductDTO productDTO = binder.getBean();
+            imageFormData = new ImageFormData();
+            imageFormData.setFile(fileData);
+            imageFormData.setFileName(fileName);
+            imageFormData.setMimeType(mimeType);
+            productDTO.setImageFormData(imageFormData);
+
+            StreamResource streamResource = new StreamResource(fileName, () -> fileData);
+            productImage.setSrc(streamResource);
+        });
     }
 
     private Component createButtonsLayout() {
@@ -91,6 +122,7 @@ public class ProductForm extends FormLayout {
 
     public void setProduct(Product product){
         ProductDTO dto = new ProductDTO();
+        productImage.setSrc("");
         if(product != null){
             dto.setCategory(product.getCategory());
             dto.setDescription(product.getDescription());
@@ -104,7 +136,6 @@ public class ProductForm extends FormLayout {
             }
 
         }
-
 
         binder.setBean(dto);
     }
