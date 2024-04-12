@@ -1,35 +1,35 @@
 -- Category test data
 INSERT INTO Category (id, name) VALUES
-  (1, 'Bebidas'),
-  (2, 'Carnes e Derivados'),
-  (3, 'Caseiros'),
-  (4, 'Chás e Temperos'),
-  (5, 'Frutas'),
-  (6, 'Grãos e Cereais'),
-  (7, 'Leites e Derivados'),
-  (8, 'Mel'),
-  (9, 'Outros'),
-  (10, 'Processados de Origem Vegetal'),
-  (11, 'Verduras e Legumes');
+  (-1, 'Bebidas'),
+  (-2, 'Carnes e Derivados'),
+  (-3, 'Caseiros'),
+  (-4, 'Chás e Temperos'),
+  (-5, 'Frutas'),
+  (-6, 'Grãos e Cereais'),
+  (-7, 'Leites e Derivados'),
+  (-8, 'Mel'),
+  (-9, 'Outros'),
+  (-10, 'Processados de Origem Vegetal'),
+  (-11, 'Verduras e Legumes');
 
 -- Product test data
 INSERT INTO Product (cents, measureUnit, price_unit, category_id, id, description, name, productImage_bucket_key, recipe_description)
 VALUES
-  (0, 3, 4, 1, 2, '1L', 'Água de Côco', null, null),
-  (50, 3, 9, 1, 3, '700ml', 'Cachaça Crioula Prata', null, null),
-  (75, 3, 7, 2, 4, '500g', 'Banha Suína', null, null),
-  (20, 3, 3, 3, 5, '150g', 'Biscoito Casadinho', null, 'Trigo, açucar, maragarina, sal e goiaba'),
-  (0, 3, 10, 3, 6, 'Unidade com aproximadamente 600 gramas, bolo tamanho família', 'Bolo de Amendoim', null, null),
-  (90, 4, 0, 4, 7, null, 'Babosa', null, null),
-  (20, 0, 1, 5, 8, null, 'Banana Nanica', null, null),
-  (70, 3, 3, 6, 9, '500g', 'Feijão Vermelho', null, null),
-  (70, 3, 4, 7, 10, '1L', 'Leite', null, null),
-  (0, 3, 8, 7, 11, '2L', 'Leite', null, null),
-  (0, 3, 1, 8, 12, '20ml', 'Extrato de Própolis', null, null),
-  (50, 3, 3, 9, 13, null, 'Sabonete Artesanal de Erva-Doce e Mel', null, null),
-  (17, 0, 2, 10, 14, null, 'Fubá', null, null),
-  (0, 3, 4, 10, 15, '500g. Palmito da Variedade Pupunha, produzido pela Família Schulz Tonoli participante da OCS SABORES E SABERES da REDE BEM VIVER, a família reside na comunidade camponesa da Barra do Tijuco Preto, Domingos Martins - ES', 'Palmito Pupunha', null, null),
-  (71, 0, 2, 11, 16, null, 'Batata Inglesa', null, null);
+  (0, 3, 4, -1, 2, '1L', 'Água de Côco', null, null),
+  (50, 3, 9, -1, 3, '700ml', 'Cachaça Crioula Prata', null, null),
+  (75, 3, 7, -2, 4, '500g', 'Banha Suína', null, null),
+  (20, 3, 3, -3, 5, '150g', 'Biscoito Casadinho', null, 'Trigo, açucar, maragarina, sal e goiaba'),
+  (0, 3, 10, -3, 6, 'Unidade com aproximadamente 600 gramas, bolo tamanho família', 'Bolo de Amendoim', null, null),
+  (90, 4, 0, -4, 7, null, 'Babosa', null, null),
+  (20, 0, 1, -5, 8, null, 'Banana Nanica', null, null),
+  (70, 3, 3, -6, 9, '500g', 'Feijão Vermelho', null, null),
+  (70, 3, 4, -7, 10, '1L', 'Leite', null, null),
+  (0, 3, 8, -7, 11, '2L', 'Leite', null, null),
+  (0, 3, 1, -8, 12, '20ml', 'Extrato de Própolis', null, null),
+  (50, 3, 3, -9, 13, null, 'Sabonete Artesanal de Erva-Doce e Mel', null, null),
+  (17, 0, 2, -10, 14, null, 'Fubá', null, null),
+  (0, 3, 4, -10, 15, '500g. Palmito da Variedade Pupunha, produzido pela Família Schulz Tonoli participante da OCS SABORES E SABERES da REDE BEM VIVER, a família reside na comunidade camponesa da Barra do Tijuco Preto, Domingos Martins - ES', 'Palmito Pupunha', null, null),
+  (71, 0, 2, -11, 16, null, 'Batata Inglesa', null, null);
 
 INSERT INTO FAIR (creationDate, startdate, enddate, id)
 VALUES

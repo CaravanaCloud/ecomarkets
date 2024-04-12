@@ -10,7 +10,7 @@ import com.vaadin.flow.router.Route;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.ProductId;
 import ecomarkets.core.domain.core.product.image.ImageRepository;
-import ecomarkets.core.domain.usecase.ProductUseCase;
+import ecomarkets.core.domain.usecase.product.ProductUseCase;
 import ecomarkets.vdn.view.MainLayout;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;

@@ -1,6 +1,5 @@
-package ecomarkets.core.domain.usecase;
+package ecomarkets.core.domain.usecase.product;
 
-import ecomarkets.core.domain.core.basket.Basket;
 import ecomarkets.core.domain.core.product.Product;
 import ecomarkets.core.domain.core.product.ProductCommand;
 import ecomarkets.core.domain.core.product.ProductId;
@@ -42,8 +41,7 @@ public class ProductUseCase {
     @Transactional
     public void deleteProduct(ProductId productId){
 
-        //TODO Add validation before delete product
-
+        //TODO Add validation before delete product: if there is a Basket Item, can't be deleted
         Product.deleteById(productId.id());
 
     }

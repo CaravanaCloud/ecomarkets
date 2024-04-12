@@ -1,6 +1,7 @@
 package ecomarkets.vdn.view.product;
 
-import ecomarkets.core.domain.usecase.ImageData;
+
+import ecomarkets.core.domain.usecase.product.ImageData;
 
 import java.io.File;
 

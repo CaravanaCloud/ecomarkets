@@ -1,4 +1,4 @@
-package ecomarkets.core.domain.usecase;
+package ecomarkets.core.domain.usecase.product;
 
 import java.io.File;
 import java.io.InputStream;
