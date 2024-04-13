@@ -88,7 +88,7 @@ public class ProductImageGetTest extends ProductImageTest{
 
         assertThat(file, notNullValue());
 
-        saveFileLocalToVerifyManually(file);
+     //   saveFileLocalToVerifyManually(file);
     }
 
     private void saveFileLocalToVerifyManually(byte [] file){
