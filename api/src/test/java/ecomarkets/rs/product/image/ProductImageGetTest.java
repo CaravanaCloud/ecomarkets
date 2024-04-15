@@ -77,8 +77,9 @@ public class ProductImageGetTest extends ProductImageTest{
                 .asString();
 
         byte [] file = given()
-                .baseUri(preAssignedUrl)
-                .get()
+                .urlEncodingEnabled(false)
+                .when()
+                .get(preAssignedUrl)
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()

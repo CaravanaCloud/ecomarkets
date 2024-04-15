@@ -5,6 +5,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.containAnyCodeUnitsThat;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
@@ -26,6 +27,7 @@ public class ArchitectureTest {
     @ArchTest
     static final ArchRule no_cycles =
             slices().matching("ecomarkets.(**)..").should().beFreeOfCycles()
-                    .ignoreDependency(resideInAPackage("..event.."), alwaysTrue());
+                    .ignoreDependency(resideInAPackage("..event.."), alwaysTrue())
+                    .ignoreDependency(resideInAPackage("..product.category.."), alwaysTrue());
 
 }

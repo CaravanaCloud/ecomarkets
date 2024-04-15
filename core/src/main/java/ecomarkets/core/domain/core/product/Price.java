@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 @Embeddable
 public record Price(@Column(name = "price_unit") Integer unit, Integer cents) {
@@ -19,6 +20,11 @@ public record Price(@Column(name = "price_unit") Integer unit, Integer cents) {
 
     public BigDecimal total(){
         return BigDecimal.valueOf(unit()).add(BigDecimal.valueOf(cents()).divide(BigDecimal.valueOf(100.0)));
+    }
+
+    public String toString(){
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        return format.format(total());
     }
 
     public static Price of(Integer unit, Integer cents){
