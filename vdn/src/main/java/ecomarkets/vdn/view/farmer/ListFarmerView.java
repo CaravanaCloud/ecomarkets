@@ -102,7 +102,7 @@ public class ListFarmerView extends VerticalLayout {
         if(farmer.getId() == null){
             farmerUseCase.newFarmer(farmer.parseFarmer());
         }else{
-            farmerUseCase.changeFarmer(farmer.getId(), farmer.getName());
+            farmerUseCase.changeFarmer(farmer.parseFarmer());
         }
 
         updateList();

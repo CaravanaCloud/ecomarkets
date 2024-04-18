@@ -15,12 +15,15 @@ public class FarmerUseCase {
     }
 
     @Transactional
-    public Farmer changeFarmer(Long id, String name){
-        return null;
+    public Farmer changeFarmer(Farmer farmer){
+        return Farmer.getEntityManager().merge(farmer);
     }
 
     @Transactional
     public void deleteFarmer(FarmerId farmerId){
+
+        //TODO add rules to verify if farmer can be removed. For example, if there is some basket delivered by the farmer, can not be removed.
+        Farmer.deleteById(farmerId.id());
     }
 
 }
