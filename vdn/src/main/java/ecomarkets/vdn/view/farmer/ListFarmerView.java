@@ -97,12 +97,12 @@ public class ListFarmerView extends VerticalLayout {
     }
 
     private void saveFarmer(FarmerForm.SaveEvent event) {
-        FarmerDTO cat = event.getFarmer();
+        FarmerDTO farmer = event.getFarmer();
 
-        if(cat.getId() == null){
-            farmerUseCase.newFarmer(cat.getName());
+        if(farmer.getId() == null){
+            farmerUseCase.newFarmer(farmer.parseFarmer());
         }else{
-            farmerUseCase.changeFarmer(cat.getId(), cat.getName());
+            farmerUseCase.changeFarmer(farmer.getId(), farmer.getName());
         }
 
         updateList();

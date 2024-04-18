@@ -9,8 +9,9 @@ import jakarta.transaction.Transactional;
 public class FarmerUseCase {
 
     @Transactional
-    public Farmer newFarmer(String name){
-        return null;
+    public Farmer newFarmer(Farmer farmer){
+        farmer.persist();
+        return farmer;
     }
 
     @Transactional

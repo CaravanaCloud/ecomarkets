@@ -1,14 +1,16 @@
 package ecomarkets.vdn.view.farmer;
 
+import ecomarkets.core.domain.core.farmer.Farmer;
+import ecomarkets.core.domain.register.Address;
+import ecomarkets.core.domain.register.EmailAddress;
+import ecomarkets.core.domain.register.Telephone;
+
 public class FarmerDTO {
 
     private Long id;
     private String name;
-
     private String email;
-
     private String telephone;
-
     private String country;
     private String state;
     private String city;
@@ -103,5 +105,20 @@ public class FarmerDTO {
 
     public void setPostCode(Integer postCode) {
         this.postCode = postCode;
+    }
+
+    public Farmer parseFarmer(){
+        Telephone tel = new Telephone("", telephone);
+        EmailAddress emailAddress = EmailAddress.of(email);
+        Address address = Address.of(this.country,
+                this.state,
+                this.city,
+                this.houseNumber,
+                this.addOn,
+                this.reference,
+                this.postCode);
+        Farmer farmer = Farmer.of(this.name, emailAddress, tel, address);
+        farmer.id = this.id;
+        return farmer;
     }
 }
