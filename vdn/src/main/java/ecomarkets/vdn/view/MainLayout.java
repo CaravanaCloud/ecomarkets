@@ -9,14 +9,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.AccessDeniedException;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.RouterLayout;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
+import ecomarkets.vdn.view.farmer.ListFarmerView;
 import ecomarkets.vdn.view.product.ListProductView;
-import ecomarkets.vdn.view.product.ProductForm;
 import ecomarkets.vdn.view.product.category.ListCategoryView;
 import ecomarkets.vdn.view.user.WhoAmIView;
 import jakarta.annotation.PostConstruct;
@@ -67,6 +63,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         drawer.add(new RouterLink("Settings", WhoAmIView.class));
         drawer.add(new RouterLink("Produtos", ListProductView.class));
         drawer.add(new RouterLink("Categorias", ListCategoryView.class));
+        drawer.add(new RouterLink("Agricultores", ListFarmerView.class));
         addToDrawer(drawer);
     }
 
