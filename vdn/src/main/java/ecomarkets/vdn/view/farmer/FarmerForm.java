@@ -18,11 +18,12 @@ public class FarmerForm extends FormLayout {
 
     TextField name = new TextField("Nome");
     TextField email = new TextField("Email");
-    TextField telephone = new TextField("Telefone");
+    TextField telephoneAreaCode = new TextField("DDD");
+    TextField telephoneNumber = new TextField("Telefone");
     TextField country = new TextField("País");
 
     TextField state = new TextField("Estado");
-    TextField city = new TextField("City");
+    TextField city = new TextField("Cidade");
     TextField houseNumber = new TextField("Número");
     TextField addOn = new TextField("Complemento");
     TextField reference = new TextField("Referência");
@@ -38,7 +39,11 @@ public class FarmerForm extends FormLayout {
         addClassName("contact-form");
         binder.bindInstanceFields(this);
 
-        add(name, email, telephone, country, state, city, houseNumber, addOn, reference, postCode, createButtonsLayout());
+        HorizontalLayout telLayout = new HorizontalLayout();
+        telLayout.add(telephoneAreaCode);
+        telLayout.add(telephoneNumber);
+
+        add(name, email, telLayout, country, state, city, houseNumber, addOn, reference, postCode, createButtonsLayout());
     }
 
     private Component createButtonsLayout() {
@@ -70,7 +75,8 @@ public class FarmerForm extends FormLayout {
             farmerDTO.setId(farmer.id);
             farmerDTO.setName(farmer.getName());
             farmerDTO.setEmail(farmer.getEmail().value());
-            farmerDTO.setTelephone(farmer.getTelephone().number());
+            farmerDTO.setTelephoneNumber(farmer.getTelephone().number());
+            farmerDTO.setTelephoneAreaCode(farmer.getTelephone().areaCode());
             farmerDTO.setCountry(farmer.getAddress().country());
             farmerDTO.setState(farmer.getAddress().state());
             farmerDTO.setCity(farmer.getAddress().city());

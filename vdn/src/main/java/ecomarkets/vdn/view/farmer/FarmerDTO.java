@@ -10,7 +10,8 @@ public class FarmerDTO {
     private Long id;
     private String name;
     private String email;
-    private String telephone;
+    private String telephoneNumber;
+    private String telephoneAreaCode;
     private String country;
     private String state;
     private String city;
@@ -43,13 +44,6 @@ public class FarmerDTO {
         this.email = email;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
 
     public String getCountry() {
         return country;
@@ -107,8 +101,24 @@ public class FarmerDTO {
         this.postCode = postCode;
     }
 
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getTelephoneAreaCode() {
+        return telephoneAreaCode;
+    }
+
+    public void setTelephoneAreaCode(String telephoneAreaCode) {
+        this.telephoneAreaCode = telephoneAreaCode;
+    }
+
     public Farmer parseFarmer(){
-        Telephone tel = new Telephone("", telephone);
+        Telephone tel = new Telephone(telephoneAreaCode, telephoneNumber);
         EmailAddress emailAddress = EmailAddress.of(email);
         Address address = Address.of(this.country,
                 this.state,
