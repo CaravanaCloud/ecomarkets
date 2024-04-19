@@ -1,4 +1,4 @@
 #!/bin/bash
 set -x 
 
-terraform apply -auto-approve 
+tofu apply -auto-approve 

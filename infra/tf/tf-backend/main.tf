@@ -1,6 +1,6 @@
 # aws sts get-caller-identity
-# terraform init 
-# terraform apply -auto-approve
+# tofu init 
+# tofu apply -auto-approve
 terraform {
   required_providers {
     aws = {
