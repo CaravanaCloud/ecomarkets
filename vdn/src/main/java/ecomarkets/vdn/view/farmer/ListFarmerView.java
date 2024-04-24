@@ -1,4 +1,4 @@
-package ecomarkets.vdn.view.product.category;
+package ecomarkets.vdn.view.farmer;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -7,22 +7,23 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import ecomarkets.core.domain.core.product.category.Category;
-import ecomarkets.core.domain.usecase.product.CategoryUseCase;
+import ecomarkets.core.domain.core.farmer.Farmer;
+import ecomarkets.core.domain.core.farmer.FarmerId;
+import ecomarkets.core.domain.usecase.farmer.FarmerUseCase;
 import ecomarkets.vdn.view.MainLayout;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
-@PageTitle("Categorias")
-@Route(value="categories", layout = MainLayout.class)
-public class ListCategoryView extends VerticalLayout {
+@PageTitle("Agricultores")
+@Route(value="farmers", layout = MainLayout.class)
+public class ListFarmerView extends VerticalLayout {
 
-    Grid<Category> grid = new Grid<>(Category.class);
+    Grid<Farmer> grid = new Grid<>(Farmer.class);
 
-    CategoryForm form;
+    FarmerForm form;
 
     @Inject
-    CategoryUseCase categoryUseCase;
+    FarmerUseCase farmerUseCase;
 
     @PostConstruct
     public void init(){
@@ -40,36 +41,40 @@ public class ListCategoryView extends VerticalLayout {
         grid.addClassNames("contact-grid");
         grid.setSizeFull();
         grid.setColumns();
-        grid.addColumn(c -> c.name).setHeader("Nome");
+        grid.addColumn(Farmer::getName).setHeader("Nome");
+        grid.addColumn(f -> f.getEmail().value()).setHeader("Email");
+        grid.addColumn(f -> f.getAddress().city()).setHeader("Cidade");
+        grid.addColumn(f -> f.getAddress().state()).setHeader("Estado");
+        grid.addColumn(f -> "(%s) %s".formatted(f.getTelephone().areaCode(), f.getTelephone().number())).setHeader("Telefone");
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->
-                editCategory(event.getValue()));
+                editFarmer(event.getValue()));
     }
 
-    public void editCategory(Category category) {
-        if (category == null) {
+    public void editFarmer(Farmer farmer) {
+        if (farmer == null) {
             closeEditor();
         } else {
-            form.setCategory(category);
+            form.setFarmer(farmer);
             form.setVisible(true);
             addClassName("editing");
         }
     }
 
     private Component getToolbar() {
-        Button addCategoryButton = new Button("Add category");
-        addCategoryButton.addClickListener(click -> addCategory());
+        Button addFarmerButton = new Button("Cadastrar Agricultor");
+        addFarmerButton.addClickListener(click -> addFarmer());
 
-        var toolbar = new HorizontalLayout(addCategoryButton);
+        var toolbar = new HorizontalLayout(addFarmerButton);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
 
-    private void addCategory() {
+    private void addFarmer() {
         grid.asSingleSelect().clear();
-        form.setCategory(null);
+        form.setFarmer(null);
         form.setVisible(true);
         addClassName("editing");
     }
@@ -84,39 +89,38 @@ public class ListCategoryView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new CategoryForm();
+        form = new FarmerForm();
         form.setWidth("25em");
-        form.addSaveListener(this::saveCategory); // <1>
-        form.addDeleteListener(this::deleteCategory); // <2>
+        form.addSaveListener(this::saveFarmer); // <1>
+        form.addDeleteListener(this::deleteFarmer); // <2>
         form.addCloseListener(e -> closeEditor()); // <3>
     }
 
-    private void saveCategory(CategoryForm.SaveEvent event) {
-        CategoryDTO cat = event.getCategory();
+    private void saveFarmer(FarmerForm.SaveEvent event) {
+        FarmerDTO farmer = event.getFarmer();
 
-        if(cat.getId() == null){
-            categoryUseCase.newCategory(cat.getName());
+        if(farmer.getId() == null){
+            farmerUseCase.newFarmer(farmer.parseFarmer());
         }else{
-            categoryUseCase.changeCategory(cat.getId(), cat.getName());
+            farmerUseCase.changeFarmer(farmer.parseFarmer());
         }
 
         updateList();
         closeEditor();
     }
 
-    private void deleteCategory(CategoryForm.DeleteEvent event) {
-        categoryUseCase.deleteCategory(event.getCategory().getId());
+    private void deleteFarmer(FarmerForm.DeleteEvent event) {
+        farmerUseCase.deleteFarmer(FarmerId.of(event.getFarmer().getId()));
         updateList();
         closeEditor();
     }
 
-
     private void updateList() {
-        grid.setItems(Category.findAll().list());
+        grid.setItems(Farmer.findAll().list());
     }
 
     private void closeEditor() {
-        form.setCategory(null);
+        form.setFarmer(null);
         form.setVisible(false);
         removeClassName("editing");
     }

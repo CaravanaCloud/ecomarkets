@@ -58,9 +58,9 @@ VALUES
 -- Farmer test data
 INSERT INTO Farmer (houseNumber, postCode, id, addOn, areaCode, city, country, email, name, number, reference, state)
 VALUES
-  (150, 45654321, 1, 'Apto 304', '27', 'Linhares', 'Brasil', 'joao.agricultor@email.com', 'João Silva', '27984567890', 'Próximo à Praça Central', 'ES'),
-  (225, 12345987, 2, null, '27', 'Domingo Martins', 'Brasil', 'maria.fazenda@email.com', 'Maria Santos', '27912345678', 'Esquina com a Rua das Oliveiras', 'ES'),
-  (380, 85274196, 3, 'Fundos', '27', 'Aracruz', 'Brasil', 'carlos.produtor@email.com', 'Carlos Oliveira', '27956784321', 'Atrás da Escola Municipal', 'ES');
+  (150, 45654321, -1, 'Apto 304', '27', 'Linhares', 'Brasil', 'joao.agricultor@email.com', 'João Silva', '27984567890', 'Próximo à Praça Central', 'ES'),
+  (225, 12345987, -2, null, '27', 'Domingo Martins', 'Brasil', 'maria.fazenda@email.com', 'Maria Santos', '27912345678', 'Esquina com a Rua das Oliveiras', 'ES'),
+  (380, 85274196, -3, 'Fundos', '27', 'Aracruz', 'Brasil', 'carlos.produtor@email.com', 'Carlos Oliveira', '27956784321', 'Atrás da Escola Municipal', 'ES');
 
 -- Partner test data
 INSERT INTO Partner (birthDate, houseNumber, postCode, id, addOn, areaCode, city, country, cpf, email, name, number, reference, state)
