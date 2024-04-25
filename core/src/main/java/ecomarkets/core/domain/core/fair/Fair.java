@@ -22,6 +22,10 @@ public class Fair extends PanacheEntity {
         this.creationDate = LocalDateTime.now();
     }
 
+    public void changeShoppingPeriod(ShoppingPeriod shoppingPeriod){
+        this.shoppingPeriod = shoppingPeriod;
+    }
+
     public static Fair of(ShoppingPeriod shoppingPeriod) {
         return new Fair(shoppingPeriod);
     }
@@ -33,6 +37,8 @@ public class Fair extends PanacheEntity {
     public FairId fairId(){
         return FairId.of(id);
     }
+
+    public LocalDateTime getCreationDate() { return creationDate; }
 
     public FarmerProductAvailableInFair addProduct(FarmerId farmerId, ProductId productId, Integer amount){
         FarmerProductAvailableInFair farmerProductAvailableInFair = FarmerProductAvailableInFair.of(

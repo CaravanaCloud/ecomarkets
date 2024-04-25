@@ -11,6 +11,7 @@ import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.AccessDeniedException;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import ecomarkets.vdn.view.fair.ListFairView;
 import ecomarkets.vdn.view.farmer.ListFarmerView;
 import ecomarkets.vdn.view.product.ListProductView;
 import ecomarkets.vdn.view.product.category.ListCategoryView;
@@ -64,6 +65,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         drawer.add(new RouterLink("Produtos", ListProductView.class));
         drawer.add(new RouterLink("Categorias", ListCategoryView.class));
         drawer.add(new RouterLink("Agricultores", ListFarmerView.class));
+        drawer.add(new RouterLink("Feiras", ListFairView.class));
         addToDrawer(drawer);
     }
 
