@@ -11,14 +11,17 @@ import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.AccessDeniedException;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import ecomarkets.core.user.UserDetails;
 import ecomarkets.vdn.view.fair.ListFairView;
 import ecomarkets.vdn.view.farmer.ListFarmerView;
 import ecomarkets.vdn.view.product.ListProductView;
 import ecomarkets.vdn.view.product.category.ListCategoryView;
 import ecomarkets.vdn.view.user.WhoAmIView;
 import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
-public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver { 
+public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
+
     @Override
 	public void beforeEnter(BeforeEnterEvent event) {
         var location = event.getLocation();
@@ -59,9 +62,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
     private void createDrawer() {
         var drawer = new VerticalLayout();
-        drawer.add(new RouterLink("Home", MainView.class));
-        drawer.add(new RouterLink("About", AboutView.class));
-        drawer.add(new RouterLink("Settings", WhoAmIView.class));
+        drawer.add(new RouterLink("Home", WhoAmIView.class));
         drawer.add(new RouterLink("Produtos", ListProductView.class));
         drawer.add(new RouterLink("Categorias", ListCategoryView.class));
         drawer.add(new RouterLink("Agricultores", ListFarmerView.class));

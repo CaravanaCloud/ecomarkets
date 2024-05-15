@@ -18,19 +18,6 @@ data "aws_ssm_parameter" "twilio_phone_from" {
   name = var.twilio_phone_from
 }
 
-data "aws_ssm_parameter" "oidc_client_id" {
-  name = var.oidc_client_id
-}
-
-data "aws_ssm_parameter" "oidc_client_secret" {
-  name = var.oidc_client_secret
-}
-
-data "aws_ssm_parameter" "oidc_provider" {
-  name = var.oidc_provider
-}
-
-
 resource "aws_cloudwatch_log_group" "task_logs" {
   name              = "/${var.env_id}/${var.task_id}"
   retention_in_days = 7
@@ -80,7 +67,7 @@ resource "aws_lb_target_group" "task_target_group" {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5
-    path                = "/${var.task_id}/"
+    path                = "${var.health_check_path}"
     protocol            = "HTTP"
     matcher             = "200"
     interval            = 15
@@ -142,14 +129,14 @@ resource "aws_ecs_task_definition" "task_def" {
           name  = "QUARKUS_DATASOURCE_PASSWORD",
           value = data.aws_ssm_parameter.db_app_password.value
           }, {
-          name  = "QUARKUS_OIDC_PROVIDER",
-          value = data.aws_ssm_parameter.oidc_provider.value
+          name  = "QUARKUS_OIDC_AUTH_SERVER_URL",
+          value = var.oidc_auth_server_url
           }, {
           name  = "QUARKUS_OIDC_CLIENT_ID",
-          value = data.aws_ssm_parameter.oidc_client_id.value
+          value = var.oidc_client_id
           }, {
           name  = "QUARKUS_OIDC_CREDENTIALS_SECRET",
-          value = data.aws_ssm_parameter.oidc_client_secret.value
+          value = var.oidc_client_secret
           }, {
           name  = "TWILIO_ACCOUNT_SID",
           value = data.aws_ssm_parameter.twilio_account_sid.value
@@ -202,5 +189,5 @@ resource "aws_ecs_service" "task_service" {
     container_port   = var.container_port
   }
 
-  desired_count = 1
+  desired_count = var.count_instances
 }

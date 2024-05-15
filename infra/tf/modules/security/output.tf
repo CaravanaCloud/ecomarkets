@@ -25,7 +25,3 @@ output "oidc_client_id" {
 output "oidc_client_secret" {
   value = aws_ssm_parameter.oidc_client_secret.name
 }
-
-output "oidc_provider" {
-  value = aws_ssm_parameter.oidc_provider.name
-}

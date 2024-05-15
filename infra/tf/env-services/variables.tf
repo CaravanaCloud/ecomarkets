@@ -32,9 +32,10 @@ variable twilio_account_sid {}
 variable twilio_auth_token {}
 variable twilio_phone_from {}
 
+variable cognito_user_pool_id {}
 variable oidc_client_id {}
 variable oidc_client_secret {}
-variable oidc_provider {}
+variable oidc_auth_server_url {}
 
 variable cluster_id {}
 variable task_execution_role {}

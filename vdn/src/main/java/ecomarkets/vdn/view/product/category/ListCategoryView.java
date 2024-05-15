@@ -59,7 +59,7 @@ public class ListCategoryView extends VerticalLayout {
     }
 
     private Component getToolbar() {
-        Button addCategoryButton = new Button("Add category");
+        Button addCategoryButton = new Button("Cadastrar categoria");
         addCategoryButton.addClickListener(click -> addCategory());
 
         var toolbar = new HorizontalLayout(addCategoryButton);

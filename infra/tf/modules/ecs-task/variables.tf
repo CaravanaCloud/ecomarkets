@@ -37,7 +37,7 @@ variable "db_name" {}
 variable "db_app_username" {}
 variable "db_app_password" {}
 
-variable "oidc_provider" {} 
+variable "oidc_auth_server_url" {}
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}
 
@@ -51,3 +51,6 @@ variable "listener_arn" {}
 variable "priority" {
     type = number
 }
+
+variable "health_check_path" {}
+variable "count_instances" {}

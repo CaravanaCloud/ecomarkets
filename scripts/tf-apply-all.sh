@@ -16,6 +16,11 @@ pushd infra/tf/env-security
 ./tf-apply.sh
 popd
 
+pushd infra/tf/env-auth
+./tf-init.sh
+./tf-apply.sh
+popd
+
 pushd infra/tf/env-base
 ./tf-init.sh
 ./tf-apply.sh
