@@ -87,6 +87,32 @@ resource "aws_cognito_user_pool" "main" {
   }
 }
 
+resource "aws_cognito_identity_provider" "google" {
+  user_pool_id  = aws_cognito_user_pool.main.id
+  provider_name = "Google"
+  provider_type = "Google"
+
+  provider_details = {
+    authorize_scopes = "openid email profile"
+    client_id        = data.aws_ssm_parameter.oidc_google_id_text.value
+    client_secret    = data.aws_ssm_parameter.oidc_google_secret_text.value
+  }
+
+  attribute_mapping = {
+    email    = "email"
+    username = "sub"
+  }
+}
+
+resource "random_id" "unique" {
+  byte_length = 4
+}
+
+resource "aws_cognito_user_pool_domain" "main" {
+  domain       = "ecomarkets-${random_id.unique.hex}"
+  user_pool_id = aws_cognito_user_pool.main.id
+}
+
 resource "aws_cognito_user_pool_client" "app_client" {
   name         = "${replace(var.env_id, "/[^a-zA-Z0-9_]/", "")}_client"
   user_pool_id = aws_cognito_user_pool.main.id
@@ -125,7 +151,7 @@ resource "aws_cognito_user_pool_client" "app_client" {
   refresh_token_validity                        = 30
   supported_identity_providers                  = [
     "COGNITO",
-    "Google",
+    aws_cognito_identity_provider.google.provider_name,
   ]
   write_attributes                              = [
     "email",
@@ -137,28 +163,3 @@ resource "aws_cognito_user_pool_client" "app_client" {
     refresh_token = "days"
   }
 }
-
-resource "aws_cognito_identity_provider" "google" {
-  user_pool_id  = aws_cognito_user_pool.main.id
-  provider_name = "Google"
-  provider_type = "Google"
-
-  provider_details = {
-    authorize_scopes = "openid email profile"
-    client_id        = data.aws_ssm_parameter.oidc_google_id_text.value
-    client_secret    = data.aws_ssm_parameter.oidc_google_secret_text.value
-  }
-
-  attribute_mapping = {
-    email    = "email"
-    username = "sub"
-  }
-}
-
-resource "aws_cognito_user_pool_domain" "main" {
-  domain       = "ecomarkets"
-  user_pool_id = aws_cognito_user_pool.main.id
-}
-
-
-
