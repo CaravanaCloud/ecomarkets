@@ -87,8 +87,8 @@ resource "aws_lb" "external" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "${var.env_id}-ecs-lb"
-    EnvId  = var.env_id
+    Name  = "${var.env_id}-ecs-lb"
+    EnvId = var.env_id
   }
 
   timeouts {
@@ -104,8 +104,8 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "fixed-response"
-    
+    type = "fixed-response"
+
     fixed_response {
       content_type = "text/plain"
       message_body = "Not available yet, please retry."

@@ -24,7 +24,7 @@ resource "aws_cloudwatch_log_group" "task_logs" {
 
   # Optionally, add tags to help organize and manage your log group
   tags = {
-    EnvId = var.env_id
+    EnvId  = var.env_id
     TaskId = var.task_id
   }
 }
@@ -67,7 +67,7 @@ resource "aws_lb_target_group" "task_target_group" {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5
-    path                = "${var.health_check_path}"
+    path                = var.health_check_path
     protocol            = "HTTP"
     matcher             = "200"
     interval            = 15
@@ -83,7 +83,7 @@ resource "aws_lb_target_group" "task_target_group" {
 resource "aws_lb_listener_rule" "task_rule" {
   depends_on   = [aws_lb_target_group.task_target_group]
   listener_arn = var.listener_arn
-  priority = var.priority
+  priority     = var.priority
 
   action {
     type             = "forward"
@@ -146,7 +146,7 @@ resource "aws_ecs_task_definition" "task_def" {
           }, {
           name  = "TWILIO_PHONE_FROM",
           value = data.aws_ssm_parameter.twilio_phone_from.value
-          }
+        }
       ]
 
       portMappings = [
@@ -175,7 +175,7 @@ resource "aws_ecs_service" "task_service" {
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.task_def.arn
   launch_type     = "FARGATE"
-  
+
 
   network_configuration {
     subnets          = var.ecs_subnets
