@@ -29,7 +29,7 @@ variable "code_package_path" {
 
 variable "db_app_username_param" {}
 variable "db_app_password_param" {}
-variable "oidc_provider" {} 
+variable "oidc_auth_server_url" {}
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}
 

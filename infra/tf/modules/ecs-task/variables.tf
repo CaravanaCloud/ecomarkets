@@ -1,35 +1,35 @@
-variable aws_region {}
+variable "aws_region" {}
 
-variable env_id {}
-variable task_id {}
+variable "env_id" {}
+variable "task_id" {}
 
-variable vpc_id {}
+variable "vpc_id" {}
 
-variable cluster_id {}
+variable "cluster_id" {}
 
-variable ecs_subnets {
-    description = "The subnet ids for the ECS service"
-    type        = list(string)
+variable "ecs_subnets" {
+  description = "The subnet ids for the ECS service"
+  type        = list(string)
 }
 
 variable "container_port" {
-    type = number
-    default = 80
+  type    = number
+  default = 80
 }
 
 variable "container_image" {
-    type = string
-    default = "nginx"
+  type    = string
+  default = "nginx"
 }
 
 variable "container_cpu" {
-    type = number
-    default = 1024
+  type    = number
+  default = 1024
 }
 
 variable "container_mem" {
-    type = number
-    default = 2048
+  type    = number
+  default = 2048
 }
 
 variable "db_endpoint" {}
@@ -37,7 +37,7 @@ variable "db_name" {}
 variable "db_app_username" {}
 variable "db_app_password" {}
 
-variable "oidc_provider" {} 
+variable "oidc_auth_server_url" {}
 variable "oidc_client_id" {}
 variable "oidc_client_secret" {}
 
@@ -49,5 +49,8 @@ variable "task_execution_role" {}
 variable "path_pattern" {}
 variable "listener_arn" {}
 variable "priority" {
-    type = number
+  type = number
 }
+
+variable "health_check_path" {}
+variable "count_instances" {}

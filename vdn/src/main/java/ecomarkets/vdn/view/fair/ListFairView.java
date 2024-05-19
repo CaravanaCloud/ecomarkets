@@ -11,15 +11,18 @@ import ecomarkets.core.domain.core.fair.Fair;
 import ecomarkets.core.domain.core.fair.FairId;
 import ecomarkets.core.domain.core.fair.ShoppingPeriod;
 import ecomarkets.core.domain.usecase.fair.FairUseCase;
+import ecomarkets.core.user.UserDetails;
 import ecomarkets.vdn.view.MainLayout;
 import io.quarkus.panache.common.Sort;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 
 import java.time.format.DateTimeFormatter;
 
 @PageTitle("Feira")
 @Route(value="fair", layout = MainLayout.class)
+@RolesAllowed("admin")
 public class ListFairView extends VerticalLayout {
 
     Grid<Fair> grid = new Grid<>(Fair.class);
@@ -29,6 +32,9 @@ public class ListFairView extends VerticalLayout {
     @Inject
     FairUseCase fairUseCase;
 
+    @Inject
+    UserDetails user;
+
     @PostConstruct
     public void init(){
         addClassName("list-view");
@@ -36,7 +42,11 @@ public class ListFairView extends VerticalLayout {
         configureGrid();
         configureForm();
 
-        add(getToolbar(), getContent());
+        if(user.isAdmin()){
+            add(getToolbar());
+        }
+
+        add(getContent());
         updateList();
         closeEditor();
     }
@@ -70,6 +80,10 @@ public class ListFairView extends VerticalLayout {
     }
 
     private Component getToolbar() {
+        if(!user.isAdmin()){
+            throw new IllegalStateException("Only Admin!");
+        }
+
         Button addFarmerButton = new Button("Cadastrar Feira");
         addFarmerButton.addClickListener(click -> addFair());
 

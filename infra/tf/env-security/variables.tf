@@ -65,11 +65,8 @@ variable "oidc_client_id_text" {
       type = string
       sensitive = true
 }
+
 variable "oidc_client_secret_text" {
-      type = string
-      sensitive = true
-}
-variable "oidc_provider_text" {
       type = string
       sensitive = true
 }

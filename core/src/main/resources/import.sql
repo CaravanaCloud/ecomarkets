@@ -74,3 +74,7 @@ VALUES
   ('2000-01-01', 987, 51011090, 7, 'Apto 201', '81', 'Recife', 'Brasil', '32165498700', 'daniel.silva@email.com', 'Daniel Silva', '81954321098', 'Próximo à Praia de Boa Viagem', 'PE'),
   ('1995-05-12', 123, 74003010, 8, 'Sobrado', '62', 'Goiânia', 'Brasil', '21987654300', 'fernanda.souza@email.com', 'Fernanda Souza', '62943210987', 'Esquina com a Avenida Goiás', 'GO'),
   ('2005-10-31', 456, 69005000, 9, '', '92', 'Manaus', 'Brasil', '54321987600', 'gabriel.costa@email.com', 'Gabriel Costa', '92932109876', 'Próximo ao Teatro Amazonas', 'AM');
+
+INSERT INTO role_grant (role_id, email, role)
+VALUES
+    (-1, 'ericrlessa@gmail.com', 'admin');

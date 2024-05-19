@@ -68,4 +68,8 @@ public class UserDetails {
         return uuid;
     }
 
+    public boolean isAdmin(){
+        return this.getRoleNames().stream().anyMatch(r -> r.equals("admin"));
+    }
+
 }

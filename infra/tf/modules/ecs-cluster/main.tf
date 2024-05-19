@@ -59,6 +59,13 @@ resource "aws_security_group" "ecs_lb_sg" {
     cidr_blocks = ["0.0.0.0/0"] # TODO Restrict to CDN
   }
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # TODO Restrict to CDN
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -80,8 +87,8 @@ resource "aws_lb" "external" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "${var.env_id}-ecs-lb"
-    EnvId  = var.env_id
+    Name  = "${var.env_id}-ecs-lb"
+    EnvId = var.env_id
   }
 
   timeouts {
@@ -97,8 +104,8 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "fixed-response"
-    
+    type = "fixed-response"
+
     fixed_response {
       content_type = "text/plain"
       message_body = "Not available yet, please retry."
@@ -106,6 +113,23 @@ resource "aws_lb_listener" "https" {
     }
   }
 }
+
+resource "aws_lb_listener" "http_redirect" {
+  load_balancer_arn = aws_lb.external.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
 
 resource "aws_route53_record" "ecs_lb_dns" {
   zone_id = var.zone_id

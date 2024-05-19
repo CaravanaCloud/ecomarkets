@@ -13,9 +13,10 @@ export TF_VAR_twilio_account_sid=$(tofu -chdir=../env-security output -raw twili
 export TF_VAR_twilio_auth_token=$(tofu -chdir=../env-security output -raw twilio_auth_token)
 export TF_VAR_twilio_phone_from=$(tofu -chdir=../env-security output -raw twilio_phone_from)
 
-export TF_VAR_oidc_client_id=$(tofu -chdir=../env-security output -raw oidc_client_id)
-export TF_VAR_oidc_client_secret=$(tofu -chdir=../env-security output -raw oidc_client_secret)
-export TF_VAR_oidc_provider=$(tofu -chdir=../env-security output -raw oidc_provider)
+export TF_VAR_oidc_client_id=$(tofu -chdir=../env-auth output -raw app_client_id)
+export TF_VAR_oidc_client_secret=$(tofu -chdir=../env-auth output -raw app_client_secret)
+export TF_VAR_cognito_user_pool_id=$(tofu -chdir=../env-auth output -raw user_pool_id)
+export TF_VAR_oidc_auth_server_url="https://cognito-idp.${TF_VAR_aws_region}.amazonaws.com/${TF_VAR_cognito_user_pool_id}"
 
 export TF_VAR_vpc_id=$(tofu -chdir=../env-base output -raw vpc_id)
 export TF_VAR_ecs_subnets=$(tofu -chdir=../env-base output -raw public_subnet_ids_str)

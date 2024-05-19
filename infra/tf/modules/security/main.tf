@@ -40,12 +40,6 @@ resource "aws_ssm_parameter" "oidc_client_secret" {
   value = var.oidc_client_secret_text
 }
 
-resource "aws_ssm_parameter" "oidc_provider" {
-  name  = "/${var.env_id}/oidc_provider"
-  type  = "String"
-  value = var.oidc_provider_text
-}
-
 resource "aws_secretsmanager_secret" "docker_credentials" {
   name        = "/${var.env_id}/docker_registry_credentials"
   description = "Credentials for Docker Registry"

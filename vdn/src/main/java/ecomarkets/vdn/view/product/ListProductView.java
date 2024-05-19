@@ -104,7 +104,7 @@ public class ListProductView extends VerticalLayout {
     }
 
     private Component getToolbar() {
-        Button addProductButton = new Button("Add product");
+        Button addProductButton = new Button("Cadastrar produto");
         addProductButton.addClickListener(click -> addProduct());
 
         var toolbar = new HorizontalLayout(addProductButton);
