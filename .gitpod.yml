@@ -22,6 +22,9 @@ tasks:
 
   - name: PROXY
     command: ./scripts/proxy-dev.sh
+
+  - name: OTEL
+    command: ./scripts/otel-dev.sh
   
   - name: SHELL
     command: |
