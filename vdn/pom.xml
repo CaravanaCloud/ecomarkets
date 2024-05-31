@@ -22,7 +22,7 @@
 
         <vaadin.version>24.3.8</vaadin.version>
 
-        <quarkus.platform.version>3.9.2</quarkus.platform.version>
+        <quarkus.platform.version>3.11.0</quarkus.platform.version>
         <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <quarkus.package.type>uber-jar</quarkus.package.type>
     </properties>

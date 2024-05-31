@@ -2,14 +2,16 @@ receivers:
   otlp:
     protocols:
       grpc:
-
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
         
 
 exporters:
   debug:
 
   otlp:
-    endpoint: jaeger:4317
+    endpoint: localhost:3200
     tls:
       insecure: true
 
