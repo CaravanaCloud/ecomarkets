@@ -20,11 +20,8 @@ tasks:
   - name: SKN
     command: ./scripts/app-dev.sh
 
-  - name: PROXY
-    command: ./scripts/proxy-dev.sh
-
-  - name: OTEL
-    command: ./scripts/otel-dev.sh
+  - name: COMPOSE
+    command: ./scripts/compose-dev.sh
   
   - name: SHELL
     command: |
@@ -45,7 +42,7 @@ ports:
     visibility: public
   
   # WEB
-  - port: 9090
+  - port: 9099
     onOpen: ignore
     visibility: public
 
@@ -68,6 +65,10 @@ ports:
     onOpen: ignore
     visibility: public
 
+  # Prometheus
+  - port: 9090
+    onOpen: ignore
+    visibility: public
 
   # OTHERS
   - port: 24000

@@ -13,7 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.9.2</quarkus.platform.version>
+    <quarkus.platform.version>3.11.0</quarkus.platform.version>
     <quarkus.package.type>uber-jar</quarkus.package.type>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.1.2</surefire-plugin.version>
@@ -105,12 +105,32 @@
       <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
-    
+    <!--open telemetry -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-opentelemetry</artifactId>
     </dependency>
-   
+    <dependency>
+        <groupId>io.opentelemetry.instrumentation</groupId>
+        <artifactId>opentelemetry-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-logging-json</artifactId>
+    </dependency>
+
+    <!-- <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-observability-devservices-lgtm</artifactId>
+    </dependency> -->
+
+    <!-- https://mvnrepository.com/artifact/io.quarkiverse.micrometer.registry/quarkus-micrometer-registry-otlp -->
+    <dependency>
+        <groupId>io.quarkiverse.micrometer.registry</groupId>
+        <artifactId>quarkus-micrometer-registry-otlp</artifactId>
+        <version>3.0.1</version>
+    </dependency>
+
   </dependencies>
   <build>
     <resources>
