@@ -3,19 +3,18 @@ server:
 
 distributor:
   receivers:
-    jaeger:
-      protocols:
-        grpc:
-        thrift_compact:
-        thrift_binary:
-        thrift_http:
+  #  jaeger:
+  #    protocols:
+  #      grpc:
+  #      thrift_compact:
+  #      thrift_binary:
+  #      thrift_http:
+    #zpkin:
     otlp:
       protocols:
         http:
-          endpoint: 0.0.0.0:55681
         grpc:
-          endpoint: 0.0.0.0:4317
-
+    #opencensus:    
 ingester:
   trace_idle_period: 10s
   max_block_bytes: 1_000_000
@@ -29,8 +28,10 @@ compactor:
 storage:
   trace:
     backend: local
+    wal:
+      path: /tmp/tempo/wal 
     local:
-      path: /var/tempo/traces
+      path: /var/tempo/blocks
     block:
       bloom_filter_false_positive: 0.05
       v2_index_downsample_bytes: 1000
@@ -46,6 +47,7 @@ metrics_generator:
     remote_write:
       - url: http://prometheus:9090/api/v1/write
         send_exemplars: true
+
 
 overrides:
   defaults:

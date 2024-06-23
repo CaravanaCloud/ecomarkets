@@ -1,44 +1,51 @@
 receivers:
   otlp:
     protocols:
+      grpc: 
+        endpoint: otel-collector:4317
+      http: 
+        endpoint: otel-collector:4318
+  otlp/2:
+    protocols:
       grpc:
-        endpoint: 0.0.0.0:4317
-      http:
-        endpoint: 0.0.0.0:4318
-        
+        endpoint: otel-collector:55680
+
 
 exporters:
-  debug:
+  logging:
+    loglevel: debug
 
-  otlp:
-    endpoint: localhost:3200
-    tls:
-      insecure: true
+  prometheus:
+    endpoint: otel-collector:8889
+    namespace: default
+
+  zipkin:
+    endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
+    format: proto
 
 
 processors:
-  batch:
-
+  batch: 
+  
 extensions:
-  health_check:
-  pprof:
-    endpoint: :1888
-  zpages:
-    endpoint: :55679
+  health_check: # http://localhost:13133
+  # fetches the collector’s performance data
+  pprof: # http://localhost:1777
+  # serves as an http endpoint that provides live debugging data about instrumented components.
 
 
 service:
-  extensions: [health_check, pprof, zpages]
+  extensions: [health_check, pprof]
   pipelines:
-    traces:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [debug, otlp]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [prometheus, logging]
+    traces:
+      receivers: [otlp, otlp/2]
+      processors: [batch]
+      exporters: [zipkin,logging]
     logs:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [debug, otlp]
+      exporters: [logging]
+      
