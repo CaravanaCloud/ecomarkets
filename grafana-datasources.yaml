@@ -18,7 +18,7 @@ datasources:
 
   - name: Zipkin
     type: zipkin
-    url: http://zipkin:9411
+    url: http://zipkin-all-in-one:9411
     access: proxy
     orgId: 1
     basicAuth: false
