@@ -115,10 +115,9 @@
         <artifactId>opentelemetry-jdbc</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-logging-json</artifactId>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-logging-gelf</artifactId>
     </dependency>
-
     <!-- <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-observability-devservices-lgtm</artifactId>

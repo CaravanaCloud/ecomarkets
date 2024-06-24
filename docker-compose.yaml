@@ -21,12 +21,6 @@ services:
       - prometheus
       - grafana
 
-  loki:
-    image: grafana/loki:latest
-    ports:
-      - "3100:3100"
-    command: -config.file=/etc/loki/local-config.yaml
-
   prometheus:
     image: prom/prometheus:latest
     restart: always
@@ -56,6 +50,42 @@ services:
       - JAVA_OPTS=-Xms1024m -Xmx1024m -XX:+ExitOnOutOfMemoryError
     ports:
       - "9411:9411"
+ 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+    ports:
+      - "9200:9200"
+    environment:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      discovery.type: "single-node"
+      cluster.routing.allocation.disk.threshold_enabled: false
+    networks:
+      - graylog
+
+  mongo:
+    image: mongo:4.0
+    networks:
+      - graylog
+
+    # go to menu "System" -> "Inputs" -> "Select Inpu" -> "GELF UDP" -> check "Global" -> fill "Title" -> "Save" -> go to "Search"
+  graylog:
+    image: graylog/graylog:4.3.0
+    ports:
+      - "9000:9000"
+      - "12201:12201"
+      - "12201:12201/udp"
+    environment:
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
+      # CHANGE ME (must be at least 16 characters)!
+      GRAYLOG_PASSWORD_SECRET: "abcdefghijklmnopqrstuvwxyz123"
+      # Password: admin
+      GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+    networks:
+      - graylog
+    depends_on:
+      - elasticsearch
+      - mongo
+
 
   nginx:
     image: nginx
@@ -68,3 +98,7 @@ services:
 
 volumes:
   grafana-storage:
+  
+networks:
+  graylog:
+    driver: bridge
